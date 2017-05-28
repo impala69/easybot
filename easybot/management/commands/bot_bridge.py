@@ -29,10 +29,16 @@ class Command(BaseCommand):
             command = msg['text']
 
             if command == '/start':
-                for i in range(10):
-                    q = models.Sabad_Kharid(cus_id=1, p_id_id=int(i))
+                print chat_id
+                customer = models.Customer.objects.get(id=1)
+                for i in range(1,4):
+                    q = models.Sabad_Kharid(cus_id=customer, p_id_id=int(i))
                     q.save()
-
+                    try:
+                        pass
+                    except :
+                        print
+                        print "cant save:"+str(i)
 
                 bot.sendMessage(chat_id , "یک گزینه را انتخاب کنید"  , reply_markup= keyboard)
 
@@ -105,9 +111,12 @@ class Command(BaseCommand):
 
 
 
-        Token = '328961413:AAH9DnhEQhjH78feXsRfV-1QnbVAwTL9xZU'
+        #Token = '328961413:AAH9DnhEQhjH78feXsRfV-1QnbVAwTL9xZU'
+        Token = '362176353:AAGfkbKFdQS0pe1jhrjGbL7z2Sglq9tXyzY'
         bot = telepot.Bot(Token)
         bot.message_loop({'chat': on_chat_message , 'callback_query': on_callback_query})
+        print('Listening ...')
+
         while 1:
             time.sleep(10)
 

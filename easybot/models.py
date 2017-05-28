@@ -8,25 +8,38 @@ from django.db import models
 
 
 class Category(models.Model):
-    cat_name = models.CharField(max_length=20, null=True)
+    cat_name = models.CharField(max_length=20, null=True,unique=True)
+
+    def __unicode__(self):
+        return self.cat_name
 
 class Product(models.Model):
-    cat_id = models.ManyToManyField(Category)
-    product_name = models.CharField(max_length=30, null=True)
+    cat_id = models.ForeignKey(to=Category,on_delete=models.CASCADE)
+    product_name = models.CharField(max_length=30, null=True,unique=True)
     text = models.TextField(null=True)
     image = models.CharField(max_length=60, null=True)
     price = models.IntegerField(null=True)
 
+    def __unicode__(self):
+        return self.product_name
 
 class Customer(models.Model):
-    telegram_id = models.CharField(max_length=20, null=True)
+    telegram_id = models.CharField(max_length=20, null=True,unique=True)
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=30, null=True)
     address = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=20, unique=True, null=True)
-    username = models.CharField(max_length=50)
+    username = models.CharField(max_length=50,unique=True)
 
+    def __unicode__(self):
+        return self.username
 
 class Sabad_Kharid(models.Model):
-    cus_id = models.OneToOneField(to=Customer)
-    p_id = models.OneToOneField(to=Product)
+    cus_id = models.ForeignKey(to=Customer,on_delete=models.CASCADE)
+    p_id = models.ForeignKey(to=Product,on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together= ('cus_id','p_id')
+
+    def __unicode__(self):
+        return (unicode(self.cus_id)+'V'+unicode(self.p_id))
