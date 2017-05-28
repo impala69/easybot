@@ -106,8 +106,21 @@ class Command(BaseCommand):
         def sabad_from_customer(customer_id):
             rows = models.Sabad_Kharid.objects.filter(cus_id=customer_id)
             p_ids = [item.p_id for item in rows]
-            products = [Product.objects.get(p_id) for p_id in p_ids]
+            products = [models.Product.objects.get(p_id) for p_id in p_ids]
             return products
+
+        def del_from_cart(c_id,product_id):
+            cart = models.Sabad_Kharid.objects.filter(cus_id=c_id)
+            count0 = models.Sabad_Kharid.objects.filter(cus_id=c_id).count()
+            cart = cart.filter(p_id=product_id)
+            count = cart.filter(p_id=product_id).count()
+            if count0 == 0 or count == 0:
+                return False
+            else:
+                cart.delete()
+                return True
+
+
 
 
 
