@@ -30,7 +30,7 @@ class Command(BaseCommand):
             else:
                 command = 'None'
             user_state = return_user_state(chat_id)
-            print "state: " + user_state
+            print "state: " + str(user_state)
             #End Of Get Data From User
 
 
@@ -39,9 +39,10 @@ class Command(BaseCommand):
             if content_type == 'text' and user_state == 'search':
                 search_results = search(command=command)
                 for item in search_results:
-                    keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+"تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='5')],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
-                    bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
-                    bot.sendPhoto(chat_id,show_product(str(item['id']))['Image'],reply_markup=keyboard_1)
+                    keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='5')],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
+                    #bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
+                    caption=u"نام محصول: "+show_product(str(item['id']))['Name']
+                    bot.sendPhoto(chat_id,show_product(str(item['id']))['Image'],caption=caption,reply_markup=keyboard_1)
                 unset_state(chat_id)
 
             elif content_type == 'text' and user_state == 'enterinfo_firstname':
@@ -162,11 +163,12 @@ class Command(BaseCommand):
                 bot.answerCallbackQuery(query_id, text=notification)
 
             for id in models.Product.objects.values('id'):
-                keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+"تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='5')],])
+                keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='5')],])
                 if query_data == str("Product" + str((id['id']))):
-                    bot.sendMessage(from_id , models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name'])
-                    bot.sendPhoto(from_id , models.Product.objects.filter(pk=id['id']).values('image')[0]['image'])
-                    bot.sendMessage(from_id, models.Product.objects.filter(pk=id['id']).values('text')[0]['text'],reply_markup=keyboard_1)
+                    #bot.sendMessage(from_id , models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name'])
+                    caption= u"نام محصول: " +models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name']
+                    bot.sendPhoto(from_id , models.Product.objects.filter(pk=id['id']).values('image')[0]['image'],caption=caption)
+                    bot.sendMessage(from_id,u"توضیحات: " +models.Product.objects.filter(pk=id['id']).values('text')[0]['text'],reply_markup=keyboard_1)
 
 
 
@@ -305,7 +307,9 @@ class Command(BaseCommand):
 
 
         #Token = '328961413:AAH9DnhEQhjH78feXsRfV-1QnbVAwTL9xZU'
-        Token = '359562635:AAHFCq9EnVrFtpOme-H81u67TJJdWLmw0g8'
+        #Token = '359562635:AAHFCq9EnVrFtpOme-H81u67TJJdWLmw0g8'
+        Token = '362176353:AAGfkbKFdQS0pe1jhrjGbL7z2Sglq9tXyzY'
+
         bot = telepot.Bot(Token)
         bot.message_loop({'chat': on_chat_message , 'callback_query': on_callback_query})
         print('Listening ...')
