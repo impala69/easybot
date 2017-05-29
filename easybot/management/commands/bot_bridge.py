@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from django.core.management.base import BaseCommand
-import telepot
-from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup
-import time
+import telepot, time
+from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup
+from django.shortcuts import get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
+
 
 from ... import models
 
@@ -17,53 +19,112 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         def on_chat_message(msg):
-
+            #Get User data From User RealTime
+            username = msg['from']['username']
             content_type, chat_type, chat_id = telepot.glance(msg)
+            customer_id = return_customer_id(chat_id)
+            if content_type == "text":
+                command = msg['text']
+            elif content_type == 'contact':
+                command = msg['contact']['phone_number']
+            else:
+                command = 'None'
+            user_state = return_user_state(chat_id)
+            print "state: " + user_state
+            #End Of Get Data From User
 
-            print 'Chat:', content_type, chat_type, chat_id
-            if content_type != 'text':
-                return
 
-            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="جستجو" , callback_data="1"), InlineKeyboardButton(text="سبد خرید", callback_data='2')],])
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="جستجو" , callback_data="search"),],[ InlineKeyboardButton(text="سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text="واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')]])
 
-            command = msg['text']
+            if content_type == 'text' and user_state == 'search':
+                search_results = search(command=command)
+                for item in search_results:
+                    keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+"تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='5')],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
+                    bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
+                    bot.sendPhoto(chat_id,show_product(str(item['id']))['Image'],reply_markup=keyboard_1)
+                unset_state(chat_id)
+
+            elif content_type == 'text' and user_state == 'enterinfo_firstname':
+                enter_first_name(chat_id, f_name=command)
+                set_state(telegram_id=chat_id, state_word='enterinfo_lastname')
+                bot.sendMessage(chat_id, "نام خانوادگی خود را وارد کنید.")
+
+            elif content_type == 'text' and user_state == 'enterinfo_lastname':
+                enter_last_name(telegram_id=chat_id, l_name=command)
+                set_state(telegram_id=chat_id, state_word='enterinfo_address')
+                bot.sendMessage(chat_id, "آدرس خود را وارد کنید")
+
+            elif content_type == 'text' and user_state == 'enterinfo_address':
+                enter_address(telegram_id=chat_id, address=command)
+                set_state(telegram_id=chat_id, state_word='enterinfo_phone')
+                bot.sendMessage(chat_id, "شماره تلفن خود را به وسیله دکمه زیر برای ما بفرستید.")
+
+            elif (content_type == 'text' or content_type == 'contact') and user_state == 'enterinfo_phone':
+                if content_type == "contact":
+                    enter_phone(telegram_id=chat_id, phone=command)
+                    unset_state(chat_id)
+                    bot.sendMessage(chat_id, "اطلاعات شما  با موفقیت ثبت شد.")
+                else:
+                    bot.sendMessage(chat_id=chat_id, text="لطفا بر روی دکمه فرستادن شماره تلفن به ربات کلیک کنید")
+
+
+
+
+
+
 
             if command == '/start':
-                print chat_id
-                customer = models.Customer.objects.get(id=1)
+                location_keyboard = KeyboardButton(text="send_location",  request_location=True)           #creating location button object
+                contact_keyboard = KeyboardButton(text='Share contact', request_contact=True)  #creating contact button object
+                custom_keyboard = [[ location_keyboard, contact_keyboard ]] #creating keyboard object
+                reply_markup = ReplyKeyboardMarkup(keyboard=custom_keyboard)
+                bot.sendMessage(chat_id=chat_id, text="Hi", reply_markup=reply_markup)
+
+                #Add User if thechat_id from user not in Database
+                if not check_customer_is(chat_id):
+                    add_customer(chat_id, username)
+
+                #End Of Add User if not exist
+
+
+
+
                 for i in range(1,4):
                     try:
                         q = models.Sabad_Kharid(cus_id=customer, p_id_id=int(i))
                         q.save()
                     except :
-                        print
-                        print "cant save:"+str(i)
+                        pass
+                        #print
+                        #print "cant save:"+str(i)
 
                 bot.sendMessage(chat_id , "یک گزینه را انتخاب کنید"  , reply_markup= keyboard)
-
-            if content_type =='text' and command!= '/start':
-                search_result = search(command=command)
-
-                for item in search_result:
-                    print show_product(str(item['id']))
-
 
 
 
 
 
         def on_callback_query(msg):
-            success = 'در حال آماده سازی اطلاعات درخوستی'
+            #Get User Query Data
             query_id, from_id, query_data = telepot.glance(msg, flavor='callback_query')
-            print('Callback Query:', query_id, from_id, query_data)
-            bot.answerCallbackQuery(query_id, text=success)
+            command = msg
+            #ENd of getting Query Data from user
 
-            if query_data==u"1":
-                bot.sendMessage(from_id,"نام محصول را وارد کنید")
+            #Whene user Press on Search Button
+            if query_data == u"search":
+                if set_state(from_id, 'search'):
+                    bot.answerCallbackQuery(query_id, text="نام محصول را وارد کنید", show_alert=True)
+            #End Of Search Button
 
+            #Whene user Press on Enter Info Button
+            if query_data == u"enterinfo_firstname":
+                if set_state(from_id, 'enterinfo_firstname'):
+                    bot.answerCallbackQuery(query_id, text="اطلاعات خود را وارد کنید", show_alert=True)
+                    bot.sendMessage(from_id, "نام خود را وارد نمایید.")
+            #End Of Enter Info Button
 
-
-            if query_data ==u'2':
+            #Whene user Press on Sabad_kharid Button
+            if query_data ==u'sabad':
                 bot.sendMessage(from_id,"sabad kharid")
                 customer=cus_id(from_id)
                 products=sabad_from_customer(customer.id)
@@ -77,6 +138,9 @@ class Command(BaseCommand):
                     caption_price=price+str(product.price)+'\n'
                     caption=caption_name+caption_text+caption_price
                     bot.sendPhoto(from_id,photo=product.image,caption=caption)
+
+
+            #End Of Sabad_kharid Button
                 '''
                 dar database search mishavad Dar coloumn sabade kharid k
                 in user-id kodam mahsol ra b sabad kharid ezafe karde
@@ -93,33 +157,37 @@ class Command(BaseCommand):
                         bot.sendMessage(from_id,text['text'][i],reply_markup=keyboard)
                         '''
 
+            if query_data == u'4':
+                notification = "برای خرید این محصول بر روی افزودن به سبد خرید کلیک کنید"
+                bot.answerCallbackQuery(query_id, text=notification)
 
-            if query_data ==u'3':
-                pass
-                #algorithm hazf az sabad !!
+            for id in models.Product.objects.values('id'):
+                keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+"تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='5')],])
+                if query_data == str("Product" + str((id['id']))):
+                    bot.sendMessage(from_id , models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name'])
+                    bot.sendPhoto(from_id , models.Product.objects.filter(pk=id['id']).values('image')[0]['image'])
+                    bot.sendMessage(from_id, models.Product.objects.filter(pk=id['id']).values('text')[0]['text'],reply_markup=keyboard_1)
+
+
+
+
+
+
 
         def search(command):
-            print command
             result = models.Product.objects.filter(product_name__icontains=command).values('id')
             return result
 
         def show_product(p_id):
-            print p_id
             product = models.Product.objects.get(pk=p_id)
-            print product
             product_dict = {'product_id': product.pk, 'Name': product.product_name, 'Image':product.image, 'Text':product.text, 'Price':product.price}
             return product_dict
 
-        def cus_id(chat_id):
-            customer = models.Customer.objects.get(telegram_id=chat_id)
-            return customer
+
 
         def sabad_from_customer(customer_id):
             rows = models.Sabad_Kharid.objects.filter(cus_id=customer_id)
-            #print rows
             products = [item.p_id for item in rows]
-#            products = [models.Product.objects.get(p_id) for p_id in p_ids]
-#            print products
             return products
 
         def del_from_cart(c_id,product_id):
@@ -133,12 +201,111 @@ class Command(BaseCommand):
                 cart.delete()
                 return True
 
+        #Function From Iman
+        def return_customer_id(chat_id):
+            try:
+                customer = models.Customer.objects.get(telegram_id=chat_id)
+                return customer.id
+            except ObjectDoesNotExist:
+                customer = None
+                return customer
+
+        #function From Iman
+        def add_customer(telegram_id, username):
+            try:
+                entry = models.Customer(telegram_id=telegram_id, username=username)
+                entry.save()
+                return True
+            except:
+                return False
+
+        #function From Iman
+        def check_customer_is(telegram_id):
+            try:
+                customer = get_object_or_404(models.Customer, telegram_id=telegram_id)
+                return 1
+            except:
+                return 0
+
+        #Function From Iman
+        def return_user_state(telegram_id):
+            try:
+                state = models.Customer.objects.get(telegram_id=telegram_id)
+                return state.state
+            except ObjectDoesNotExist:
+                state = None
+                return state
+
+        #Function From Iman
+        def set_state(telegram_id, state_word):
+            state = models.Customer.objects.get(telegram_id=telegram_id)
+            state.state = state_word
+            state.save()
+            try:
+
+                return True
+            except:
+                return False
+
+        #Function From Iman
+        def unset_state(telegram_id):
+            try:
+                state = models.Customer.objects.get(telegram_id=telegram_id)
+                state.state = ''
+                state.save()
+                return True
+            except:
+                return False
+
+        #Function From Iman
+        def enter_first_name(telegram_id, f_name):
+            try:
+                customer = models.Customer.objects.get(telegram_id=telegram_id)
+                customer.first_name = f_name
+                customer.save()
+                return True
+            except:
+                return False
+
+        #Function From Iman
+        def enter_last_name(telegram_id, l_name):
+            try:
+                customer = models.Customer.objects.get(telegram_id=telegram_id)
+                customer.last_name = l_name
+                customer.save()
+                return True
+            except:
+                return False
+
+        #Function From Iman
+        def enter_address(telegram_id, address):
+            try:
+                customer = models.Customer.objects.get(telegram_id=telegram_id)
+                customer.address = address
+                customer.save()
+                return True
+            except:
+                return False
+
+        #Function From Iman
+        def enter_phone(telegram_id, phone):
+            try:
+                customer = models.Customer.objects.get(telegram_id=telegram_id)
+                customer.phone = phone
+                customer.save()
+                return True
+            except:
+                return False
+
+
+
+
 
 
 
 
         #Token = '328961413:AAH9DnhEQhjH78feXsRfV-1QnbVAwTL9xZU'
-        Token = '362176353:AAGfkbKFdQS0pe1jhrjGbL7z2Sglq9tXyzY'
+        Token = '359562635:AAHFCq9EnVrFtpOme-H81u67TJJdWLmw0g8'
         bot = telepot.Bot(Token)
         bot.message_loop({'chat': on_chat_message , 'callback_query': on_callback_query})
         print('Listening ...')

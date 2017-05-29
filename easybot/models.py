@@ -10,8 +10,6 @@ from django.db import models
 class Category(models.Model):
     cat_name = models.CharField(max_length=20, null=True,unique=True)
 
-    def __unicode__(self):
-        return self.cat_name
 
 class Product(models.Model):
     cat_id = models.ForeignKey(to=Category,on_delete=models.CASCADE)
@@ -20,8 +18,6 @@ class Product(models.Model):
     image = models.CharField(max_length=60, null=True)
     price = models.IntegerField(null=True)
 
-    def __unicode__(self):
-        return self.product_name
 
 class Customer(models.Model):
     telegram_id = models.CharField(max_length=20, null=True,unique=True)
@@ -30,9 +26,9 @@ class Customer(models.Model):
     address = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=20, unique=True, null=True)
     username = models.CharField(max_length=50,unique=True)
+    state = models.CharField(max_length=255, null=True)
 
-    def __unicode__(self):
-        return self.username
+
 
 class Sabad_Kharid(models.Model):
     cus_id = models.ForeignKey(to=Customer,on_delete=models.CASCADE)
