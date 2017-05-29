@@ -32,10 +32,9 @@ class Command(BaseCommand):
                 print chat_id
                 customer = models.Customer.objects.get(id=1)
                 for i in range(1,4):
-                    q = models.Sabad_Kharid(cus_id=customer, p_id_id=int(i))
-                    q.save()
                     try:
-                        pass
+                        q = models.Sabad_Kharid(cus_id=customer, p_id_id=int(i))
+                        q.save()
                     except :
                         print
                         print "cant save:"+str(i)
@@ -65,7 +64,19 @@ class Command(BaseCommand):
 
 
             if query_data ==u'2':
-                pass
+                bot.sendMessage(from_id,"sabad kharid")
+                customer=cus_id(from_id)
+                products=sabad_from_customer(customer.id)
+                for product in products:
+                    name=u'نام محصول: '
+                    text=u'توضیحات: '
+                    price=u'قیمت: '
+
+                    caption_name=name+product.product_name+'\n'
+                    caption_text=text+product.text+'\n'
+                    caption_price=price+str(product.price)+'\n'
+                    caption=caption_name+caption_text+caption_price
+                    bot.sendPhoto(from_id,photo=product.image,caption=caption)
                 '''
                 dar database search mishavad Dar coloumn sabade kharid k
                 in user-id kodam mahsol ra b sabad kharid ezafe karde
@@ -100,13 +111,15 @@ class Command(BaseCommand):
             return product_dict
 
         def cus_id(chat_id):
-            customer = models.Customer.objects.get(telegram_id=chat_id).values('id')
+            customer = models.Customer.objects.get(telegram_id=chat_id)
             return customer
 
         def sabad_from_customer(customer_id):
             rows = models.Sabad_Kharid.objects.filter(cus_id=customer_id)
-            p_ids = [item.p_id for item in rows]
-            products = [models.Product.objects.get(p_id) for p_id in p_ids]
+            #print rows
+            products = [item.p_id for item in rows]
+#            products = [models.Product.objects.get(p_id) for p_id in p_ids]
+#            print products
             return products
 
         def del_from_cart(c_id,product_id):
