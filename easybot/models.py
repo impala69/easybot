@@ -29,6 +29,11 @@ class Customer(models.Model):
     state = models.CharField(max_length=255, null=True)
 
 
+class Comment(models.Model):
+    telegram_id = models.CharField(max_length=20)
+    comment = models.TextField(null=False)
+
+
 
 class Sabad_Kharid(models.Model):
     cus_id = models.ForeignKey(to=Customer,on_delete=models.CASCADE)

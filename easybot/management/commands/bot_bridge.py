@@ -23,6 +23,7 @@ class Command(BaseCommand):
             username = msg['from']['username']
             content_type, chat_type, chat_id = telepot.glance(msg)
             customer_id = return_customer_id(chat_id)
+            alter_command="NIL"
             if content_type == "text":
                 command = msg['text']
             elif content_type == 'contact':
@@ -34,7 +35,7 @@ class Command(BaseCommand):
             #End Of Get Data From User
 
 
-            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="جستجو" , callback_data="search"),],[ InlineKeyboardButton(text="سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text="واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')]])
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="جستجو" , callback_data="search"),],[ InlineKeyboardButton(text="سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text="واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text="نظردهی", callback_data='comment')]])
 
             if content_type == 'text' and user_state == 'search':
                 search_results = search(command=command)
@@ -70,16 +71,26 @@ class Command(BaseCommand):
 
 
 
+            elif content_type == 'text' and user_state == 'comment':
+                if enter_comment(telegram_id=chat_id,new_comment=command):
+                    notification="نظر با موفقیت ثبت شد. با تشکر از شما"
+                    bot.sendMessage(chat_id, text=notification)
+                    unset_state(chat_id)
+                    alter_command="start"
+                else:
+                    notification="لططفا مجددا نظر را وارد نمایید."
+                    bot.sendMessage(chat_id, text=notification)
 
 
 
 
-            if command == '/start':
+
+            if command == '/start' or alter_command=="start":
                 location_keyboard = KeyboardButton(text="send_location",  request_location=True)           #creating location button object
                 contact_keyboard = KeyboardButton(text='Share contact', request_contact=True)  #creating contact button object
                 custom_keyboard = [[ location_keyboard, contact_keyboard ]] #creating keyboard object
                 reply_markup = ReplyKeyboardMarkup(keyboard=custom_keyboard)
-                bot.sendMessage(chat_id=chat_id, text="Hi", reply_markup=reply_markup)
+                #bot.sendMessage(chat_id=chat_id, text="Hi", reply_markup=reply_markup)
 
                 #Add User if thechat_id from user not in Database
                 if not check_customer_is(chat_id):
@@ -125,6 +136,15 @@ class Command(BaseCommand):
                     bot.answerCallbackQuery(query_id, text="اطلاعات خود را وارد کنید", show_alert=True)
                     bot.sendMessage(from_id, "نام خود را وارد نمایید.")
             #End Of Enter Info Button
+
+
+
+            #Entering comment
+            if query_data == u"comment":
+                #bot.sendMessage(from_id,"test DONE")
+                if set_state(from_id,'comment'):
+                    bot.sendMessage(from_id,"لطفا نظر، انتقادات و پیشنهادات خود را وارد نمایید")
+
 
             #Whene user Press on Sabad_kharid Button
             if query_data ==u'sabad':
@@ -245,6 +265,14 @@ class Command(BaseCommand):
             except:
                 return False
 
+        def enter_comment(telegram_id, new_comment):
+            try:
+                comment = models.Comment(telegram_id=telegram_id,comment=new_comment)
+                comment.save()
+                return True
+            except:
+                return False
+
         #Function From Iman
         def return_customer_id(chat_id):
             try:
@@ -282,11 +310,11 @@ class Command(BaseCommand):
 
         #Function From Iman
         def set_state(telegram_id, state_word):
-            state = models.Customer.objects.get(telegram_id=telegram_id)
-            state.state = state_word
-            state.save()
             try:
 
+                state = models.Customer.objects.get(telegram_id=telegram_id)
+                state.state = state_word
+                state.save()
                 return True
             except:
                 return False
@@ -330,6 +358,8 @@ class Command(BaseCommand):
                 return True
             except:
                 return False
+
+
 
         #Function From Iman
         def enter_phone(telegram_id, phone):
