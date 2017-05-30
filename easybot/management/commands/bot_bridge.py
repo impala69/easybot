@@ -137,9 +137,12 @@ class Command(BaseCommand):
                     caption_name=name+product.product_name+'\n'
                     caption_text=text+product.text+'\n'
                     caption_price=price+str(product.price)+'\n'
-                    caption=caption_name+caption_text+caption_price
-                    bot.sendPhoto(from_id,photo=product.image,caption=caption)
+                    caption=caption_name+caption_price
+                    product_id=product.id
+                    keyboard_sabad = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="حذف از سبد خرید", callback_data="del_from_cart "+str(product_id))]])
 
+                    bot.sendPhoto(from_id,photo=product.image,caption=caption,reply_markup=keyboard_sabad)
+                    bot.sendMessage(from_id,text=caption_text)
 
             #End Of Sabad_kharid Button
                 '''
@@ -171,10 +174,18 @@ class Command(BaseCommand):
                     bot.sendMessage(from_id,u"توضیحات: " +models.Product.objects.filter(pk=id['id']).values('text')[0]['text'],reply_markup=keyboard_1)
 
 
+            if  "del_from_cart" in query_data:
+                query=query_data.rsplit()
+                product_id=query[-1]
+                customer_id=cus_id(from_id)
+                flag=del_from_cart(customer_id,product_id)
+                if(flag):
+                    notification="محصول با موفقیت از سبد خرید حذف شد"
+                    bot.answerCallbackQuery(query_id, text=notification)
 
-
-
-
+                else:
+                    notification="این محصول در سبد شما وجود ندارد"
+                    bot.answerCallbackQuery(query_id, text=notification)
 
         def search(command):
             result = models.Product.objects.filter(product_name__icontains=command).values('id')
@@ -185,6 +196,10 @@ class Command(BaseCommand):
             product_dict = {'product_id': product.pk, 'Name': product.product_name, 'Image':product.image, 'Text':product.text, 'Price':product.price}
             return product_dict
 
+
+        def cus_id(chat_id):
+            customer = models.Customer.objects.get(telegram_id=chat_id)
+            return customer
 
 
         def sabad_from_customer(customer_id):
