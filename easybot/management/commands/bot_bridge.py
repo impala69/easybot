@@ -380,7 +380,8 @@ class Command(BaseCommand):
 
         #Token = '328961413:AAH9DnhEQhjH78feXsRfV-1QnbVAwTL9xZU'
         #Token = '359562635:AAHFCq9EnVrFtpOme-H81u67TJJdWLmw0g8'
-        Token = '362176353:AAGfkbKFdQS0pe1jhrjGbL7z2Sglq9tXyzY'
+        #Token = '362176353:AAGfkbKFdQS0pe1jhrjGbL7z2Sglq9tXyzY'
+        Token = '305910807:AAHG7PRJ767S6sMv_4CPpmFeI17Pe5kFbEs'
 
         bot = telepot.Bot(Token)
         bot.message_loop({'chat': on_chat_message , 'callback_query': on_callback_query})
