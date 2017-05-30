@@ -39,7 +39,7 @@ class Command(BaseCommand):
             if content_type == 'text' and user_state == 'search':
                 search_results = search(command=command)
                 for item in search_results:
-                    keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='5')],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
+                    keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
                     #bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
                     caption=u"نام محصول: "+show_product(str(item['id']))['Name']
                     bot.sendPhoto(chat_id,show_product(str(item['id']))['Image'],caption=caption,reply_markup=keyboard_1)
@@ -108,6 +108,8 @@ class Command(BaseCommand):
         def on_callback_query(msg):
             #Get User Query Data
             query_id, from_id, query_data = telepot.glance(msg, flavor='callback_query')
+            customer_id = cus_id(from_id)
+
             command = msg
             #ENd of getting Query Data from user
 
@@ -166,18 +168,32 @@ class Command(BaseCommand):
                 bot.answerCallbackQuery(query_id, text=notification)
 
             for id in models.Product.objects.values('id'):
-                keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='5')],])
+                keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(id['id']))],])
                 if query_data == str("Product" + str((id['id']))):
                     #bot.sendMessage(from_id , models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name'])
                     caption= u"نام محصول: " +models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name']
                     bot.sendPhoto(from_id , models.Product.objects.filter(pk=id['id']).values('image')[0]['image'],caption=caption)
                     bot.sendMessage(from_id,u"توضیحات: " +models.Product.objects.filter(pk=id['id']).values('text')[0]['text'],reply_markup=keyboard_1)
 
+            if "add_to_cart" in query_data:
+                query=query_data.rsplit()
+                #bot.sendMessage(from_id,str(query))
+                product_id=query[-1]
+                flag=add_to_cart(customer_id,product_id)
+                if(flag):
+                    notification="محصول با موفقیت به سبد خرید شما اضافه شد"
+                    bot.answerCallbackQuery(query_id, text=notification)
+
+                else:
+                    notification="این محصول در سبد خرید شما وجود دارد"
+                    bot.answerCallbackQuery(query_id, text=notification)
+
+
+
 
             if  "del_from_cart" in query_data:
                 query=query_data.rsplit()
                 product_id=query[-1]
-                customer_id=cus_id(from_id)
                 flag=del_from_cart(customer_id,product_id)
                 if(flag):
                     notification="محصول با موفقیت از سبد خرید حذف شد"
@@ -186,6 +202,8 @@ class Command(BaseCommand):
                 else:
                     notification="این محصول در سبد شما وجود ندارد"
                     bot.answerCallbackQuery(query_id, text=notification)
+
+
 
         def search(command):
             result = models.Product.objects.filter(product_name__icontains=command).values('id')
@@ -217,6 +235,15 @@ class Command(BaseCommand):
             else:
                 cart.delete()
                 return True
+
+        def add_to_cart(c_id,product_id):
+            try:
+                product=models.Product.objects.get(id=product_id)
+                entry = models.Sabad_Kharid(cus_id=c_id, p_id=product)
+                entry.save()
+                return True
+            except:
+                return False
 
         #Function From Iman
         def return_customer_id(chat_id):
