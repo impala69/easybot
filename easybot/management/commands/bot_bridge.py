@@ -60,6 +60,13 @@ class Command(BaseCommand):
                 enter_address(telegram_id=chat_id, address=command)
                 set_state(telegram_id=chat_id, state_word='enterinfo_phone')
                 bot.sendMessage(chat_id, "شماره تلفن خود را به وسیله دکمه زیر برای ما بفرستید.")
+                location_keyboard = KeyboardButton(text="send_location",
+                                                   request_location=True)  # creating location button object
+                contact_keyboard = KeyboardButton(text='Share contact',
+                                                  request_contact=True)  # creating contact button object
+                custom_keyboard = [[location_keyboard, contact_keyboard]]  # creating keyboard object
+                reply_markup = ReplyKeyboardMarkup(keyboard=custom_keyboard)
+                bot.sendMessage(chat_id=chat_id, text="دکمه اشتراک شماره تلفن نمایش داده خواهد شد.", reply_markup=reply_markup)
 
             elif (content_type == 'text' or content_type == 'contact') and user_state == 'enterinfo_phone':
                 if content_type == "contact":
@@ -86,11 +93,7 @@ class Command(BaseCommand):
 
 
             if command == '/start' or alter_command=="start":
-                location_keyboard = KeyboardButton(text="send_location",  request_location=True)           #creating location button object
-                contact_keyboard = KeyboardButton(text='Share contact', request_contact=True)  #creating contact button object
-                custom_keyboard = [[ location_keyboard, contact_keyboard ]] #creating keyboard object
-                reply_markup = ReplyKeyboardMarkup(keyboard=custom_keyboard)
-                #bot.sendMessage(chat_id=chat_id, text="Hi", reply_markup=reply_markup)
+
 
                 #Add User if thechat_id from user not in Database
                 if not check_customer_is(chat_id):
