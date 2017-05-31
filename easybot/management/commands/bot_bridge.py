@@ -38,12 +38,15 @@ class Command(BaseCommand):
             keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="جستجو" , callback_data="search"),],[ InlineKeyboardButton(text="سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text="واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text="نظردهی", callback_data='comment')]])
 
             if content_type == 'text' and user_state == 'search':
-                search_results = search(command=command)
+                search_results = search(command=command, page_number=1)
                 for item in search_results:
                     keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
                     #bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
                     caption=u"نام محصول: "+show_product(str(item['id']))['Name']
                     bot.sendPhoto(chat_id,show_product(str(item['id']))['Image'],caption=caption,reply_markup=keyboard_1)
+                keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="نمایش ۱۰ محصول بعدی" ,callback_data='morenext')]])
+                bot.sendPhoto(chat_id=chat_id, photo="http://lorempixel.com/400/50/", reply_markup=keyboard_morenext)
+                set_current(telegram_id=chat_id, current_word='search_' + command + '_1')
                 unset_state(chat_id)
 
             elif content_type == 'text' and user_state == 'enterinfo_firstname':
@@ -170,21 +173,32 @@ class Command(BaseCommand):
                     bot.sendMessage(from_id,text=caption_text)
 
             #End Of Sabad_kharid Button
-                '''
-                dar database search mishavad Dar coloumn sabade kharid k
-                in user-id kodam mahsol ra b sabad kharid ezafe karde
-                va ax va caption e mahsol b user-id frstade mishavad hamrah
-                buttone hazf az sabad e kharid
 
-                keyboard= InlineKeyboardMarkup(Inlinekeyboard=[[InlineKeyboardButton(text= "حذف از سبد خرید",callback_data=3)],])
-                sabad= models.Product.objects.values("sabad")
-                image= models.Product.objects.values('image')
-                text= models.Product.objects.values('text')
-                for i in range(len(sabad)):
-                    if sabad['sabad'][i] == 1:
-                        bot.sendPhoto(from_id,image['image'][i])
-                        bot.sendMessage(from_id,text['text'][i],reply_markup=keyboard)
-                        '''
+            #When User Click on ten more product
+            if query_data == u'morenext':
+                current = get_current(telegram_id=from_id)
+                current_info = current.split("_")
+                current_state = current_info[0]
+                if u'search' == current_state:
+                    current_command = str(current_info[1])
+                    current_page = int(current_info[2])
+                    search_results = search(current_command, current_page + 1)
+                    for item in search_results:
+                        keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
+                        #bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
+                        caption=u"نام محصول: "+show_product(str(item['id']))['Name']
+                        bot.sendPhoto(from_id,show_product(str(item['id']))['Image'],caption=caption,reply_markup=keyboard_1)
+
+                    if len(search_results) == 10:
+                        keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="نمایش ۱۰ محصول بعدی" ,callback_data='morenext')]])
+                        bot.sendPhoto(chat_id=from_id, photo="http://lorempixel.com/400/50/", reply_markup=keyboard_morenext)
+                        current_word = 'search_' + current_command + '_' + str(current_page + 1)
+                        set_current(telegram_id=from_id, current_word=current_word)
+
+
+
+
+            #End of When User Click on ten more product
 
             if query_data == u'4':
                 notification = "برای خرید این محصول بر روی افزودن به سبد خرید کلیک کنید"
@@ -228,9 +242,15 @@ class Command(BaseCommand):
 
 
 
-        def search(command):
-            result = models.Product.objects.filter(product_name__icontains=command).values('id')
-            return result
+        def search(command, page_number):
+            if page_number == 1:
+                result = models.Product.objects.filter(product_name__icontains=command).order_by('id').values('id')[:10]
+                return result
+            else:
+                offset = (page_number-1)*10
+                result = models.Product.objects.filter(product_name__icontains=command).order_by('id').values('id')[offset:offset+9]
+                return result
+
 
         def show_product(p_id):
             product = models.Product.objects.get(pk=p_id)
@@ -373,6 +393,27 @@ class Command(BaseCommand):
                 return True
             except:
                 return False
+
+        #Function From Iman
+        def get_current(telegram_id):
+            try:
+                current = models.Customer.objects.get(telegram_id=telegram_id)
+                return current.current
+            except ObjectDoesNotExist:
+                current = None
+                return current
+
+        #Function From Iman
+        def set_current(telegram_id, current_word):
+            try:
+                current = models.Customer.objects.get(telegram_id=telegram_id)
+                current.current = current_word
+                current.save()
+                return True
+            except:
+                return False
+
+
 
 
 
