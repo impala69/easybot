@@ -13,7 +13,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     cat_id = models.ForeignKey(to=Category,on_delete=models.CASCADE)
-    product_name = models.CharField(max_length=30, null=True,unique=True)
+    product_name = models.CharField(max_length=30, null=True)
     text = models.TextField(null=True)
     image = models.CharField(max_length=60, null=True)
     price = models.IntegerField(null=True)
