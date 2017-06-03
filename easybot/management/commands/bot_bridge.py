@@ -20,18 +20,23 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         def on_chat_message(msg):
             #Get User data From User RealTime
+            print msg
             username = msg['from']['username']
             content_type, chat_type, chat_id = telepot.glance(msg)
             customer_id = return_customer_id(chat_id)
-            alter_command="NIL"
             if content_type == "text":
                 command = msg['text']
+                print command
             elif content_type == 'contact':
                 command = msg['contact']['phone_number']
             else:
                 command = 'None'
-            user_state = return_user_state(chat_id)
-            print "state: " + str(user_state)
+            if type(return_user_state(chat_id)) != None:
+                user_state = return_user_state(chat_id)
+                print "state: " + str(user_state)
+            else:
+                user_state = "Null"
+                print "state: " + str(user_state)
             #End Of Get Data From User
 
 
@@ -39,6 +44,7 @@ class Command(BaseCommand):
 
             if content_type == 'text' and user_state == 'search':
                 search_results = search(command=command, page_number=1)
+                print search_results
                 for item in search_results:
                     keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
                     #bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
@@ -86,7 +92,16 @@ class Command(BaseCommand):
                     notification="نظر با موفقیت ثبت شد. با تشکر از شما"
                     bot.sendMessage(chat_id, text=notification)
                     unset_state(chat_id)
-                    alter_command="start"
+                else:
+                    notification="لططفا مجددا نظر را وارد نمایید."
+                    bot.sendMessage(chat_id, text=notification)
+
+
+            elif content_type == 'text' and "User_comment" in user_state:
+                if enter_user_comment(customer_id= return_customer_id(chat_id),p_id = user_state[12:],new_comment=command):
+                    notification="نظر با موفقیت ثبت شد. با تشکر از شما"
+                    bot.sendMessage(chat_id, text=notification)
+                    unset_state(chat_id)
                 else:
                     notification="لططفا مجددا نظر را وارد نمایید."
                     bot.sendMessage(chat_id, text=notification)
@@ -95,7 +110,8 @@ class Command(BaseCommand):
 
 
 
-            if command == '/start' or alter_command=="start":
+
+            if command == '/start':
 
 
                 #Add User if thechat_id from user not in Database
@@ -205,12 +221,20 @@ class Command(BaseCommand):
                 bot.answerCallbackQuery(query_id, text=notification)
 
             for id in models.Product.objects.values('id'):
-                keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(id['id']))],])
+                keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(id['id']))], [InlineKeyboardButton(text = "ثبت نظر" , callback_data=str("User_comment")+ str(id['id'])) , InlineKeyboardButton(text = "مشاهده نظرات" , callback_data = "Show_comment" + str(id['id']))]])
                 if query_data == str("Product" + str((id['id']))):
                     #bot.sendMessage(from_id , models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name'])
                     caption= u"نام محصول: " +models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name']
                     bot.sendPhoto(from_id , models.Product.objects.filter(pk=id['id']).values('image')[0]['image'],caption=caption)
                     bot.sendMessage(from_id,u"توضیحات: " +models.Product.objects.filter(pk=id['id']).values('text')[0]['text'],reply_markup=keyboard_1)
+                if query_data == str("User_comment" + str((id['id']))):
+                    if set_state(from_id, str('User_comment' + str(id['id']))):
+                        notification="نظر خود را درمورد این محضول بنویسید"
+                        bot.answerCallbackQuery(query_id, text=notification)
+                if query_data == str("Show_comment" + str(id['id'])):
+                    comments = models.Product_comment.objects.filter(product_id = id['id'])
+                    for comment in comments:
+                        bot.sendMessage(from_id, comment.text_comment)
 
             if "add_to_cart" in query_data:
                 query=query_data.rsplit()
@@ -409,6 +433,15 @@ class Command(BaseCommand):
                 current = models.Customer.objects.get(telegram_id=telegram_id)
                 current.current = current_word
                 current.save()
+                return True
+            except:
+                return False
+
+        #Function From MhD
+        def enter_user_comment(customer_id, p_id, new_comment):
+            try:
+                comment = models.Product_comment(customer_id=customer_id,product_id = p_id,text_comment=new_comment)
+                comment.save()
                 return True
             except:
                 return False

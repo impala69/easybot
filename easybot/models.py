@@ -19,6 +19,12 @@ class Product(models.Model):
     price = models.IntegerField(null=True)
 
 
+class Product_comment(models.Model):
+    customer_id = models.IntegerField(null=False)
+    product_id = models.IntegerField(null=False)
+    text_comment = models.TextField(null=True)
+
+
 class Customer(models.Model):
     telegram_id = models.CharField(max_length=20, null=True,unique=True)
     first_name = models.CharField(max_length=30, null=True)
@@ -26,7 +32,7 @@ class Customer(models.Model):
     address = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=20, unique=True, null=True)
     username = models.CharField(max_length=50,unique=True)
-    state = models.CharField(max_length=255, null=True)
+    state = models.CharField(max_length=255, default="null")
     current = models.CharField(max_length=255, null=True)
 
 
