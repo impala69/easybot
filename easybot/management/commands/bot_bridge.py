@@ -221,7 +221,14 @@ class Command(BaseCommand):
                 bot.answerCallbackQuery(query_id, text=notification)
 
             for id in models.Product.objects.values('id'):
+<<<<<<< HEAD
                 keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(id['id']))], [InlineKeyboardButton(text = "ثبت نظر" , callback_data=str("User_comment")+ str(id['id'])) , InlineKeyboardButton(text = "مشاهده نظرات" , callback_data = "Show_comment" + str(id['id']))]])
+=======
+                like_counts=get_likes(str((id['id'])))
+                dislike_counts=get_dislikes(str((id['id'])))
+                models.Like_dislike.objects.filter(p_id=str((id['id']))).count()
+                keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(id['id']))],[InlineKeyboardButton(text="like"+str(like_counts), callback_data='do_like '+str(id['id'])),InlineKeyboardButton(text="dislike"+str(dislike_counts), callback_data='do_dislike '+str(id['id']))]])
+>>>>>>> kazi
                 if query_data == str("Product" + str((id['id']))):
                     #bot.sendMessage(from_id , models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name'])
                     caption= u"نام محصول: " +models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name']
@@ -235,6 +242,31 @@ class Command(BaseCommand):
                     comments = models.Product_comment.objects.filter(product_id = id['id'])
                     for comment in comments:
                         bot.sendMessage(from_id, comment.text_comment)
+
+
+            if "do_like" in query_data:
+                query=query_data.rsplit()
+                product_id=query[-1]
+                flag=like(from_id,product_id)
+                if(flag):
+                    notification="like done"
+                    bot.answerCallbackQuery(query_id, text=notification)
+                else:
+                    notification="like deleted"
+                    bot.answerCallbackQuery(query_id, text=notification)
+
+            if "do_dislike" in query_data:
+                query=query_data.rsplit()
+                product_id=query[-1]
+                flag=dislike(from_id,product_id)
+                if(flag):
+                    notification="dislike done"
+                    bot.answerCallbackQuery(query_id, text=notification)
+                else:
+                    notification="dislike deleted"
+                    bot.answerCallbackQuery(query_id, text=notification)
+
+
 
             if "add_to_cart" in query_data:
                 query=query_data.rsplit()
@@ -311,6 +343,51 @@ class Command(BaseCommand):
                 return True
             except:
                 return False
+
+        def like(telegram_id,product_id):
+            product=models.Product.objects.get(id=product_id)
+            try:
+                entry=models.Like_dislike(telegram_id=telegram_id,p_id=product,like=True)
+                entry.save()
+                print "adding like"
+                return True
+            except:
+                entry=models.Like_dislike.objects.get(telegram_id=telegram_id,p_id=product)
+                if(entry.like):
+                    print "clearing like"
+                    entry.delete()
+                    return False
+                else:
+                    print "changing dislike to like"
+                    entry.like=True
+                    entry.save()
+                    return True
+
+        def dislike(telegram_id,product_id):
+            product=models.Product.objects.get(id=product_id)
+            try:
+                entry=models.Like_dislike(telegram_id=telegram_id,p_id=product,like=False)
+                entry.save()
+                print "adding dislike"
+                return True
+            except:
+                entry=models.Like_dislike.objects.get(telegram_id=telegram_id,p_id=product)
+                if(not entry.like):
+                    print "clearing dislike"
+                    entry.delete()
+                    return False
+                else:
+                    print "changing like to dislike "
+                    entry.like=False
+                    entry.save()
+                    return True
+
+        def get_likes(p_id):
+            return models.Like_dislike.objects.filter(p_id=p_id,like=True).count()
+
+        def get_dislikes(p_id):
+            return models.Like_dislike.objects.filter(p_id=p_id,like=False).count()
+
 
         def enter_comment(telegram_id, new_comment):
             try:
