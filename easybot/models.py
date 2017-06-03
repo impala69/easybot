@@ -51,3 +51,14 @@ class Sabad_Kharid(models.Model):
 
     def __unicode__(self):
         return (unicode(self.cus_id)+'V'+unicode(self.p_id))
+
+class Like_dislike(models.Model):
+    telegram_id = models.CharField(max_length=20)
+    p_id = models.ForeignKey(to=Product,on_delete=models.CASCADE)
+    like = models.BooleanField()
+
+    class Meta:
+        unique_together=('telegram_id','p_id')
+
+    def __unicode__(self):
+        return (unicode(self.telegram_id)+'V'+unicode(self.p_id))
