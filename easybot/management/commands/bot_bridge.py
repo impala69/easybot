@@ -40,9 +40,33 @@ class Command(BaseCommand):
             #End Of Get Data From User
 
 
-            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="جستجو" , callback_data="search"),],[ InlineKeyboardButton(text="سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text="واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text="نظردهی", callback_data='comment')]])
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="جستجو" , callback_data="search"),],[ InlineKeyboardButton(text="سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text="واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text="نظردهی", callback_data='enteghadstart')]])
 
-            if content_type == 'text' and user_state == 'search':
+
+            if command == '/start':
+
+
+                #Add User if thechat_id from user not in Database
+                if not check_customer_is(chat_id):
+                    add_customer(chat_id, username)
+
+                #End Of Add User if not exist
+
+
+
+
+                for i in range(1,4):
+                    try:
+                        q = models.Sabad_Kharid(cus_id=customer, p_id_id=int(i))
+                        q.save()
+                    except :
+                        pass
+                        #print
+                        #print "cant save:"+str(i)
+
+                bot.sendMessage(chat_id , "یک گزینه را انتخاب کنید"  , reply_markup= keyboard)
+
+            elif content_type == 'text' and user_state == 'search':
                 search_results = search(command=command, page_number=1)
                 print search_results
                 for item in search_results:
@@ -87,8 +111,9 @@ class Command(BaseCommand):
 
 
 
-            elif content_type == 'text' and user_state == 'comment':
-                if enter_comment(telegram_id=chat_id,new_comment=command):
+            elif content_type == 'text' and  'naghd' in user_state:
+                naghd_cat = int(user_state.replace("naghd", ""))
+                if enter_comment(telegram_id=chat_id,new_comment=command, cat_id=naghd_cat):
                     notification="نظر با موفقیت ثبت شد. با تشکر از شما"
                     bot.sendMessage(chat_id, text=notification)
                     unset_state(chat_id)
@@ -110,29 +135,6 @@ class Command(BaseCommand):
 
 
 
-
-            if command == '/start':
-
-
-                #Add User if thechat_id from user not in Database
-                if not check_customer_is(chat_id):
-                    add_customer(chat_id, username)
-
-                #End Of Add User if not exist
-
-
-
-
-                for i in range(1,4):
-                    try:
-                        q = models.Sabad_Kharid(cus_id=customer, p_id_id=int(i))
-                        q.save()
-                    except :
-                        pass
-                        #print
-                        #print "cant save:"+str(i)
-
-                bot.sendMessage(chat_id , "یک گزینه را انتخاب کنید"  , reply_markup= keyboard)
 
 
 
@@ -160,12 +162,6 @@ class Command(BaseCommand):
             #End Of Enter Info Button
 
 
-
-            #Entering comment
-            if query_data == u"comment":
-                #bot.sendMessage(from_id,"test DONE")
-                if set_state(from_id,'comment'):
-                    bot.sendMessage(from_id,"لطفا نظر، انتقادات و پیشنهادات خود را وارد نمایید")
 
 
             #Whene user Press on Sabad_kharid Button
@@ -291,6 +287,17 @@ class Command(BaseCommand):
                     notification="این محصول در سبد شما وجود ندارد"
                     bot.answerCallbackQuery(query_id, text=notification)
 
+            if query_data == u"enteghadstart":
+                cat_keyboard=feed_back_cat_keyboard()
+                bot.sendMessage(from_id, " یک گزینه را انتخاب کنید " ,reply_markup=cat_keyboard)
+
+            if u"naghd" in query_data:
+                cat_id = query_data.replace("naghd", "")
+                set_state(from_id, "naghd" + cat_id)
+                bot.sendMessage(from_id, "لطفا نظر خود را وارد کنید.")
+
+
+
 
 
         def search(command, page_number):
@@ -339,9 +346,9 @@ class Command(BaseCommand):
             except:
                 return False
 
-        def enter_comment(telegram_id, new_comment):
+        def enter_comment(telegram_id, new_comment, cat_id):
             try:
-                comment = models.Comment(telegram_id=telegram_id,comment=new_comment)
+                comment = models.Comment(telegram_id=telegram_id, comment=new_comment, comment_cat=cat_id)
                 comment.save()
                 return True
             except:
@@ -517,6 +524,17 @@ class Command(BaseCommand):
 
         def get_dislikes(p_id):
             return models.Like_dislike.objects.filter(p_id=p_id,like=False).count()
+
+
+        def feed_back_cat_keyboard():
+            list1 = []
+            for item in models.Feedback_cat.objects.all():
+                name = item.fb_name
+                cat_keyboard = [InlineKeyboardButton(text=str(name), callback_data='naghd' + str(item.pk))]
+                list1.append(cat_keyboard)
+            cat_keyboard = InlineKeyboardMarkup(inline_keyboard=list1)
+
+            return cat_keyboard
 
 
 

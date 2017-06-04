@@ -15,7 +15,7 @@ class Product(models.Model):
     cat_id = models.ForeignKey(to=Category,on_delete=models.CASCADE)
     product_name = models.CharField(max_length=30, null=True)
     text = models.TextField(null=True)
-    image = models.CharField(max_length=60, null=True)
+    image = models.CharField(max_length=255, null=True)
     price = models.IntegerField(null=True)
 
 
@@ -34,12 +34,6 @@ class Customer(models.Model):
     username = models.CharField(max_length=50,unique=True)
     state = models.CharField(max_length=255, default="null")
     current = models.CharField(max_length=255, null=True)
-
-
-class Comment(models.Model):
-    telegram_id = models.CharField(max_length=20)
-    comment = models.TextField(null=False)
-
 
 
 class Sabad_Kharid(models.Model):
@@ -62,3 +56,13 @@ class Like_dislike(models.Model):
 
     def __unicode__(self):
         return (unicode(self.telegram_id)+'V'+unicode(self.p_id))
+
+
+class Feedback_cat(models.Model):
+    fb_name = models.CharField(max_length=20, null=False)
+
+class Comment(models.Model):
+    telegram_id = models.CharField(max_length=20)
+    comment = models.TextField(null=False)
+    comment_cat = models.IntegerField(null=True)
+
