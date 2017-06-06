@@ -217,6 +217,8 @@ class Command(BaseCommand):
 
 
             if "do_like" in query_data:
+
+
                 query=query_data.rsplit()
                 product_id=query[-1]
                 flag=like(from_id,product_id)
@@ -226,6 +228,15 @@ class Command(BaseCommand):
                 else:
                     notification="like deleted"
                     bot.answerCallbackQuery(query_id, text=notification)
+
+
+                like_counts=get_likes(str((product_id)))
+                dislike_counts=get_dislikes(str((product_id)))
+                models.Like_dislike.objects.filter(p_id=str((product_id))).count()
+                identifier = msg["message"]
+                keyboard_2 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=product_id).values('price')[0]['price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(product_id))],[InlineKeyboardButton(text="like"+str(like_counts), callback_data='do_like '+str(product_id)),InlineKeyboardButton(text="dislike"+str(dislike_counts), callback_data='do_dislike '+str(product_id))]])
+                msg_identifier=telepot.message_identifier(identifier)
+                telepot.Bot.editMessageReplyMarkup(bot,msg_identifier=msg_identifier,reply_markup=keyboard_2)
 
             if "do_dislike" in query_data:
                 query=query_data.rsplit()
@@ -237,6 +248,15 @@ class Command(BaseCommand):
                 else:
                     notification="dislike deleted"
                     bot.answerCallbackQuery(query_id, text=notification)
+
+                like_counts=get_likes(str((product_id)))
+                dislike_counts=get_dislikes(str((product_id)))
+                models.Like_dislike.objects.filter(p_id=str((product_id))).count()
+                identifier = msg["message"]
+                keyboard_2 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=product_id).values('price')[0]['price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(product_id))],[InlineKeyboardButton(text="like"+str(like_counts), callback_data='do_like '+str(product_id)),InlineKeyboardButton(text="dislike"+str(dislike_counts), callback_data='do_dislike '+str(product_id))]])
+                msg_identifier=telepot.message_identifier(identifier)
+                telepot.Bot.editMessageReplyMarkup(bot,msg_identifier=msg_identifier,reply_markup=keyboard_2)
+
 
 
 
