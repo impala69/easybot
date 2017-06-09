@@ -21,16 +21,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         def on_chat_message(msg):
             #Get User data From User RealTime
-<<<<<<< HEAD
             print msg
-            username = msg['from']['username']
-=======
             try:
                 username = msg['from']['username']
             except :
-                username=""
-
->>>>>>> kazi
+                username = "Null"
             content_type, chat_type, chat_id = telepot.glance(msg)
             customer_id = return_customer_id(chat_id)
             if content_type == "text":
@@ -49,24 +44,13 @@ class Command(BaseCommand):
             #End Of Get Data From User
 
 
-<<<<<<< HEAD
-            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="جستجو" , callback_data="search"),],[ InlineKeyboardButton(text="سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text="واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text="نظردهی", callback_data='enteghadstart')]])
-
-
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search"),],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')]])
             if command == '/start':
-
-
                 #Add User if thechat_id from user not in Database
                 if not check_customer_is(chat_id):
                     add_customer(chat_id, username)
 
                 #End Of Add User if not exist
-
-
-
-=======
-            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search"),],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"نظردهی", callback_data='comment')]])
->>>>>>> kazi
 
                 for i in range(1,4):
                     try:
@@ -248,12 +232,9 @@ class Command(BaseCommand):
                 like_counts=get_likes(str((id['id'])))
                 dislike_counts=get_dislikes(str((id['id'])))
                 models.Like_dislike.objects.filter(p_id=str((id['id']))).count()
-<<<<<<< HEAD
-                keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(id['id']))],[InlineKeyboardButton(text="like"+str(like_counts), callback_data='do_like '+str(id['id'])),InlineKeyboardButton(text="dislike"+str(dislike_counts), callback_data='do_dislike '+str(id['id']))], [InlineKeyboardButton(text = "ثبت نظر" , callback_data=str("User_comment")+ str(id['id'])) , InlineKeyboardButton(text = "مشاهده نظرات" , callback_data = "Show_comment" + str(id['id']))]])
 
-=======
-                keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+" تومان")+"💵", callback_data="4"), InlineKeyboardButton(text=u"افزودن به سبد خرید"+emoji.emojize(" :package:",use_aliases=True), callback_data='add_to_cart '+str(id['id']))],[InlineKeyboardButton(text="👍"+str(like_counts), callback_data='do_like '+str(id['id'])),InlineKeyboardButton(text="👎"+str(dislike_counts), callback_data='do_dislike '+str(id['id']))]])
->>>>>>> kazi
+                keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+" تومان")+"💵", callback_data="4"), InlineKeyboardButton(text=u"افزودن به سبد خرید"+emoji.emojize(" :package:",use_aliases=True), callback_data='add_to_cart '+str(id['id']))],[InlineKeyboardButton(text="👍"+str(like_counts), callback_data='do_like '+str(id['id'])),InlineKeyboardButton(text="👎"+str(dislike_counts), callback_data='do_dislike '+str(id['id']))], [InlineKeyboardButton(text = "ثبت نظر" , callback_data=str("User_comment")+ str(id['id'])) , InlineKeyboardButton(text = "مشاهده نظرات" , callback_data = "Show_comment" + str(id['id']))]])
+
                 if query_data == str("Product" + str((id['id']))):
                     #bot.sendMessage(from_id , models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name'])
                     caption= u"نام محصول: " +models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name']
@@ -269,19 +250,6 @@ class Command(BaseCommand):
                         bot.sendMessage(from_id, comment.text_comment)
 
             if "do_like" in query_data:
-<<<<<<< HEAD
-               query=query_data.rsplit()
-               product_id=query[-1]
-               flag=like(from_id,product_id)
-               if(flag):
-                   notification="like done"
-                   bot.answerCallbackQuery(query_id, text=notification)
-               else:
-                   notification="like deleted"
-                   bot.answerCallbackQuery(query_id, text=notification)
-=======
-
-
                 query=query_data.rsplit()
                 product_id=query[-1]
                 flag=like(from_id,product_id)
@@ -291,7 +259,6 @@ class Command(BaseCommand):
                 else:
                     notification="like deleted"
                     bot.answerCallbackQuery(query_id, text=notification)
->>>>>>> kazi
 
 
                 like_counts=get_likes(str((product_id)))
