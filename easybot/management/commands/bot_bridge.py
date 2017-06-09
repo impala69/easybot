@@ -6,6 +6,7 @@ import telepot, time
 from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
+import emoji
 
 
 from ... import models
@@ -20,8 +21,16 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         def on_chat_message(msg):
             #Get User data From User RealTime
+<<<<<<< HEAD
             print msg
             username = msg['from']['username']
+=======
+            try:
+                username = msg['from']['username']
+            except :
+                username=""
+
+>>>>>>> kazi
             content_type, chat_type, chat_id = telepot.glance(msg)
             customer_id = return_customer_id(chat_id)
             if content_type == "text":
@@ -40,6 +49,7 @@ class Command(BaseCommand):
             #End Of Get Data From User
 
 
+<<<<<<< HEAD
             keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="جستجو" , callback_data="search"),],[ InlineKeyboardButton(text="سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text="واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text="نظردهی", callback_data='enteghadstart')]])
 
 
@@ -54,6 +64,9 @@ class Command(BaseCommand):
 
 
 
+=======
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search"),],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"نظردهی", callback_data='comment')]])
+>>>>>>> kazi
 
                 for i in range(1,4):
                     try:
@@ -70,11 +83,11 @@ class Command(BaseCommand):
                 search_results = search(command=command, page_number=1)
                 print search_results
                 for item in search_results:
-                    keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
+                    keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان")+"💵", callback_data="4"), InlineKeyboardButton(text=u"افزودن به سبد خرید"+emoji.emojize(" :package:",use_aliases=True), callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text=u"جزییات بیشتر"+emoji.emojize(" :clipboard:",use_aliases=True) ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
                     #bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
                     caption=u"نام محصول: "+show_product(str(item['id']))['Name']
                     bot.sendPhoto(chat_id,show_product(str(item['id']))['Image'],caption=caption,reply_markup=keyboard_1)
-                keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="نمایش ۱۰ محصول بعدی" ,callback_data='morenext')]])
+                keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(" :arrow_right:",use_aliases=True)+u"نمایش ۱۰ محصول بعدی" ,callback_data='morenext')]])
                 bot.sendPhoto(chat_id=chat_id, photo="http://lorempixel.com/400/50/", reply_markup=keyboard_morenext)
                 set_current(telegram_id=chat_id, current_word='search_' + command + '_1')
                 unset_state(chat_id)
@@ -179,7 +192,7 @@ class Command(BaseCommand):
                     caption_price=price+str(product.price)+'\n'
                     caption=caption_name+caption_price
                     product_id=product.id
-                    keyboard_sabad = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="حذف از سبد خرید", callback_data="del_from_cart "+str(product_id))]])
+                    keyboard_sabad = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=u"حذف از سبد خرید"+emoji.emojize(" :x:",use_aliases=True), callback_data="del_from_cart "+str(product_id))]])
 
                     bot.sendPhoto(from_id,photo=product.image,caption=caption,reply_markup=keyboard_sabad)
                     bot.sendMessage(from_id,text=caption_text)
@@ -196,13 +209,28 @@ class Command(BaseCommand):
                     current_page = int(current_info[2])
                     search_results = search(current_command, current_page + 1)
                     for item in search_results:
-                        keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
+                        #keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
+                        keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
+                            text=str(str(show_product(str(item['id']))['Price']) + " تومان") + "💵", callback_data="4"),
+                                                                            InlineKeyboardButton(
+                                                                                text=u"افزودن به سبد خرید" + emoji.emojize(
+                                                                                    " :package:", use_aliases=True),
+                                                                                callback_data='add_to_cart ' + str(
+                                                                                    item['id']))], [
+                                                                               InlineKeyboardButton(
+                                                                                   text="جزییات بیشتر" + emoji.emojize(
+                                                                                       " :clipboard:",
+                                                                                       use_aliases=True),
+                                                                                   callback_data=str("Product" + str(
+                                                                                       show_product(str(item['id']))[
+                                                                                           "product_id"])))], ])
+
                         #bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
                         caption=u"نام محصول: "+show_product(str(item['id']))['Name']
                         bot.sendPhoto(from_id,show_product(str(item['id']))['Image'],caption=caption,reply_markup=keyboard_1)
 
                     if len(search_results) == 10:
-                        keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="نمایش ۱۰ محصول بعدی" ,callback_data='morenext')]])
+                        keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(" :arrow_right:",use_aliases=True)+u"نمایش ۱۰ محصول بعدی" ,callback_data='morenext')]])
                         bot.sendPhoto(chat_id=from_id, photo="http://lorempixel.com/400/50/", reply_markup=keyboard_morenext)
                         current_word = 'search_' + current_command + '_' + str(current_page + 1)
                         set_current(telegram_id=from_id, current_word=current_word)
@@ -220,8 +248,12 @@ class Command(BaseCommand):
                 like_counts=get_likes(str((id['id'])))
                 dislike_counts=get_dislikes(str((id['id'])))
                 models.Like_dislike.objects.filter(p_id=str((id['id']))).count()
+<<<<<<< HEAD
                 keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(id['id']))],[InlineKeyboardButton(text="like"+str(like_counts), callback_data='do_like '+str(id['id'])),InlineKeyboardButton(text="dislike"+str(dislike_counts), callback_data='do_dislike '+str(id['id']))], [InlineKeyboardButton(text = "ثبت نظر" , callback_data=str("User_comment")+ str(id['id'])) , InlineKeyboardButton(text = "مشاهده نظرات" , callback_data = "Show_comment" + str(id['id']))]])
 
+=======
+                keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=id['id']).values('price')[0]['price'])+" تومان")+"💵", callback_data="4"), InlineKeyboardButton(text=u"افزودن به سبد خرید"+emoji.emojize(" :package:",use_aliases=True), callback_data='add_to_cart '+str(id['id']))],[InlineKeyboardButton(text="👍"+str(like_counts), callback_data='do_like '+str(id['id'])),InlineKeyboardButton(text="👎"+str(dislike_counts), callback_data='do_dislike '+str(id['id']))]])
+>>>>>>> kazi
                 if query_data == str("Product" + str((id['id']))):
                     #bot.sendMessage(from_id , models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name'])
                     caption= u"نام محصول: " +models.Product.objects.filter(pk=id['id']).values('product_name')[0]['product_name']
@@ -237,6 +269,7 @@ class Command(BaseCommand):
                         bot.sendMessage(from_id, comment.text_comment)
 
             if "do_like" in query_data:
+<<<<<<< HEAD
                query=query_data.rsplit()
                product_id=query[-1]
                flag=like(from_id,product_id)
@@ -246,6 +279,28 @@ class Command(BaseCommand):
                else:
                    notification="like deleted"
                    bot.answerCallbackQuery(query_id, text=notification)
+=======
+
+
+                query=query_data.rsplit()
+                product_id=query[-1]
+                flag=like(from_id,product_id)
+                if(flag):
+                    notification="like done"
+                    bot.answerCallbackQuery(query_id, text=notification)
+                else:
+                    notification="like deleted"
+                    bot.answerCallbackQuery(query_id, text=notification)
+>>>>>>> kazi
+
+
+                like_counts=get_likes(str((product_id)))
+                dislike_counts=get_dislikes(str((product_id)))
+                models.Like_dislike.objects.filter(p_id=str((product_id))).count()
+                identifier = msg["message"]
+                keyboard_2 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=product_id).values('price')[0]['price'])+" تومان")+"💵", callback_data="4"), InlineKeyboardButton(text=u"افزودن به سبد خرید"+emoji.emojize(" :package:",use_aliases=True), callback_data='add_to_cart '+str(product_id))],[InlineKeyboardButton(text="👍"+str(like_counts), callback_data='do_like '+str(product_id)),InlineKeyboardButton(text="👎"+str(dislike_counts), callback_data='do_dislike '+str(product_id))]])
+                msg_identifier=telepot.message_identifier(identifier)
+                telepot.Bot.editMessageReplyMarkup(bot,msg_identifier=msg_identifier,reply_markup=keyboard_2)
 
             if "do_dislike" in query_data:
                 query=query_data.rsplit()
@@ -257,6 +312,15 @@ class Command(BaseCommand):
                 else:
                     notification="dislike deleted"
                     bot.answerCallbackQuery(query_id, text=notification)
+
+                like_counts=get_likes(str((product_id)))
+                dislike_counts=get_dislikes(str((product_id)))
+                models.Like_dislike.objects.filter(p_id=str((product_id))).count()
+                identifier = msg["message"]
+                keyboard_2 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(models.Product.objects.filter(pk=product_id).values('price')[0]['price'])+" تومان")+"💵", callback_data="4"), InlineKeyboardButton(text=u"افزودن به سبد خرید"+emoji.emojize(" :package:",use_aliases=True), callback_data='add_to_cart '+str(product_id))],[InlineKeyboardButton(text="👍"+str(like_counts), callback_data='do_like '+str(product_id)),InlineKeyboardButton(text="👎"+str(dislike_counts), callback_data='do_dislike '+str(product_id))]])
+                msg_identifier=telepot.message_identifier(identifier)
+                telepot.Bot.editMessageReplyMarkup(bot,msg_identifier=msg_identifier,reply_markup=keyboard_2)
+
 
 
             if "add_to_cart" in query_data:
