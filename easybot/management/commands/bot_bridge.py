@@ -44,7 +44,7 @@ class Command(BaseCommand):
             #End Of Get Data From User
 
 
-            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search"),],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')]])
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"دسته بندی ها", callback_data="categories"),],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search"),],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')]])
             if command == '/start':
                 #Add User if thechat_id from user not in Database
                 if not check_customer_is(chat_id):
@@ -157,6 +157,26 @@ class Command(BaseCommand):
                     bot.answerCallbackQuery(query_id, text="اطلاعات خود را وارد کنید", show_alert=True)
                     bot.sendMessage(from_id, "نام خود را وارد نمایید.")
             #End Of Enter Info Button
+
+
+            #Categories
+            if query_data==u'categories':
+                cats=get_cats()
+                cats_keyboard=[]
+                for category in cats:
+                    cats_keyboard.append([InlineKeyboardButton(text=category.cat_name, callback_data="show_cat "+str(category.id))])
+                bot.sendMessage(from_id,"دسته مورد نظر خود را انتخاب کنید: ",reply_markup=InlineKeyboardMarkup(inline_keyboard=cats_keyboard))
+
+
+            #When a category is selected
+            if "show_cat" in query_data:
+                temp=query_data.rsplit()
+                print temp
+                cat_id=temp[-1]
+                products=get_product_from_category(cat_id)
+                for item in products:
+                    send_base_product_info(from_id,item)
+
 
 
 
@@ -329,7 +349,9 @@ class Command(BaseCommand):
 
 
 
-
+        def get_cats():
+            result = models.Category.objects.filter()
+            return result
 
         def search(command, page_number):
             if page_number == 1:
@@ -341,6 +363,23 @@ class Command(BaseCommand):
                 return result
 
 
+        def get_product_from_category(cat_id):
+            result=models.Product.objects.filter(cat_id=cat_id)
+            return result
+
+        #sending base information of product
+        def send_base_product_info(from_id,product):
+            caption=u"نام محصول: "+product.product_name
+            image=product.image
+            keyboard=[[ InlineKeyboardButton(text=str(product.price)+u" تومان"+emoji.emojize(" :dollar:",use_aliases=True), callback_data="4"),InlineKeyboardButton(text=u"افزودن به سبد خرید"+emoji.emojize(" :package:",use_aliases=True), callback_data='add_to_cart '+str(product.id))],[InlineKeyboardButton(text=u"جزییات بیشتر"+emoji.emojize(" :clipboard:",use_aliases=True) ,callback_data=str("Product"+str(product.id)))],]
+            try:
+                bot.sendPhoto(from_id,photo=image,caption=caption,reply_markup=InlineKeyboardMarkup(inline_keyboard=keyboard))
+                return True
+            except  Exception :
+                print Exception
+                return False
+
+            
         def show_product(p_id):
             product = models.Product.objects.get(pk=p_id)
             product_dict = {'product_id': product.pk, 'Name': product.product_name, 'Image':product.image, 'Text':product.text, 'Price':product.price}
