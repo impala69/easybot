@@ -23,7 +23,7 @@ SECRET_KEY = 'nwtiez4j(zc+r-#1p48msj@x^dsg@zvqt23k81=8ydfo)_h(7p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.2', '127.0.0.1']
 
 
 # Application definition
@@ -55,7 +55,8 @@ ROOT_URLCONF = 'testak.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['E:/GitDir/easybot/easybot/django-suit/suit/templates/'],
+        'DIRS': ['E:/GitDir/easybot/easybot/django-suit/suit/templates/',
+                 'C:/Users/samsung/Desktop/Projects/GitDir/easybot/mainpage/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,15 +77,15 @@ SUIT_CONFIG = {
 
     # forms
     'SHOW_REQUIRED_ASTERISK': True,  # Default True
-    'CONFIRM_UNSAVED_CHANGES': True, # Default True
+    'CONFIRM_UNSAVED_CHANGES': True,  # Default True
 
     # menu
     'SEARCH_URL': '/admin/auth/user/',
     # 'MENU_ICONS': {
-    #    'sites': 'icon-leaf',
+    # 'sites': 'icon-leaf',
     #    'auth': 'icon-lock',
     # },
-    'MENU_OPEN_FIRST_CHILD': False, # Default True
+    'MENU_OPEN_FIRST_CHILD': False,  # Default True
 
     # 'MENU': (
     #     'sites',
@@ -96,7 +97,6 @@ SUIT_CONFIG = {
     # misc
     'LIST_PER_PAGE': 15
 }
-
 
 WSGI_APPLICATION = 'testak.wsgi.application'
 
@@ -153,3 +153,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    '/mainpage/static',
+]

@@ -44,7 +44,7 @@ class Command(BaseCommand):
             #End Of Get Data From User
 
 
-            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"دسته بندی ها", callback_data="categories"),],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search"),],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')]])
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"دسته بندی ها", callback_data="categories"),],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search"),],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')], [ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')]])
             if command == '/start':
                 #Add User if thechat_id from user not in Database
                 if not check_customer_is(chat_id):
@@ -71,7 +71,7 @@ class Command(BaseCommand):
                     #bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
                     caption=u"نام محصول: "+show_product(str(item['id']))['Name']
                     bot.sendPhoto(chat_id,show_product(str(item['id']))['Image'],caption=caption,reply_markup=keyboard_1)
-                keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(" :arrow_right:",use_aliases=True)+u"نمایش ۱۰ محصول بعدی" ,callback_data='morenext')]])
+                keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(" :arrow_right:",use_aliases=True)+u"نمایش ۱۰ محصول بعدی" ,callback_data='morenext')], [ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')]])
                 bot.sendPhoto(chat_id=chat_id, photo="http://lorempixel.com/400/50/", reply_markup=keyboard_morenext)
                 set_current(telegram_id=chat_id, current_word='search_' + command + '_1')
                 unset_state(chat_id)
@@ -159,12 +159,23 @@ class Command(BaseCommand):
             #End Of Enter Info Button
 
 
+
+
+            #Return to main Menu
+            if query_data == u'return':
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"دسته بندی ها", callback_data="categories"),],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search"),],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"واردکردن اطلاعات شخصی برای خرید از ربات", callback_data='enterinfo_firstname')],[ InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')], [ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')]])
+                bot.sendMessage(from_id , "یک گزینه را انتخاب کنید"  , reply_markup= keyboard)
+                #button for return
+                #[ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')]
+
             #Categories
             if query_data==u'categories':
                 cats=get_cats()
                 cats_keyboard=[]
                 for category in cats:
                     cats_keyboard.append([InlineKeyboardButton(text=category.cat_name, callback_data="show_cat "+str(category.id))])
+
+                cats_keyboard.append([ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')])
                 bot.sendMessage(from_id,"دسته مورد نظر خود را انتخاب کنید: ",reply_markup=InlineKeyboardMarkup(inline_keyboard=cats_keyboard))
 
 
@@ -222,9 +233,7 @@ class Command(BaseCommand):
                                                                                 callback_data='add_to_cart ' + str(
                                                                                     item['id']))], [
                                                                                InlineKeyboardButton(
-                                                                                   text="جزییات بیشتر" + emoji.emojize(
-                                                                                       " :clipboard:",
-                                                                                       use_aliases=True),
+                                                                                   text="جزییات بیشتر" ,
                                                                                    callback_data=str("Product" + str(
                                                                                        show_product(str(item['id']))[
                                                                                            "product_id"])))], ])
@@ -234,10 +243,15 @@ class Command(BaseCommand):
                         bot.sendPhoto(from_id,show_product(str(item['id']))['Image'],caption=caption,reply_markup=keyboard_1)
 
                     if len(search_results) == 10:
-                        keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(" :arrow_right:",use_aliases=True)+u"نمایش ۱۰ محصول بعدی" ,callback_data='morenext')]])
+                        keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(" :arrow_right:",use_aliases=True)+u"نمایش ۱۰ محصول بعدی" ,callback_data='morenext')], [ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')]])
                         bot.sendPhoto(chat_id=from_id, photo="http://lorempixel.com/400/50/", reply_markup=keyboard_morenext)
                         current_word = 'search_' + current_command + '_' + str(current_page + 1)
                         set_current(telegram_id=from_id, current_word=current_word)
+                    else:
+                        keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')]])
+                        bot.sendPhoto(chat_id=from_id, photo="http://lorempixel.com/400/50/", reply_markup=keyboard_morenext)
+
+
 
 
 
