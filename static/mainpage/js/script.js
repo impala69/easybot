@@ -1,31 +1,9 @@
-/*
---------------------------------------------------------
-
-[ INSTA , Javscript ]
-
-  Template Name : INSTA - Responsive Onepage Resume Template
-  
-  Version       :  1.0 
-  
-  Author        :  Pixel_Factory
-  
-  Author URI    :  http://themeforest.net/user/Pixel_Factory
-  
-  Author Email  : h.nafees.anwar@gmail.com
-
---------------------------------------------------------
-*/
 
 /*  ------------------
     Remove Preloader
     ------------------  */
 
-$(window).load(function () {
-		
-    $('#preloader').delay(350).fadeOut('slow', function () {
-        $('.profile-page, .resume-page, .contact-page, .portfolio-page').hide();
-    });
-});
+
 
 $(document).ready(function () {
 
