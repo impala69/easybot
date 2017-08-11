@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['192.168.1.2', '127.0.0.1']
 INSTALLED_APPS = [
     'easybot.apps.EasybotConfig',
     'mainpage.apps.MainpageConfig',
+    'admin_panel.apps.AdminPanelConfig',
     'suit',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -57,7 +58,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': ['E:/GitDir/easybot/easybot/django-suit/suit/templates/',
-                 'C:/Users/samsung/Desktop/Projects/GitDir/easybot/mainpage/templates/'],
+                 'C:/Users/samsung/Desktop/Projects/GitDir/easybot/mainpage/templates/',
+                 'C:/Users/samsung/Desktop/easybot/admin_panel/charisma-master'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -107,12 +109,9 @@ WSGI_APPLICATION = 'testak.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'easybot',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db/easybot.db',
+
     }
 }
 

@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from models import BotOwner, Contact
 from django.db import IntegrityError
 from django.shortcuts import render_to_response
+from easybot import models
 
 
 def index(request):
@@ -53,22 +54,16 @@ def success(request, trans_id):
 
 def contact(request):
     if request.method == 'POST':
-
         contact_form = ContactForm(request.POST)
-        print contact_form
         if contact_form.is_valid():
-            print 3
             first_name = contact_form.cleaned_data['first_name_contact']
             last_name = contact_form.cleaned_data['last_name_contact']
             email = contact_form.cleaned_data['email_contact']
             message = contact_form.cleaned_data['message_contact']
-
             try:
-                print 1
                 new_contact = Contact(first_name=first_name, last_name=last_name, email=email, message=message)
                 new_contact.save()
                 return render_to_response("mainpage/successcontact.html")
-
             except IntegrityError as e:
                 error_msg = e[1]
                 print e
@@ -79,3 +74,5 @@ def contact(request):
 
 def hash_id(id, phone):
     return int(id) * 256 + int(phone)
+
+

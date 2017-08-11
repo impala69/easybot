@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib import admin
-from django.forms import ModelForm, TextInput
+from django.forms import ModelForm
 from django.contrib.admin import ModelAdmin
-from suit.widgets import EnclosedInput , HTML5Input ,NumberInput
+from suit.widgets import EnclosedInput,NumberInput
 
 from .models import Customer, Product, Category,Sabad_Kharid,Comment, Feedback_cat
 
