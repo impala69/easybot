@@ -197,17 +197,40 @@ class Command(BaseCommand):
             #When a category is selected
             if "show_cat" in query_data:
                 temp=query_data.rsplit()
-                print temp
                 cat_id=temp[-1]
-                product=PDA(cat_id=cat_id)
-                products=product.get_product_from_category()
-                if list(products) == []:
-                    keyboard = InlineKeyboardMarkup(inline_keyboard=[[ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')],])
-                    bot.sendMessage(from_id," محصولی موجود نیست" , reply_markup=keyboard)
-                else:
-                    for item in products:
-                        send_base_product_info(from_id,item)
+                customer.set_current(current_word="cat_" + str(cat_id) + "_1")
 
+
+                product = PDA(cat_id=cat_id, page_number=1)
+                products=product.get_product_from_category()
+                for item in products:
+                    product = PDA(p_id=str(item['id']))
+                    #keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
+                    keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
+                        text=str(str(product.show_product()['Price']) + " تومان") + "💵", callback_data="4"),
+                                                                        InlineKeyboardButton(
+                                                                            text=u"افزودن به سبد خرید" + emoji.emojize(
+                                                                                " :package:", use_aliases=True),
+                                                                            callback_data='add_to_cart ' + str(
+                                                                                item['id']))], [
+                                                                           InlineKeyboardButton(
+                                                                               text="جزییات بیشتر" ,
+                                                                               callback_data=str("Product" + str(
+                                                                                   product.show_product()[
+                                                                                       "product_id"])))], ])
+
+                    #bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
+                    caption=u"نام محصول: "+product.show_product()['Name']
+                    bot.sendPhoto(from_id,product.show_product()['Image'],caption=caption,reply_markup=keyboard_1)
+                if len(products) == 10:
+                    keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(" :arrow_right:",use_aliases=True)+u"نمایش ۱۰ محصول بعدی" ,callback_data='morenext')], [ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')]])
+                    bot.sendPhoto(chat_id=from_id, photo="http://lorempixel.com/400/50/", reply_markup=keyboard_morenext)
+                    current_word = 'cat_' + str(cat_id) + '_' + str(1 + 1)
+                    customer.set_current_cat(current_word=current_word)
+                else:
+                    customer.set_current_cat(current_word="")
+                    keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')]])
+                    bot.sendPhoto(chat_id=from_id, photo="http://lorempixel.com/400/50/", reply_markup=keyboard_morenext)
 
 
 
@@ -243,12 +266,55 @@ class Command(BaseCommand):
 
             #When User Click on ten more product
             if query_data == u'morenext':
-                current = customer.get_current()
+
+                current = customer.get_current_cat()
                 current_info = current.split("_")
                 current_state = current_info[0]
+                current_page = int(current_info[2])
+
+                if current_state == u'cat':
+                    cat_id = str(current_info[1])
+
+                    product = PDA(cat_id=cat_id, page_number=current_page)
+                    products=product.get_product_from_category()
+
+                    if len(products) == 0:
+                        keyboard = InlineKeyboardMarkup(inline_keyboard=[[ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')],])
+                        bot.sendMessage(from_id," محصولی موجود نیست" , reply_markup=keyboard)
+                    else:
+                        for item in products:
+                            product = PDA(p_id=str(item['id']))
+                            #keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
+                            keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
+                                text=str(str(product.show_product()['Price']) + " تومان") + "💵", callback_data="4"),
+                                                                                InlineKeyboardButton(
+                                                                                    text=u"افزودن به سبد خرید" + emoji.emojize(
+                                                                                        " :package:", use_aliases=True),
+                                                                                    callback_data='add_to_cart ' + str(
+                                                                                        item['id']))], [
+                                                                                   InlineKeyboardButton(
+                                                                                       text="جزییات بیشتر" ,
+                                                                                       callback_data=str("Product" + str(
+                                                                                           product.show_product()[
+                                                                                               "product_id"])))], ])
+
+                            #bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
+                            caption=u"نام محصول: "+product.show_product()['Name']
+                            bot.sendPhoto(from_id,product.show_product()['Image'],caption=caption,reply_markup=keyboard_1)
+
+                        if len(products) == 10:
+                            keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(" :arrow_right:",use_aliases=True)+u"نمایش ۱۰ محصول بعدی" ,callback_data='morenext')], [ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')]])
+                            bot.sendPhoto(chat_id=from_id, photo="http://lorempixel.com/400/50/", reply_markup=keyboard_morenext)
+                            current_word = 'cat_' + str(cat_id) + '_' + str(current_page + 1)
+                            customer.set_current_cat(current_word=current_word)
+                        else:
+                            customer.set_current_cat(current_word="")
+                            keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')]])
+                            bot.sendPhoto(chat_id=from_id, photo="http://lorempixel.com/400/50/", reply_markup=keyboard_morenext)
+
+
                 if u'search' == current_state:
                     current_command = str(current_info[1])
-                    current_page = int(current_info[2])
                     print(current_info)
                     search_obj = SDA(search_word=current_command, page_number=current_page)
                     search_results = search_obj.search()

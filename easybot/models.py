@@ -34,6 +34,7 @@ class Customer(models.Model):
     username = models.CharField(max_length=50,unique=True)
     state = models.CharField(max_length=255, default="null")
     current = models.CharField(max_length=255, null=True)
+    current_cat = models.CharField(max_length=255, null=True)
 
 
 class Sabad_Kharid(models.Model):

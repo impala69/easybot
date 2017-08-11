@@ -109,3 +109,20 @@ class CustomerDataAccess:
             return True
         except:
             return False
+
+    def get_current_cat(self):
+        try:
+            current = models.Customer.objects.get(telegram_id=self.__t_id)
+            return current.current_cat
+        except ObjectDoesNotExist:
+            current = None
+            return current
+
+    def set_current_cat(self, current_word):
+        try:
+            current = models.Customer.objects.get(telegram_id=self.__t_id)
+            current.current_cat = current_word
+            current.save()
+            return True
+        except:
+            return False

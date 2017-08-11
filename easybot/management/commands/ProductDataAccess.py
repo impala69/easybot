@@ -3,14 +3,21 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 
 class ProductDataAccess:
-    def __init__(self, cat_id=None, p_id=None, t_id=None):
+    def __init__(self, page_number=None, cat_id=None, p_id=None, t_id=None):
         self.__cat_id = cat_id
         self.__p_id = p_id
         self.__t_id = t_id
+        self.__page_number = page_number
 
     def get_product_from_category(self):
-        result=models.Product.objects.filter(cat_id=self.__cat_id)
-        return result
+        if self.__page_number == 1:
+            result = models.Product.objects.filter(cat_id=self.__cat_id).order_by('id').values('id')[:10]
+            return result
+        else:
+            offset_val = (self.__page_number-1)*10
+            result = models.Product.objects.filter(cat_id=self.__cat_id).order_by('id').values('id')[:offset_val+9]
+            return result
+
 
     def show_product(self):
         product = models.Product.objects.get(pk=self.__p_id)
