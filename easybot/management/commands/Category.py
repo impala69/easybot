@@ -16,7 +16,7 @@ class CategoryDataAccess:
         list1 = []
         for item in models.Feedback_cat.objects.all():
             name = item.fb_name
-            cat_keyboard = [InlineKeyboardButton(text=str(name), callback_data='naghd' + str(item.pk))]
+            cat_keyboard = [InlineKeyboardButton(text=name, callback_data='naghd' + str(item.pk))]
             list1.append(cat_keyboard)
         cat_keyboard = InlineKeyboardMarkup(inline_keyboard=list1)
         return cat_keyboard

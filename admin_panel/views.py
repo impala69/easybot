@@ -26,10 +26,10 @@ def adding(request):
                 pass
 
 
-            return render_to_response("templates/charisma-master/blank.html")
+            return render_to_response("blank.html")
 
 
-    return render_to_response("templates/charisma-master/blank.html")
+    return render_to_response("blank.html")
 
 
 

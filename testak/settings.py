@@ -57,9 +57,8 @@ ROOT_URLCONF = 'testak.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['E:/GitDir/easybot/easybot/django-suit/suit/templates/',
-                 'C:/Users/samsung/Desktop/Projects/GitDir/easybot/mainpage/templates/',
-                 'C:/Users/samsung/Desktop/easybot/admin_panel/charisma-master'],
+        'DIRS': ['easybot/mainpage/templates/',
+                 'easybot/admin_panel/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
