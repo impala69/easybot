@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,15 +22,15 @@
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The styles -->
-    <link id="bs-css" href="{% static 'adminpanelcss/bootstrap-cerulean.min.css' $}" rel="stylesheet">
+    <link id="bs-css" href="{% static 'adminpanel/css/bootstrap-cerulean.min.css' %}" rel="stylesheet">
 
     <link href="{% static 'adminpanel/css/charisma-app.css' %}" rel="stylesheet">
     <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.print.css' %}" rel='stylesheet' media='print'>
-    <link href="{% static 'adminpanel/bower_components/chosen/chosen.min.css' $}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/bower_components/chosen/chosen.min.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/bower_components/colorbox/example3/colorbox.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/bower_components/responsive-tables/responsive-tables.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' %"} rel='stylesheet'>
+    <link href="{% static 'adminpanel/bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/css/jquery.noty.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/css/noty_theme_default.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/css/elfinder.min.css' %}" rel='stylesheet'>
@@ -62,7 +63,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" class="hidden-xs"/>
+            <a class="navbar-brand" href="index.html"> <img alt="logo" src="{% static 'adminpanel/img/logo20.png' %}" class="hidden-xs"/>
                 <span>EasyBot</span></a>
 
             <!-- user dropdown starts -->
@@ -226,7 +227,7 @@
 <script src="{% static 'adminpanel/js/jquery.cookie.js' %}"></script>
 <!-- calender plugin -->
 <script src="{% static 'adminpanel/bower_components/moment/min/moment.min.js' %}"></script>
-<script src="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.min.js' $}"></script>
+<script src="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.min.js' %}"></script>
 <!-- data table plugin -->
 <script src="{% static 'adminpanel/js/jquery.dataTables.min.js' %}"></script>
 
