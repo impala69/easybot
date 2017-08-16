@@ -53,7 +53,7 @@
 </head>
 
 <body>
-    <!-- topbar starts -->
+<!-- topbar starts -->
     <div class="navbar navbar-default" role="navigation">
 
         <div class="navbar-inner">
@@ -63,7 +63,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"> <img alt="logo" src="{% static 'adminpanel/img/logo20.png' %}" class="hidden-xs"/>
+            <a class="navbar-brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" class="hidden-xs"/>
                 <span>EasyBot</span></a>
 
             <!-- user dropdown starts -->
@@ -71,10 +71,10 @@
             <div class="btn-group pull-right" role="group">
                 <button type="button" class="btn btn-default"> سفارشات</button>
                 <button type="button" class="btn btn-default"> نظرات</button>
-                <button type="button" class="btn btn-default"> دسته بندی ها</button>
+                <button type="button" class="btn btn-primary"> دسته بندی ها</button>
                 <button type="button" class="btn btn-default"> انتقادات پیشنهادات</button>
-                <button type="button" class="btn btn-default" > مشاهده کردن</button>
-                <button type="button" class="btn btn-primary">افزودن </button>
+                <button type="button" class="btn btn-default"> مشاهده کردن</button>
+                <button type="button" class="btn btn-default">افزودن </button>
                 <button type="button" class="btn btn-default"> صفحه اصلی</button>
             </div>
 
@@ -97,117 +97,56 @@
 
         </div>
     </div>
-    <!-- topbar ends -->
 
+<div class="container-fluid">
+<div class="row">
+<div class="box col-md-offset-2 col-md-10 col-sm-3 ">
+<div class="box-inner">
+    <div class="box-header well" data-original-title="">
+        <h2 style="float:right"><i  class="glyphicon glyphicon-user">دسته بندی</i> </h2>
+        <div class="box-icon" style="float: left">
+            <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                    class="glyphicon glyphicon-chevron-up"></i></a>
+            <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
+    </div>
+    </div>
+    <div class="box-content">
+    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+        <thead>
+        <tr>
+            <th style="text-align: right">تغییرات</th>
+            <th style="text-align: right">نام دسته بندی</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="center pull-right">
+            <a class="btn btn-danger" href="#">
+                <i class="glyphicon glyphicon-trash icon-white"></i>
+                حذف
+            </a>
+                <a class="btn btn-info" href="#">
+                <i class="glyphicon glyphicon-edit icon-white"></i>
+                    تغییر
+            </a>
 
-<div class="ch-container">
-    <div class="row">
+        </td>
+        </tr>
 
+        </tbody>
+    </table>
 
+    </div>
 
-
-        <noscript>
-            <div class="alert alert-block col-md-12">
-                <h4 class="alert-heading">Warning!</h4>
-
-                <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a>
-                    enabled to use this site.</p>
-            </div>
-        </noscript>
-
-        <div id="content" class="col-lg-10 col-sm-10">
-            <!-- content starts -->
-
-
-<div>
-    <ul class="breadcrumb col-md-offset-4 col-md-10 " style="text-align: right">
-        <li>
-            <a href="#">افزودن</a>
-
-        </li>
-        <li>
-            <a href="#">صفحه اصلی</a>
-        </li>
-    </ul>
+</div>
+</div>
+</div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-    <div class="container-fluid">
-
-    <div class="box  col-md-offset-7 col-md-7" >
-        <div class="box-inner">
-            <div class="box-header well" data-original-title="">
-                <h2 style="float: right"><i class="glyphicon glyphicon-star-empty"></i> افزودن</h2>
-
-
-            </div>
-            <div class="box-content">
-                <form role="form" action="/" id="adding" method="post" name="adding_form">
-
-                    <div class="form-group" style="text-align: right">
-                        <label for="categoryname">دسته بندی</label>
-                        <input style="text-align: right" type="text" class="form-control" id="categoryname" name="category_name" placeholder="">
-                    </div>
-                    <div class="form-group" style="text-align: right">
-                        <label for="productname">نام محصول</label>
-                        <input style="text-align: right" type="text" class="form-control" id="productname" name="product_name" placeholder="">
-                    </div>
-                    <div class="form-group" style="text-align: right">
-                        <label for="producttext">توضیحات</label>
-                        <input style="text-align: right" type="text" class="form-control" id="producttext" name="product_text" placeholder="">
-                    </div>
-                    <div class="form-group" style="text-align: right">
-                        <label for="productprice">قیمت</label>
-                        <input style="text-align: right" type="text" class="form-control" id="productprice" name="product_price" placeholder="">
-                    </div>
-                    <div class="form-group" style="margin-bottom: 3%;margin-top: 3%" >
-                        <label style="text-align: right ; float:right" for="productimage">عکس محصول</label>
-                        <input type="file" id="productimage" name="product_image">
-
-                    </div>
 
 
 
-                    <button style="margin-left: 90% ; width: 10% ; font-size: medium" type="submit" class="btn btn-primary btn-round">تایید</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    </div>
-        </div>
-
-
-</div><!--/row-->
-
-
-
-    <!-- content ends -->
-    </div><!--/#content.col-md-0-->
-</div><!--/fluid-row-->
-
-    <!-- Ad, you can remove it -->
-    <div class="row">
-        <div class="col-md-9 col-lg-9 col-xs-9 hidden-xs">
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- Charisma Demo 2 -->
-            <ins class="adsbygoogle"
-                 style="display:inline-block;width:728px;height:90px"
-                 data-ad-client="ca-pub-5108790028230107"
-                 data-ad-slot="3193373905"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-
-
-            <!--End mc_embed_signup-->
-        </div>
-
-    </div>
-    <!-- Ad ends -->
-
-    <hr>
+<hr>
 
 
     <footer class="row">
@@ -219,7 +158,7 @@
 
 </div><!--/.fluid-container-->
 
-<!-- external javascript -->
+
 
 <script src="{% static 'adminpanel/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
