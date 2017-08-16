@@ -136,9 +136,15 @@
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                 نمایش
             </a>
-        </td>
-        </tr>
+            </td>
+            {% for item in models_result %}
+                <td>{{item.image}}</td>
+                <td>{{item.price}}</td>
+                <td>{[item.text}}</td>
+                <td>{{item.product_name}}</td>
 
+        </tr>
+            {% endfor $}
         </tbody>
     </table>
 
