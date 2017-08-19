@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import sys
+
+from django.http import HttpResponse
 from django.shortcuts import render
 from .forms import AddProductForm
 from django.views.decorators.csrf import csrf_protect
-from django.http import HttpResponseRedirect
-sys.path.insert(0, '/E:/final/easybot/easybot/models')
-import models
+#sys.path.insert(0, '/E:/final/easybot/easybot/models')
+from easybot import models
 from django.db import IntegrityError
 from django.shortcuts import render_to_response
 
-@csrf_protect
+
+
 def adding(request):
-    print(2)
     if request.method == 'POST' :
+        print "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         print(3)
-        print models
+        print models.Customer
         adding_form = AddProductForm(request.POST)
         if adding_form.is_valid():
             product_name = adding_form.cleaned_data['product_name']
@@ -37,12 +39,12 @@ def adding(request):
 
     return render_to_response("blank.html")
 
-@csrf_protect
+
 def showing(request):
     if request.method == 'POST':
         models_result = models.Product.objects.all()
 
-@csrf_protect
+
 def success(request):
     return render(request, "admin_panel/blank.html")
 

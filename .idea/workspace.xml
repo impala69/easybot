@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="cf478aa3-a02a-4871-8f46-3e08b92c5d12" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/admin_panel/templates/blank.html" afterPath="$PROJECT_DIR$/admin_panel/templates/blank.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testak/settings.py" afterPath="$PROJECT_DIR$/testak/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/admin_panel/urls.py" afterPath="$PROJECT_DIR$/admin_panel/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/admin_panel/views.py" afterPath="$PROJECT_DIR$/admin_panel/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -85,8 +88,6 @@
         <option value="$PROJECT_DIR$/../../../easybot/admin_panel/forms.py" />
         <option value="$PROJECT_DIR$/../../../easybot/testak/settings.py" />
         <option value="$PROJECT_DIR$/../../mosiobot/mosiobot/settings.py" />
-        <option value="$PROJECT_DIR$/testak/settings.py" />
-        <option value="$PROJECT_DIR$/admin_panel/views.py" />
         <option value="$PROJECT_DIR$/easybot/management/commands/Category.py" />
         <option value="$PROJECT_DIR$/easybot/management/commands/ProductDataAccess.py" />
         <option value="$PROJECT_DIR$/easybot/models.py" />
@@ -97,6 +98,9 @@
         <option value="$USER_HOME$/AppData/Local/Temp/Rar$DIa0.169/guess.py" />
         <option value="$USER_HOME$/AppData/Local/Temp/Rar$DIa0.339/flask_deeplinking.py" />
         <option value="$USER_HOME$/Downloads/Telegram Desktop/sample.py" />
+        <option value="$PROJECT_DIR$/admin_panel/urls.py" />
+        <option value="$PROJECT_DIR$/testak/settings.py" />
+        <option value="$PROJECT_DIR$/admin_panel/views.py" />
       </list>
     </option>
   </component>
@@ -461,7 +465,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29315478" sideWeight="0.4959631" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32843137" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -723,28 +727,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/admin_panel/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.02910959" vertical-offset="0" max-vertical-offset="714">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <element signature="e#24#63#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/admin_panel/templates/blank.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.27419356" vertical-offset="153" max-vertical-offset="4505">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testak/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.494863" vertical-offset="595" max-vertical-offset="2839">
-          <caret line="52" column="1" selection-start-line="52" selection-start-column="1" selection-end-line="52" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -779,22 +765,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.59246576" vertical-offset="1575" max-vertical-offset="2227">
           <caret line="115" column="38" selection-start-line="115" selection-start-column="38" selection-end-line="115" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin_panel/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="584">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/easybot/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36643836" vertical-offset="58" max-vertical-offset="1241">
-          <caret line="18" column="7" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="7" />
           <folding />
         </state>
       </provider>
@@ -873,29 +843,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="956" max-vertical-offset="1343">
           <caret line="62" column="54" selection-start-line="62" selection-start-column="9" selection-end-line="62" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/Telegram Desktop/sample.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4" max-vertical-offset="680">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../sample.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -904,7 +852,43 @@
         <state vertical-scroll-proportion="0.30748662" vertical-offset="12499" max-vertical-offset="20485">
           <caret line="742" column="37" selection-start-line="742" selection-start-column="37" selection-end-line="742" selection-end-column="37" />
           <folding>
-            <element signature="e#281#295#0" expanded="true" />
+            <element signature="e#281#295#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/easybot/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36643836" vertical-offset="58" max-vertical-offset="1241">
+          <caret line="18" column="7" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin_panel/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.52397263" vertical-offset="0" max-vertical-offset="952">
+          <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+          <folding>
+            <element signature="e#24#63#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testak/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.4702703" vertical-offset="0" max-vertical-offset="2839">
+          <caret line="48" column="49" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin_panel/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20376712" vertical-offset="0" max-vertical-offset="584">
+          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
