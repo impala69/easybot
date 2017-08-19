@@ -19,6 +19,7 @@ class Product(models.Model):
     price = models.IntegerField(null=True)
 
 
+
 class Product_comment(models.Model):
     customer_id = models.IntegerField(null=False)
     product_id = models.IntegerField(null=False)

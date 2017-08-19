@@ -20,15 +20,16 @@ def adding(request):
             text = adding_form.cleaned_data['product_text']
             image = adding_form.cleaned_data['product_image']
             price = adding_form.cleaned_data['product_price']
-            print
+
             try:
                 new_product = models.Product(product_name=product_name,text=text,image=image,price=price)
                 print(new_product.text)
                 new_product.save()
                 print new_product
 
-            except:
-                print(5)
+            except Exception as e:
+                print('error')
+                print e
 
 
             return render_to_response("blank.html")
