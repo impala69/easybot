@@ -45,7 +45,8 @@ def adding(request):
 
 def showing(request):
     if request.method == 'POST':
-        models_result = models.Product.objects.all()
+        return render_to_response("showing.html", {'product_data':get_product_data()})
+    return render_to_response("showing.html", {'product_data':get_product_data()})
 
 
 def success(request):
@@ -64,3 +65,17 @@ def get_cats_names():
 
     return all_cat
 
+def get_product_data():
+   result = models.Product.objects.all()
+   product_data = []
+   all_product = []
+   for product in result:
+       product_data.append(product.cat_id)
+       product_data.append(product.product_name)
+       product_data.append(product.text)
+       product_data.append(product.image)
+       product_data.append(product.price)
+       all_product.append(product_data)
+       product_data = []
+
+   return all_product
