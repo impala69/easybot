@@ -59,29 +59,30 @@ class Command(BaseCommand):
 
             keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"دسته بندی ها", callback_data="categories"),InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search")],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad'), InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"وارد کردن اطلاعات شخصی برای خرید", callback_data='enterinfo_firstname')],[InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')],])
             if command == '/start':
-                #Add User if thechat_id from user not in Database
-                if not customer.check_customer_is():
-                    customer.add_customer(username)
-
-                #End Of Add User if not exist
-
                 for i in range(1,4):
                     try:
                         q = models.Sabad_Kharid(cus_id=customer, p_id_id=int(i))
                         q.save()
                     except :
                         pass
-                        #print
-                        #print "cant save:"+str(i)
+                #Add User if thechat_id from user not in Database
+                if not customer.check_customer_is():
+                    customer.add_customer(username)
+                    bot.sendPhoto(chat_id, "http://www.byronbible.org/wp-content/uploads/2013/07/Welcome-1024x576.jpg", caption="به بات گرام خوش آمدید، لطفا یکی از گزینه های زیر زیر را انتخاب کنید.", reply_markup= keyboard)
+                else:
+                    bot.sendPhoto(chat_id, "http://www.byronbible.org/wp-content/uploads/2013/07/Welcome-1024x576.jpg", caption="به بات گرام خوش آمدید، لطفا یکی از گزینه های زیر زیر را انتخاب کنید.", reply_markup= keyboard)
 
-                bot.sendMessage(chat_id , "یک گزینه را انتخاب کنید"  , reply_markup= keyboard)
+                #End Of Add User if not exist
+
+
+
 
             elif content_type == 'text' and user_state == 'search':
                 search_obj = SDA(search_word=command, page_number=1)
                 search_results = search_obj.search()
                 print list(search_results)
                 if list(search_results) == []:
-                    keyboard = InlineKeyboardMarkup(inline_keyboard=[[ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+' '+ u"بازگشت به منوی اصلی" , callback_data='return')]])
+                    keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search")], [ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+' '+ u"بازگشت به منوی اصلی" , callback_data='return')]])
                     bot.sendMessage(chat_id,"نتیجه ای یافت نشد",reply_markup=keyboard)
                     customer.unset_state()
 
@@ -92,7 +93,7 @@ class Command(BaseCommand):
                         #bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
                         caption=u"نام محصول: "+product.show_product()['Name']
                         bot.sendPhoto(chat_id,product.show_product()['Image'],caption=caption,reply_markup=keyboard_1)
-                    keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize( " :arrow_right:",use_aliases=True)+ " " + u"نمایش ۱۰ محصول بعدی" ,callback_data='morenext'),InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+ "  " + u"بازگشت به منوی اصلی", callback_data='return')]])
+                    keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize( " :arrow_right:",use_aliases=True)+ " " + u"نمایش ۱۰ محصول بعدی" ,callback_data='morenext')],[InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+ "  " + u"بازگشت به منوی اصلی", callback_data='return')]])
                     bot.sendMessage(chat_id,"  نتیجه جستجوی شما  ", reply_markup=keyboard_morenext)
                     customer.set_current(current_word='search_' + command + '_1')
                     customer.unset_state()
@@ -178,7 +179,7 @@ class Command(BaseCommand):
             #Return to main Menu
             if query_data == u'return':
                 keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"دسته بندی ها", callback_data="categories"),InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search")],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad'), InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"وارد کردن اطلاعات شخصی برای خرید", callback_data='enterinfo_firstname')],[InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')],])
-                bot.sendMessage(from_id , "یک گزینه را انتخاب کنید"  , reply_markup= keyboard)
+                bot.sendPhoto(from_id, "https://www.turbogram.co/static/images/homepage/icon-6.8cebe055d143.png", caption="منوی اصلی، لطفا یکی از گزینه های زیر زیر را انتخاب کنید.", reply_markup= keyboard)
                 #button for return
                 #[ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')]
 
@@ -267,10 +268,16 @@ class Command(BaseCommand):
             #When User Click on ten more product
             if query_data == u'morenext':
 
-                current = customer.get_current_cat()
-                current_info = current.split("_")
-                current_state = current_info[0]
-                current_page = int(current_info[2])
+                try:
+                    current = customer.get_current_cat()
+                    current_info = current.split("_")
+                    current_state = current_info[0]
+                    current_page = int(current_info[2])
+                except:
+                    current = customer.get_current()
+                    current_info = current.split("_")
+                    current_state = current_info[0]
+                    current_page = int(current_info[2])
 
                 if current_state == u'cat':
                     cat_id = str(current_info[1])
