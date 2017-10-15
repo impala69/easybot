@@ -52,6 +52,9 @@ def showing(request):
 def success(request):
     return render(request, "admin_panel/blank.html")
 
+def orders(request):
+    return render_to_response("orders.html", {'orders_data':get_all_orders()})
+
 
 def get_cats_names():
     result = models.Category.objects.filter()
@@ -79,3 +82,7 @@ def get_product_data():
        product_data = []
 
    return all_product
+
+def get_all_orders():
+    result = models.Order.objects.all()
+    return result
