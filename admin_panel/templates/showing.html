@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,11 +73,11 @@
             <!-- navbar buttons starts -->
             <div class="btn-group pull-right" role="group">
                 <button type="button" class="btn btn-default"> سفارشات</button>
-                <button type="button" class="btn btn-default"> نظرات</button>
-                <button type="button" class="btn btn-default"> دسته بندی ها</button>
-                <button type="button" class="btn btn-default"> انتقادات پیشنهادات</button>
-                <button type="button" class="btn btn-primary"> مشاهده کردن</button>
-                <button type="button" class="btn btn-default">افزودن </button>
+                <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
+                <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
+                <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
+                <button type="button" class="btn btn-primary"><a href="showing.html"> مشاهده کردن</a></button>
+                <button type="button" class="btn btn-default"><a href="adding.html"> افزودن </a></button>
                 <button type="button" class="btn btn-default"> صفحه اصلی</button>
             </div>
 
@@ -125,15 +126,83 @@
         </thead>
         <tbody>
         <tr>
-            {% for data in product_data %}
+
+
+
+            {% for i in range(product_data|length) %}
+
+
+
             <td class="center ">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-success btn-sm" style="float: right">
+
+                    <button type="button" class="btn btn-success btn-sm" style="float: right" data-toggle="modal" data-target="#showingmodal{{ i  }}" id=forloop.counter>
 
                             <i class="glyphicon glyphicon-zoom-in icon-white"></i>
+
                             نمایش
 
                     </button>
+
+<!-- showingmodal -->
+  <div class="modal fade " id="showingmodal{{ i }}" tabindex="0" role="dialog" aria-labelledby="showingmodal{{ i }}" aria-hidden="true" style="padding-top: 9% ; ">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle" style="text-align:right ;  ">نمایش محصول</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-9">
+                     <table class="table table-strpied table-bordered  responsive" >
+            <thead>
+            <tr>
+
+                <th style="text-align: right"> عکس محصول</th>
+                <th style="text-align: right"> قیمت</th>
+                <th style="text-align: right"> توضیحات </th>
+                <th style="text-align: right">نام محصول</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+
+
+            <tr>
+
+
+
+
+                <td>{{data.3}}</td>
+                <td>{{data.4}}</td>
+                <td>{{data.2}}</td>
+                <td>{{data.1}}</td>
+
+            </tr>
+
+
+            </tbody>
+
+
+        </table>
+                      </div>
+                  </div>
+      </div>
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- /showingmodal -->
                     <button type="button" class="btn btn-info btn-sm" style="float: right">
 
                             <i class="glyphicon glyphicon-edit icon-white"></i>
@@ -147,20 +216,26 @@
 
                     </button>
                 </div>
+
             </td>
 
-                <td>{{data.3}}</td>
+                <td>{{button.id}}</td>
                 <td>{{data.4}}</td>
                 <td>{{data.2}}</td>
                 <td>{{data.1}}</td>
 
+
         </tr>
-            {% endfor %}
+        <!--{% set i = i+1 %}-->
+        {% endfor %}
+        <!--{% endwith %}-->
+
         </tbody>
 
     </table>
 
     </div>
+
 
 </div>
 </div>
