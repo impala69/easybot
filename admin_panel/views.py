@@ -40,13 +40,30 @@ def adding(request):
 
 
 
-    return render_to_response("blank.html", {'cat_data': get_cats_names() })
+    return render_to_response("adding.html", {'cat_data': get_cats_names() })
 
 
 def showing(request):
     if request.method == 'POST':
         return render_to_response("showing.html", {'product_data':get_product_data()})
-    return render_to_response("showing.html", {'product_data':get_product_data()})
+    return render_to_response("showing.html", {'product_data':get_product_data() , 'range' : len(get_product_data())})
+
+
+def enteghadat(request):
+    if request.method == 'POST':
+        return render_to_response("enteghadat.html" , {'comments': get_comments()})
+    return render_to_response("enteghadat.html" , {'comments' : get_comments()})
+
+
+def category(request):
+    if request.method == 'POST':
+        return render_to_response("category.html" , {'cat_data' : get_cats_names()})
+    return render_to_response("category.html" , {'cat_data' : get_cats_names()})
+
+def comments(request):
+    if request.method == 'POST':
+        return render_to_response("comments.html" , {'p_comment' : get_product_comments()})
+    return render_to_response('comments.html' , {'p_comment' : get_product_comments()})
 
 
 def success(request):
@@ -83,6 +100,26 @@ def get_product_data():
 
    return all_product
 
-def get_all_orders():
-    result = models.Order.objects.all()
-    return result
+def get_comments():
+    result = models.Comment.objects.all()
+    comments = []
+    all_comments = []
+    for comment in result:
+        comments.append(comment.telegram_id)
+        comments.append(comment.comment)
+        comments.append(comment.comment_cat)
+        all_comments.append(comments)
+        comments = []
+    return all_comments
+
+def get_product_comments():
+    result = models.Product_comment.objects.all()
+    comments = []
+    all_comments = []
+    for comment in result:
+        comments.append(comment.customer_id)
+        comments.append(comment.product_id)
+        comments.append(comment.text_comment)
+        all_comments.append(comments)
+        comments = []
+    return all_comments
