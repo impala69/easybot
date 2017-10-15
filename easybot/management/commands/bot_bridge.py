@@ -430,6 +430,18 @@ class Command(BaseCommand):
                     notification="dislike deleted"
                     bot.answerCallbackQuery(query_id, text=notification)
 
+                if "do_dislike" in query_data:
+                    query = query_data.rsplit()
+                    product_id = query[-1]
+                    product = PDA(t_id=from_id, p_id=product_id)
+                    flag = product.dislike()
+                    if (flag):
+                        notification = "dislike done"
+                        bot.answerCallbackQuery(query_id, text=notification)
+                    else:
+                        notification = "dislike deleted"
+                        bot.answerCallbackQuery(query_id, text=notification)
+
                 product=PDA(p_id=product_id)
                 like_counts=product.get_likes()
                 dislike_counts=product.get_dislikes()
@@ -465,10 +477,36 @@ class Command(BaseCommand):
                     bot.answerCallbackQuery(query_id, text=notification)
 
             if "add_one_more" in query_data:
-                query_data=query_data.rsplit()
+                query=query_data.rsplit()
                 product_id = query[-1]
                 shopping_cart = SHC(c_id=customer_id, p_id=product_id)
-                shopping_cart.add_remove(1)
+                flag = shopping_cart.add_remove(1)
+                if flag:
+                    notification = "به تعداد محصول شما افزوده شد"
+                    bot.answerCallbackQuery(query_id, text=notification)
+                else:
+                    notification = "انجام عملیات مقدور نبود"
+                    bot.answerCallbackQuery(query_id, text=notification)
+
+                # cart=SHC(c_id=customer_id,p_id=product_id)
+                # cart_object=cart.get_object()
+                # identifier = msg["message"]
+                # keyboard_3 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=u"حذف از سبد خرید"+emoji.emojize(" :x:",use_aliases=True)+"\n"+u"موجود: "+str(cart_object.number), callback_data="del_from_cart "+str(cart_object.p_id))],[InlineKeyboardButton(text=u"کاستن", callback_data="remove_one_more "+str(cart_object.p_id)),InlineKeyboardButton(text=u"افزودن", callback_data="add_one_more "+str(cart_object.p_id))]])
+                # msg_identifier=telepot.message_identifier(identifier)
+                # telepot.Bot.editMessageReplyMarkup(bot,msg_identifier=msg_identifier,reply_markup=keyboard_3)
+
+            if "remove_one_more" in query_data:
+                query=query_data.rsplit()
+                product_id = query[-1]
+                shopping_cart = SHC(c_id=customer_id, p_id=product_id)
+                flag = shopping_cart.add_remove(-1)
+                if flag:
+                    notification = "از تعداد محصول شما کاسته شد"
+                    bot.answerCallbackQuery(query_id, text=notification)
+                else:
+                    notification = "انجام عملیات مقدور نبود"
+                    bot.answerCallbackQuery(query_id, text=notification)
+
 
             if query_data == u"enteghadstart":
                 allcats = CatDA()
