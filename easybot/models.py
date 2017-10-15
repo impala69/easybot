@@ -17,6 +17,7 @@ class Product(models.Model):
     text = models.TextField(null=True)
     image = models.CharField(max_length=255, null=True)
     price = models.IntegerField(null=True)
+    numbers = models.IntegerField(null=True)
 
 
 
@@ -68,3 +69,9 @@ class Comment(models.Model):
     comment = models.TextField(null=False)
     comment_cat = models.IntegerField(null=True)
 
+class Order(models.Model):
+    cus_id = models.ForeignKey(to=Customer,on_delete=models.CASCADE)
+    additional_info = models.TextField(null=True)
+
+    def __unicode__(self):
+        return (unicode(self.id)+'V'+unicode(self.cus_id))
