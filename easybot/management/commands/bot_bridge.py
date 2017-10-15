@@ -248,7 +248,9 @@ class Command(BaseCommand):
                     bot.sendMessage(from_id,"محصولی در سبد خرید شما موجود نیست" , reply_markup=keyboard)
                 else:
                     bot.sendMessage(from_id," سبد خرید شما")
-                    for product in products:
+                    for product_plus_number in products:
+                        product = product_plus_number[0]
+                        numnber = product_plus_number[1]
                         name=u'نام محصول: '
                         text=u'توضیحات: '
                         price=u'قیمت: '
@@ -258,11 +260,12 @@ class Command(BaseCommand):
                         caption_price=price+str(product.price)+'\n'
                         caption=caption_name+caption_price
                         product_id=product.id
-                        keyboard_sabad = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=u"حذف از سبد خرید"+emoji.emojize(" :x:",use_aliases=True), callback_data="del_from_cart "+str(product_id))]])
+                        keyboard_sabad = InlineKeyboardMarkup(
+                            inline_keyboard=[[InlineKeyboardButton(text=u"حذف از سبد خرید"+emoji.emojize(" :x:",use_aliases=True)+"\n"+u"موجود: "+str(numnber), callback_data="del_from_cart "+str(product_id))],[InlineKeyboardButton(text=u"کاستن", callback_data="remove_one_more "+str(product_id)),InlineKeyboardButton(text=u"افزودن", callback_data="add_one_more "+str(product_id))]])
 
                         bot.sendPhoto(from_id,photo=product.image,caption=caption,reply_markup=keyboard_sabad)
                         bot.sendMessage(from_id,text=caption_text)
-                        dd
+
 
             #End Of Sabad_kharid Button
 
@@ -460,6 +463,12 @@ class Command(BaseCommand):
                 else:
                     notification="این محصول در سبد شما وجود ندارد"
                     bot.answerCallbackQuery(query_id, text=notification)
+
+            if "add_one_more" in query_data:
+                query_data=query_data.rsplit()
+                product_id = query[-1]
+                shopping_cart = SHC(c_id=customer_id, p_id=product_id)
+                shopping_cart.add_remove(1)
 
             if query_data == u"enteghadstart":
                 allcats = CatDA()

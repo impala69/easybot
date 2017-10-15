@@ -42,6 +42,8 @@ class Customer(models.Model):
 class Sabad_Kharid(models.Model):
     cus_id = models.ForeignKey(to=Customer,on_delete=models.CASCADE)
     p_id = models.ForeignKey(to=Product,on_delete=models.CASCADE)
+    number = models.IntegerField(null=False,default=1)
+    ordered = models.BooleanField(null=False,default=False)
 
     class Meta:
         unique_together= ('cus_id','p_id')
