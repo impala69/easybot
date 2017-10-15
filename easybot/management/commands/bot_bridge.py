@@ -262,6 +262,7 @@ class Command(BaseCommand):
 
                         bot.sendPhoto(from_id,photo=product.image,caption=caption,reply_markup=keyboard_sabad)
                         bot.sendMessage(from_id,text=caption_text)
+                        dd
 
             #End Of Sabad_kharid Button
 
