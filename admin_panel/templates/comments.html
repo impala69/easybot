@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,8 +21,6 @@
         EasyBot
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <!-- The styles -->
     <link id="bs-css" href="{% static 'adminpanel/css/bootstrap-cerulean.min.css' %}" rel="stylesheet">
 
@@ -52,18 +49,8 @@
 
     <!-- The fav icon -->
     <link rel="shortcut icon" href="{% static 'adminpanel/img/favicon.ico' %}">
-    <style>
-        @font-face {
-            font-family: "Iranian Sans";
-            url({% static 'adminpanel/fonts/iraniansans.ttf' %})
-        }
-        body{
-            font-family: "Iranian Sans";
-        }
-    </style>
 
 </head>
-
 <body>
     <!-- topbar starts -->
     <div class="navbar navbar-default" role="navigation">
@@ -86,7 +73,7 @@
                 <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
                 <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
                 <button type="button" class="btn btn-primary"><a href="showing.html"> مشاهده کردن</a></button>
-                <button type="button" class="btn btn-default"><a href="adding.html"> افزودن </a></button>
+                <button type="button" class="btn btn-default"><a href=adding.html"> افزودن </a></button>
                 <button type="button" class="btn btn-default"> صفحه اصلی</button>
             </div>
 
@@ -127,94 +114,36 @@
         <thead>
         <tr>
             <th style="text-align: right"> تغییرات</th>
-            <th style="text-align: right"> عکس محصول</th>
-            <th style="text-align: right"> قیمت</th>
-            <th style="text-align: right"> توضیحات </th>
-            <th style="text-align: right">نام محصول</th>
+            <th style="text-align: right"> آیدی خریدار</th>
+            <th style="text-align: right"> کد محصول</th>
+            <th style="text-align: right"> نظر</th>
+
         </tr>
         </thead>
         <tbody>
         <tr>
 
 
+        {% for comment in p_comment %}
 
-            {% for data in product_data %}
+            <td class="center ">
+                <div class="btn-group" role="group">
 
+                    <button type="button" class="btn btn-success btn-sm" style="float: right" data-toggle="modal" data-target="#showingmodal" id=data.0>
 
-
-            <td style="    width: 16%;" class="center ">
-                <!-- showingmodal -->
-  <div class="modal fade " id="showingmodal{{ data.0 }}" tabindex="0" role="dialog" aria-labelledby="showingmodal{{ data.0 }}" aria-hidden="true" style="padding-top: 9% ; ">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle" style="text-align:right ;  ">نمایش محصول</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" >
-          <div class="container">
-              <div class="row">
-                  <div class="col-md-9">
-                     <table class="table table-strpied table-bordered  responsive" >
-            <thead>
-            <tr>
-
-                <th style="text-align: right"> عکس محصول</th>
-                <th style="text-align: right"> قیمت</th>
-                <th style="text-align: right"> توضیحات </th>
-                <th style="text-align: right">نام محصول</th>
-            </tr>
-            </thead>
-
-            <tbody>
-
-
-
-            <tr>
-
-
-
-
-                <td>{{data.4}}</td>
-                <td>{{data.5}}</td>
-                <td>{{data.3}}</td>
-                <td>{{data.2}}</td>
-
-            </tr>
-
-
-            </tbody>
-
-
-        </table>
-                      </div>
-                  </div>
-      </div>
-          </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- /showingmodal -->
-                <div class="row" >
-                    <button type="button" class="btn btn-success btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small" data-toggle="modal" data-target="#showingmodal{{ data.0  }}">
                             <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-
                             نمایش
 
                     </button>
-                    <button type="button" class="btn btn-info btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small">
+
+
+                    <button type="button" class="btn btn-info btn-sm" style="float: right">
 
                             <i class="glyphicon glyphicon-edit icon-white"></i>
                             تغییر
 
                     </button>
-                    <button type="button" class="btn btn-danger btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small">
+                    <button type="button" class="btn btn-danger btn-sm" style="float: right">
 
                             <i class="glyphicon glyphicon-trash icon-white"></i>
                             حذف
@@ -223,48 +152,15 @@
                 </div>
 
             </td>
+                <td> {{comment.1}}</td>
+                <td> {{comment.2}}</td>
+                <td> {{comment.3}}</td>
 
-                <td>
-                          <!-- showingmodal -->
-  <div class="modal fade " id="showingmodal_image{{ data.0 }}" tabindex="0" role="dialog" aria-labelledby="showingmodal_image{{ data.0 }}" aria-hidden="true" style="padding-top: 9% ; ">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle" style="text-align:right ;  ">نمایش محصول</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" >
-          <div class="container">
-              <div class="row">
-                  <img src="{{data.4}}" class="img img-thumbnail img-responsive">
-              </div>
-      </div>
-          </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- /showingmodal -->
-                    <button type="button" class="btn btn-info btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small" data-toggle="modal" data-target="#showingmodal_image{{ data.0  }}">
-
-                            <i class="glyphicon glyphicon-trash icon-white"></i>
-تصویر
-
-                    </button></td>
-                <td style="text-align: right;direction: rtl">{{data.5}}</td>
-                <td style="text-align: right;direction: rtl">{{data.3}}</td>
-                <td style="text-align: right;direction: rtl">{{data.2}}</td>
 
 
         </tr>
-
-        {% endfor %}
-
+{% endfor %}
 
         </tbody>
 
@@ -285,22 +181,14 @@
 
 
     <footer class="row">
-        <p style="text-align: center" class="col-md-offset-3 col-sm-offset-3col-md-6 col-sm-6 col-xs-12 copyright">&copy; <a href="#" target="_blank">طراحی شده توسط تیم بات گرام</a></p>
-    </footer>
+        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="#" target="_blank">EasyBot</a> 2012 - 2015</p>
 
+        <p class="col-md-3 col-sm-3 col-xs-12 powered-by">Powered by: <a
+                href="#">EasyBot</a></p>
+    </footer>
 </div><!--/.fluid-container-->
 
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <!-- external javascript -->
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-
-<!-- (Optional) Latest compiled and minified JavaScript translation files -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
-
 
 <script src="{% static 'adminpanel/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 

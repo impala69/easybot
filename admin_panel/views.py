@@ -87,6 +87,7 @@ def get_product_data():
    product_data = []
    all_product = []
    for product in result:
+       product_data.append(product.pk)
        product_data.append(product.cat_id)
        product_data.append(product.product_name)
        product_data.append(product.text)
