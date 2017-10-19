@@ -138,9 +138,7 @@ def get_all_orders():
         customer = models.Customer.objects.get(pk=customer_id)
         customer_data = {'f_name': customer.first_name, "l_name": customer.last_name,"address": customer.address,"phone": customer.phone,"username": customer.username}
         one_order.append(customer_data)
-        print one_order
         products = models.Order_to_product.objects.filter(order_id_id=order.pk)
-        print products
         all_products = []
         for product in products:
             p_data = return_product(product.product_id_id)
