@@ -5,11 +5,15 @@
 <<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/easybot.db" afterPath="$PROJECT_DIR$/db/easybot.db" />
 =======
+<<<<<<< HEAD
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/easybot.db" afterPath="$PROJECT_DIR$/db/easybot.db" />
+=======
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/testak.iml" afterPath="$PROJECT_DIR$/.idea/testak.iml" />
 >>>>>>> 0854fb4ae5b5a29d5e2e60211240ca6a3dcfa640
+>>>>>>> 7f886ada062d59c32fc442169a4acb6c166214b7
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/easybot/models.py" afterPath="$PROJECT_DIR$/easybot/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/easybot/management/commands/bot_bridge.py" afterPath="$PROJECT_DIR$/easybot/management/commands/bot_bridge.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -77,10 +81,37 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/easybot/models.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="352">
+              <caret line="18" column="42" lean-forward="true" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
+=======
             <state relative-caret-position="658">
               <caret line="72" column="49" lean-forward="true" selection-start-line="72" selection-start-column="49" selection-end-line="72" selection-end-column="49" />
 >>>>>>> 0854fb4ae5b5a29d5e2e60211240ca6a3dcfa640
+>>>>>>> 7f886ada062d59c32fc442169a4acb6c166214b7
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Shopping_Card.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/easybot/management/commands/Shopping_Card.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="66">
+              <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bot_bridge.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/easybot/management/commands/bot_bridge.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1600">
+              <caret line="94" column="113" lean-forward="false" selection-start-line="94" selection-start-column="113" selection-end-line="94" selection-end-column="113" />
+              <folding>
+                <element signature="e#32759#33523#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -101,6 +132,7 @@
       <find>polls</find>
       <find>Question</find>
       <find>models.</find>
+      <find>shopping_cart</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -141,7 +173,6 @@
         <option value="$PROJECT_DIR$/easybot/management/commands/Category.py" />
         <option value="$PROJECT_DIR$/easybot/management/commands/ProductDataAccess.py" />
         <option value="$PROJECT_DIR$/easybot/management/commands/CustomerDataAccess.py" />
-        <option value="$PROJECT_DIR$/easybot/management/commands/bot_bridge.py" />
         <option value="$USER_HOME$/Downloads/Programs/downloaderFromFPP.py" />
         <option value="$USER_HOME$/sample.py" />
         <option value="$USER_HOME$/AppData/Local/Temp/Rar$DIa0.169/guess.py" />
@@ -152,6 +183,7 @@
         <option value="$PROJECT_DIR$/admin_panel/views.py" />
         <option value="$PROJECT_DIR$/admin_panel/templates/blank.html" />
         <option value="$PROJECT_DIR$/easybot/models.py" />
+        <option value="$PROJECT_DIR$/easybot/management/commands/bot_bridge.py" />
       </list>
     </option>
   </component>
@@ -998,6 +1030,8 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
     <entry file="file://$PROJECT_DIR$/easybot/management/commands/bot_bridge.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1006,6 +1040,7 @@
         </state>
       </provider>
     </entry>
+>>>>>>> 7f886ada062d59c32fc442169a4acb6c166214b7
     <entry file="file://$PROJECT_DIR$/admin_panel/templates/blank.html">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
@@ -1055,14 +1090,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/easybot/management/commands/Shopping_Card.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/easybot/management/commands/bot_bridge.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1600">
+          <caret line="94" column="113" lean-forward="false" selection-start-line="94" selection-start-column="113" selection-end-line="94" selection-end-column="113" />
+          <folding>
+            <element signature="e#32759#33523#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/easybot/models.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="352">
+          <caret line="18" column="42" lean-forward="true" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
+=======
         <state vertical-scroll-proportion="0.4900901" vertical-offset="0" max-vertical-offset="1258">
           <caret line="18" column="42" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
 =======
         <state relative-caret-position="658">
           <caret line="72" column="49" lean-forward="true" selection-start-line="72" selection-start-column="49" selection-end-line="72" selection-end-column="49" />
 >>>>>>> 0854fb4ae5b5a29d5e2e60211240ca6a3dcfa640
+>>>>>>> 7f886ada062d59c32fc442169a4acb6c166214b7
           <folding />
         </state>
       </provider>

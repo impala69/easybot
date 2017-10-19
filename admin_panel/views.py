@@ -69,8 +69,9 @@ def comments(request):
 def success(request):
     return render(request, "admin_panel/blank.html")
 
+
 def orders(request):
-    return render_to_response("orders.html", {'orders_data':get_all_orders()})
+    return render_to_response("orders.html", {'orders_data': get_all_orders()})
 
 
 def get_cats_names():
@@ -90,6 +91,7 @@ def get_product_data():
    product_data = []
    all_product = []
    for product in result:
+       product_data.append(product.pk)
        product_data.append(product.cat_id)
        product_data.append(product.product_name)
        product_data.append(product.text)
@@ -123,3 +125,6 @@ def get_product_comments():
         all_comments.append(comments)
         comments = []
     return all_comments
+
+def get_all_orders():
+    pass
