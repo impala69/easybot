@@ -1,21 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import emoji
+import telepot
+import time
 from django.core.management.base import BaseCommand
-import telepot, time
 from telepot.namedtuple import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup
-from django.shortcuts import get_object_or_404
+
+from Category import CategoryDataAccess as CatDA
+from Comment import CommentDataAccess as com_DA
 from CustomerDataAccess import CustomerDataAccess as CDA
 from ProductDataAccess import ProductDataAccess as PDA
-from Shopping_Card import ShoppingCard as SHC
-from Category import CategoryDataAccess as CatDA
 from Search import SearchDataAccess as SDA
-from Comment import CommentDataAccess as com_DA
-
-
-import emoji
-
-
+from Shopping_Card import ShoppingCard as SHC
 from ... import models
 
 
@@ -264,7 +261,7 @@ class Command(BaseCommand):
                             inline_keyboard=[[InlineKeyboardButton(text=u"حذف از سبد خرید"+emoji.emojize(" :x:",use_aliases=True)+"\n"+u"موجود: "+str(numnber), callback_data="del_from_cart "+str(product_id))],[InlineKeyboardButton(text=u"کاستن", callback_data="remove_one_more "+str(product_id)),InlineKeyboardButton(text=u"افزودن", callback_data="add_one_more "+str(product_id))]])
 
                         bot.sendPhoto(from_id,photo=product.image,caption=caption,reply_markup=keyboard_sabad)
-                        bot.sendMessage(from_id,text=caption_text)
+                        # bot.sendMessage(from_id,text=caption_text)
 
 
             #End Of Sabad_kharid Button
@@ -471,6 +468,10 @@ class Command(BaseCommand):
                 if(flag):
                     notification="محصول با موفقیت از سبد خرید حذف شد"
                     bot.answerCallbackQuery(query_id, text=notification)
+                    identifier = msg["message"]
+                    msg_identifier=telepot.message_identifier(identifier)
+                    telepot.Bot.deleteMessage(bot, msg_identifier=msg_identifier)
+
 
                 else:
                     notification="این محصول در سبد شما وجود ندارد"
