@@ -2,20 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--
-        ===
-        This comment should NOT be removed.
 
-        Charisma v2.0.0
-
-        Copyright 2012-2014 Muhammad Usman
-        Licensed under the Apache License v2.0
-        http://www.apache.org/licenses/LICENSE-2.0
-
-        http://usman.it
-        http://twitter.com/halalit_usman
-        ===
-    -->
     <meta charset="utf-8">
     <title>
         EasyBot
@@ -50,7 +37,18 @@
 
     <!-- The fav icon -->
     <link rel="shortcut icon" href="{% static 'adminpanel/img/favicon.ico' %}">
-
+  <style>
+        @font-face {
+        font-family: "Iranian Sans";
+        src: url({% static 'adminpanel/fonts/iraniansans.ttf' %});
+        }
+        body{
+        font-family: "Iranian Sans";
+        }
+        h2, h5{
+        font-family: "Iranian Sans";
+        }
+    </style>
 </head>
 
 <body>
@@ -230,14 +228,11 @@
     <hr>
 
 
-    <footer class="row">
-        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="#" target="_blank">EasyBot</a> 2012 - 2015</p>
 
-        <p class="col-md-3 col-sm-3 col-xs-12 powered-by">Powered by: <a
-                href="#">EasyBot</a></p>
+<footer class="row">
+        <p style="text-align: center" class="col-md-offset-3 col-sm-offset-3col-md-6 col-sm-6 col-xs-12 copyright">&copy; <a href="#" target="_blank">طراحی شده توسط تیم بات گرام</a></p>
     </footer>
 
-</div><!--/.fluid-container-->
 
 <!-- external javascript --><!-- Latest compiled and minified CSS -->
 
