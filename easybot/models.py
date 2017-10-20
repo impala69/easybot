@@ -17,7 +17,7 @@ class Product(models.Model):
     text = models.TextField(null=True)
     image = models.CharField(max_length=255, null=True)
     price = models.IntegerField(null=True)
-    numbers = models.IntegerField(null=True)
+    numbers = models.IntegerField(null=False, default=1)
 
 
 class Product_comment(models.Model):

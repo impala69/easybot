@@ -21,12 +21,14 @@ class ShoppingCard:
             cart.delete()
             return True
 
-    def add_remove(self,numbers):
-        cart = models.Sabad_Kharid.objects.get(cus_id=self.__c_id,p_id=self.__p_id)
-        cart.number+=numbers
+    def add_remove(self, numbers):
+        print self.__c_id
+        print self.__p_id
+        cart = models.Sabad_Kharid.objects.get(cus_id=self.__c_id, p_id=self.__p_id)
+        cart.number += numbers
         print cart.number
         if numbers > 0:
-            if models.Product.objects.get(id=self.__p_id).numbers > cart.number:
+            if models.Product.objects.get(id=self.__p_id).numbers >= cart.number:
                 print "can add more"
                 cart.save()
                 return True
@@ -34,7 +36,7 @@ class ShoppingCard:
                 print "cant add more"
                 return False
         elif numbers < 0:
-            if cart.number >= 0:
+            if cart.number > 0:
                 print "can remove more"
                 cart.save()
                 return True
@@ -53,4 +55,4 @@ class ShoppingCard:
             return False
 
     def get_object(self):
-        return models.Sabad_Kharid.objects.get(p_id=self.__p_id,cus_id=self.__c_id)
+        return models.Sabad_Kharid.objects.get(p_id=self.__p_id, cus_id=self.__c_id)
