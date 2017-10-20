@@ -13,6 +13,7 @@ from CustomerDataAccess import CustomerDataAccess as CDA
 from ProductDataAccess import ProductDataAccess as PDA
 from Search import SearchDataAccess as SDA
 from Shopping_Card import ShoppingCard as SHC
+from Order import Order
 from ... import models
 
 
@@ -155,8 +156,14 @@ class Command(BaseCommand):
                 for product in sabad_products:
                     sabad_product = SHC(c_id=customer_id, p_id=product[0])
                     sabad_product.del_from_cart()
-                customer.unset_state()
-                bot.sendMessage(chat_id, "خرید با موفقیت انجام شد")
+                order = Order(c_id=customer_id, order_time=time.time(), info=command)
+                is_order_done = order.add_card_to_order()
+                if is_order_done:
+                    customer.unset_state()
+                    bot.sendMessage(chat_id, "خرید با موفقیت انجام شد")
+                else:
+                    bot.sendMessage(chat_id, "مشکلی بوجود آمده")
+
 
 
 

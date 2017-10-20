@@ -77,7 +77,7 @@ class Order(models.Model):
     cus_id = models.ForeignKey(to=Customer, on_delete=models.CASCADE)
     additional_info = models.TextField(null=True)
     order_time = models.CharField(max_length=30, null=True)
-    arrived = models.IntegerField(default=0)
+    arrived = models.BooleanField(default=False)
 
     def __unicode__(self):
         return (unicode(self.id) + 'V' + unicode(self.cus_id))
