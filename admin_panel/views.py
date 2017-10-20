@@ -56,11 +56,24 @@ def showing(request):
             text = edit_form.cleaned_data['text_form']
             image = edit_form.cleaned_data['pic_form']
             price = edit_form.cleaned_data['price_form']
+            number = edit_form.cleaned_data['num_form']
             product_object = models.Product.objects.get(pk=product_id)
+            try:
+                product_object[0] = cat_id
+                product_object[1] = product_name
+                product_object[2] = text
+                product_object[3] = image
+                product_object[4] = price
+                product_object[5] = number
+            except Exception as e:
+                print('error')
+                print e
+
+
 
 
         return render_to_response("showing.html", {'product_data':get_product_data()},{'cat_data': get_cats_names() })
-    print(models.Product.objects.get(pk=81))
+
     return render_to_response("showing.html", {'product_data':get_product_data() , 'range' : len(get_product_data())},{'cat_data': get_cats_names() })
 
 
@@ -87,6 +100,13 @@ def editDescription(request):
         new_description = request.POST['edit_description']
         update_description(order_id=order_id, new_desc=new_description)
         return redirect('/admin-panel/orders/')
+
+
+def deletecomment(request):
+    if request.method == 'GET':
+        cm_id = int(request.GET['cm_id'])
+        delete_comment(cm_id)
+        return redirect('/admin-panel/comments/')
 
 
 def arrived(request):
@@ -147,7 +167,8 @@ def get_product_comments():
     comments = []
     all_comments = []
     for comment in result:
-        comments.append(comment.customer_id)
+        comments.append(comment.pk)
+        comments.append(return_username(comment.customer_id))
         comments.append(comment.product_id)
         comments.append(comment.text_comment)
         all_comments.append(comments)
@@ -203,4 +224,21 @@ def update_arrival(order_id):
         return 1
     except Exception as e:
         print e
+        return 0
+
+
+def delete_comment(cm_id):
+    try:
+        comment = models.Product_comment.objects.get(pk=cm_id)
+        comment.delete()
+        return 1
+    except Exception as e:
+        return 0
+
+
+def return_username(cus_id):
+    try:
+        customer = models.Customer.objects.get(pk=cus_id)
+        return customer.username
+    except Exception as e:
         return 0

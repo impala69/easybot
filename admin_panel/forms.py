@@ -8,6 +8,7 @@ class AddProductForm(forms.Form):
     product_image = forms.CharField(label='ProductImage' , max_length=30)
 
 class EditProductForm(forms.Form):
+    num_form = forms.IntegerField(label="ProductNumber")
     pic_form = forms.CharField(max_length=30, label='ProductImage')
     price_form = forms.IntegerField(label="ProductPrice")
     detail_form = forms.CharField(label='ProductText', max_length=30)

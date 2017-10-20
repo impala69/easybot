@@ -49,7 +49,18 @@
 
     <!-- The fav icon -->
     <link rel="shortcut icon" href="{% static 'adminpanel/img/favicon.ico' %}">
-
+  <style>
+        @font-face {
+        font-family: "Iranian Sans";
+        src: url({% static 'adminpanel/fonts/iraniansans.ttf' %});
+        }
+        body{
+        font-family: "Iranian Sans";
+        }
+        h2, h5{
+        font-family: "Iranian Sans";
+        }
+    </style>
 </head>
 <body>
     <!-- topbar starts -->
@@ -102,7 +113,7 @@
 <div class="box col-md-12 col-sm-3 ">
 <div class="box-inner">
     <div class="box-header well" data-original-title="">
-        <h2 style="float:right"><i  style="padding-right: 2%" class="glyphicon glyphicon-user"> محصولات</i> </h2>
+        <h2 style="float:right">نظرات در یک نگاه</h2>
         <div class="box-icon" style="float: left">
             <a href="#" class="btn btn-minimize btn-round btn-default"><i
                     class="glyphicon glyphicon-chevron-up"></i></a>
@@ -126,35 +137,23 @@
 
         {% for comment in p_comment %}
 
-            <td class="center ">
+            <td style="text-align: right;" class="center ">
                 <div class="btn-group" role="group">
 
-                    <button type="button" class="btn btn-success btn-sm" style="float: right" data-toggle="modal" data-target="#showingmodal" id=data.0>
-
-                            <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                            نمایش
-
-                    </button>
-
-
-                    <button type="button" class="btn btn-info btn-sm" style="float: right">
-
-                            <i class="glyphicon glyphicon-edit icon-white"></i>
-                            تغییر
-
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm" style="float: right">
+                    <a href="/admin-panel/deletecomment?cm_id={{comment.0}}">
+                        <button type="button" class="btn btn-danger btn-sm" style="float: right">
 
                             <i class="glyphicon glyphicon-trash icon-white"></i>
                             حذف
 
                     </button>
+                    </a>
                 </div>
 
             </td>
-                <td> {{comment.1}}</td>
-                <td> {{comment.2}}</td>
-                <td> {{comment.3}}</td>
+                <td style="text-align: right;direction: rtl;"> {{comment.1}}</td>
+                <td style="text-align: right;direction: rtl;"> {{comment.2}}</td>
+                <td style="text-align: right;direction: rtl;"> {{comment.3}}</td>
 
 
 
@@ -175,53 +174,14 @@
 </div>
 
 
-    <!-- Ad ends -->
 
-    <hr>
-
-
-    <footer class="row">
-        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="#" target="_blank">EasyBot</a> 2012 - 2015</p>
-
-        <p class="col-md-3 col-sm-3 col-xs-12 powered-by">Powered by: <a
-                href="#">EasyBot</a></p>
+<footer class="row">
+        <p style="text-align: center" class="col-md-offset-3 col-sm-offset-3col-md-6 col-sm-6 col-xs-12 copyright">&copy; <a href="#" target="_blank">طراحی شده توسط تیم بات گرام</a></p>
     </footer>
-</div><!--/.fluid-container-->
 
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <!-- external javascript -->
-
-<script src="{% static 'adminpanel/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-
-
-<!-- calender plugin -->
-<script src="{% static 'adminpanel/bower_components/moment/min/moment.min.js' %}"></script>
-<script src="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.min.js' %}"></script>
-<!-- data table plugin -->
-<script src="{% static 'adminpanel/js/jquery.dataTables.min.js' %}"></script>
-
-<!-- select or dropdown enhancer -->
-<script src="{% static 'adminpanel/bower_components/chosen/chosen.jquery.min.js' %}"></script>
-<!-- plugin for gallery image view -->
-<script src="{% static 'adminpanel/bower_components/colorbox/jquery.colorbox-min.js' %}"></script>
-<!-- notification plugin -->
-<script src="{% static 'adminpanel/js/jquery.noty.js' %}"></script>
-<!-- library for making tables responsive -->
-<script src="{% static 'adminpanel/bower_components/responsive-tables/responsive-tables.js'%}"></script>
-<!-- tour plugin -->
-<script src="{% static 'adminpanel/bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js' %}"></script>
-<!-- star rating plugin -->
-<script src="{% static 'adminpanel/js/jquery.raty.min.js' %}"></script>
-<!-- for iOS style toggle switch -->
-<script src="{% static 'adminpanel/js/jquery.iphone.toggle.js' %}"></script>
-<!-- autogrowing textarea plugin -->
-<script src="{% static 'adminpanel/js/jquery.autogrow-textarea.js' %}"></script>
-<!-- multiple file upload plugin -->
-<script src="{% static 'adminpanel/js/jquery.uploadify-3.1.min.js' %}"></script>
-<!-- history.js for cross-browser state change on ajax -->
-<script src="{% static 'adminpanel/js/jquery.history.js' %}"></script>
-<!-- application script for Charisma demo -->
-<script src="{% static 'adminpanel/js/charisma.js' %}"></script>
-
-
 </body>
 </html>
