@@ -42,7 +42,7 @@ class Sabad_Kharid(models.Model):
     cus_id = models.ForeignKey(to=Customer, on_delete=models.CASCADE)
     p_id = models.ForeignKey(to=Product, on_delete=models.CASCADE)
     number = models.IntegerField(null=False, default=1)
-    ordered = models.BooleanField(null=False, default=False)
+
 
     class Meta:
         unique_together = ('cus_id', 'p_id')
@@ -76,6 +76,13 @@ class Comment(models.Model):
 class Order(models.Model):
     cus_id = models.ForeignKey(to=Customer, on_delete=models.CASCADE)
     additional_info = models.TextField(null=True)
+    order_time = models.CharField(max_length=30, null=True)
+    arrived = models.IntegerField(default=0)
 
     def __unicode__(self):
         return (unicode(self.id) + 'V' + unicode(self.cus_id))
+
+
+class Order_to_product(models.Model):
+    order_id = models.ForeignKey(to=Order, on_delete=models.CASCADE)
+    product_id = models.ForeignKey(to=Product, on_delete=models.CASCADE)

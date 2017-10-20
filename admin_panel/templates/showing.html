@@ -55,7 +55,7 @@
     <style>
         @font-face {
             font-family: "Iranian Sans";
-            url({% static 'adminpanel/fonts/iraniansans.ttf' %})
+            src: url({% static 'adminpanel/fonts/iraniansans.ttf' %});
         }
         body{
             font-family: "Iranian Sans";
@@ -219,7 +219,7 @@
                       <table class="table table-strpied table-bordered  responsive" >
             <thead>
             <tr>
-
+                <th style="text-align: right">دسته بندی</th>
                 <th style="text-align: right"> عکس محصول</th>
                 <th style="text-align: right"> قیمت</th>
                 <th style="text-align: right"> توضیحات </th>
@@ -230,6 +230,17 @@
             <tr>
                 <form role="form" action="/adminpanel/showing/?product_id={{data.0}}" id="showing" method="post" name="editing_form">
                 <td>
+                    <div class="form-group " >
+                        <label for="categoryname" style="text-align: right ; float: right">دسته بندی</label>
+                        <select style="margin-top: 5%;text-align: right;direction: rtl ; "  class="selectpicker " data-width="100%" title="دسته بندی مورد نظر را انتخاب کنید" data-live-search="true" name="category_name" >
+                            {% for cat in cat_data %}
+                            <option value={{ cat.0 }} style="text-align: right">{{ cat.1 }}</option>
+                            {% endfor %}
+                        </select>
+
+                        </div>
+                </td>
+                    <td>
   <div class="form-group">
     <label for="picform">{{data.4}}</label>
     <input type="file" class="form-control" id="picform" name="pic_form" placeholder="">

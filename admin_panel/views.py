@@ -6,6 +6,7 @@ from django.shortcuts import render
 from .forms import AddProductForm,EditProductForm
 from easybot import models
 from django.shortcuts import render_to_response
+from django.shortcuts import redirect
 
 def adding(request):
     if request.method == 'POST' :
@@ -32,11 +33,11 @@ def adding(request):
                 print e
 
 
-            return render_to_response("adding.html", {'cat_data': get_cats_names() })
+            return render_to_response("blank.html")
 
         else:
             print('failed')
-            return render_to_response("failed.html", {'cat_data': get_cats_names() })
+            return render_to_response("failed.html")
 
 
 
@@ -45,14 +46,22 @@ def adding(request):
 
 def showing(request):
     if request.method == 'POST':
-        '''edit_form = EditProductForm(request.POST)
-        print(get_product_data()[0][0])
+        edit_form = EditProductForm(request.POST)
+        print(request.get_full_path())
         if edit_form.is_valid():
-            product_id = '''
+            product_id = request.get_full_path().split("product_id=")[1]
+            cat_id = get_cats_names()[0][0]
+            cat_id = models.Category.objects.get(pk=cat_id)
+            product_name = edit_form.cleande_data['name_form']
+            text = edit_form.cleaned_data['text_form']
+            image = edit_form.cleaned_data['pic_form']
+            price = edit_form.cleaned_data['price_form']
+            product_object = models.Product.objects.get(pk=product_id)
 
-        return render_to_response("showing.html", {'product_data':get_product_data()})
-    print(get_product_data()[0])
-    return render_to_response("showing.html", {'product_data':get_product_data() , 'range' : len(get_product_data())})
+
+        return render_to_response("showing.html", {'product_data':get_product_data()},{'cat_data': get_cats_names() })
+    print(models.Product.objects.get(pk=81))
+    return render_to_response("showing.html", {'product_data':get_product_data() , 'range' : len(get_product_data())},{'cat_data': get_cats_names() })
 
 
 def enteghadat(request):
@@ -72,8 +81,25 @@ def comments(request):
     return render_to_response('comments.html' , {'p_comment' : get_product_comments()})
 
 
+def editDescription(request):
+    if request.method == 'POST':
+        order_id = int(request.POST['order_id'])
+        new_description = request.POST['edit_description']
+        update_description(order_id=order_id, new_desc=new_description)
+        return redirect('/admin-panel/orders/')
+
+
+def arrived(request):
+    if request.method == "GET":
+        update_arrival(order_id=request.GET['o_id'])
+        return redirect('/admin-panel/orders/')
+
 def success(request):
     return render(request, "admin_panel/blank.html")
+
+
+def orders(request):
+    return render_to_response("orders.html", {'orders_data': get_all_orders()})
 
 
 def get_cats_names():
@@ -127,3 +153,54 @@ def get_product_comments():
         all_comments.append(comments)
         comments = []
     return all_comments
+
+def get_all_orders():
+    result = models.Order.objects.all()
+    all_orders = []
+    for order in result:
+        one_order = []
+        customer_data = {}
+        one_order.append(order.pk)
+        customer_id = order.cus_id_id
+        customer = models.Customer.objects.get(pk=customer_id)
+        customer_data = {'f_name': customer.first_name, "l_name": customer.last_name,"address": customer.address,"phone": customer.phone,"username": customer.username}
+        one_order.append(customer_data)
+        products = models.Order_to_product.objects.filter(order_id_id=order.pk)
+        all_products = []
+        for product in products:
+            p_data = return_product(product.product_id_id)
+            all_products.append(p_data)
+        one_order.append(all_products)
+        one_order.append(order.additional_info)
+        one_order.append(order.order_time)
+        one_order.append(order.arrived)
+        all_orders.append(one_order)
+    return all_orders
+
+
+def return_product(p_id):
+    product = models.Product.objects.get(pk=p_id)
+    product_dict = {'product_id': product.pk, 'Name': product.product_name, 'Price':product.price}
+    return product_dict
+
+
+def update_description(order_id, new_desc):
+    try:
+        order = models.Order.objects.get(pk=order_id)
+        order.additional_info = new_desc
+        order.save()
+        return 1
+    except Exception as e:
+        print e
+        return 0
+
+
+def update_arrival(order_id):
+    try:
+        order = models.Order.objects.get(pk=order_id)
+        order.arrived = 1
+        order.save()
+        return 1
+    except Exception as e:
+        print e
+        return 0

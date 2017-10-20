@@ -12,3 +12,4 @@ class EditProductForm(forms.Form):
     price_form = forms.IntegerField(label="ProductPrice")
     detail_form = forms.CharField(label='ProductText', max_length=30)
     name_form = forms.CharField(label="Product", max_length=30)
+    category_name = forms.CharField(label='Category' , max_length=30)
