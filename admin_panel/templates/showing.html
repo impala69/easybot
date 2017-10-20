@@ -201,6 +201,89 @@
 </div>
 
 <!-- /showingmodal -->
+
+<!-- editmodal -->
+<div class="modal fade " id="editmodal{{ data.0 }}" tabindex="0" role="dialog" aria-labelledby="editmodal{{ data.0 }}" aria-hidden="true" style="padding-top: 9% ; ">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editmodaltitle" style="text-align:right ;  ">ویرایش محصول</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+         <div class="container">
+              <div class="row">
+                  <div class="col-md-9">
+                      <table class="table table-strpied table-bordered  responsive" >
+            <thead>
+            <tr>
+                <th style="text-align: right">دسته بندی</th>
+                <th style="text-align: right"> تعداد </th>
+                <th style="text-align: right"> عکس محصول</th>
+                <th style="text-align: right"> قیمت</th>
+                <th style="text-align: right"> توضیحات </th>
+                <th style="text-align: right">نام محصول</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <form role="form" action="/adminpanel/showing/?product_id={{data.0}}" id="showing" method="post" name="editing_form">
+                <td>
+                    <div class="form-group " >
+                        <label for="categoryname" style="text-align: right ; float: right">دسته بندی</label>
+                        <select style="margin-top: 5%;text-align: right;direction: rtl ; "  class="selectpicker " data-width="100%" title="دسته بندی مورد نظر را انتخاب کنید" data-live-search="true" name="category_name" >
+                            {% for cat in cat_data %}
+                            <option value={{ cat.0 }} style="text-align: right">{{ cat.1 }}</option>
+                            {% endfor %}
+                        </select>
+
+                        </div>
+                </td>
+                    <td>
+                        <div class="form-group">
+                            <label for="example-number-input" class="col-2 col-form-label">تعداد</label>
+
+                            <input class="form-control" type="number" value="" id="example-number-input">
+                     </div>
+                    </td>
+                    <td>
+  <div class="form-group">
+    <label for="picform">{{data.4}}</label>
+    <input type="file" class="form-control" id="picform" name="pic_form" placeholder="">
+  </div></td>
+   <td>
+  <div class="form-group">
+    <label for="priceform">{{data.5}}</label>
+    <input type="text" class="form-control" id="priceform" name="price_form" placeholder="">
+  </div></td>
+  <td>
+
+        <div class="form-group">
+            <label for="detailform">{{data.3}}</label>
+            <input type="text" class="form-control" id="detailform" name="detail_form" placeholder="">
+  </div></td>
+
+  <td>
+
+        <div class="form-group">
+            <label for="nameform">{{data.2}}</label>
+            <input type="text" class="form-control" id="nameform" name="name_form" placeholder="">
+        </div>
+
+  </td>
+
+
+            </tr>
+            </tbody></table>
+                      <button style="; width: 50% ; font-size: medium" type="submit" class="btn btn-primary btn-round">تایید</button>
+                   </form>
+
+</div></div></div></div></div></div>
+</div>
+
+<!-- /editmodal -->
                 <div class="row" >
                     <button type="button" class="btn btn-success btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small" data-toggle="modal" data-target="#showingmodal{{ data.0  }}">
                             <i class="glyphicon glyphicon-zoom-in icon-white"></i>
@@ -208,7 +291,7 @@
                             نمایش
 
                     </button>
-                    <button type="button" class="btn btn-info btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small">
+                    <button type="button" class="btn btn-info btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small" data-toggle="modal" data-target="#editmodal{{ data.0  }}">
 
                             <i class="glyphicon glyphicon-edit icon-white"></i>
                             تغییر

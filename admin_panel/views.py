@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import sys
 
 from django.shortcuts import render
-from .forms import AddProductForm
+from .forms import AddProductForm,EditProductForm
 from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
@@ -46,8 +46,35 @@ def adding(request):
 
 def showing(request):
     if request.method == 'POST':
-        return render_to_response("showing.html", {'product_data':get_product_data()})
-    return render_to_response("showing.html", {'product_data':get_product_data() , 'range' : len(get_product_data())})
+        edit_form = EditProductForm(request.POST)
+        print(request.get_full_path())
+        if edit_form.is_valid():
+            product_id = request.get_full_path().split("product_id=")[1]
+            cat_id = get_cats_names()[0][0]
+            cat_id = models.Category.objects.get(pk=cat_id)
+            product_name = edit_form.cleande_data['name_form']
+            text = edit_form.cleaned_data['text_form']
+            image = edit_form.cleaned_data['pic_form']
+            price = edit_form.cleaned_data['price_form']
+            number = edit_form.cleaned_data['num_form']
+            product_object = models.Product.objects.get(pk=product_id)
+            try:
+                product_object[0] = cat_id
+                product_object[1] = product_name
+                product_object[2] = text
+                product_object[3] = image
+                product_object[4] = price
+                product_object[5] = number
+            except Exception as e:
+                print('error')
+                print e
+
+
+
+
+        return render_to_response("showing.html", {'product_data':get_product_data()},{'cat_data': get_cats_names() })
+
+    return render_to_response("showing.html", {'product_data':get_product_data() , 'range' : len(get_product_data())},{'cat_data': get_cats_names() })
 
 
 def enteghadat(request):
