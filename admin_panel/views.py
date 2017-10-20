@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import sys
 
 from django.shortcuts import render
-from .forms import AddProductForm
+from .forms import AddProductForm,EditProductForm
 from easybot import models
 from django.shortcuts import render_to_response
 
@@ -45,7 +45,13 @@ def adding(request):
 
 def showing(request):
     if request.method == 'POST':
+        '''edit_form = EditProductForm(request.POST)
+        print(get_product_data()[0][0])
+        if edit_form.is_valid():
+            product_id = '''
+
         return render_to_response("showing.html", {'product_data':get_product_data()})
+    print(get_product_data()[0])
     return render_to_response("showing.html", {'product_data':get_product_data() , 'range' : len(get_product_data())})
 
 
