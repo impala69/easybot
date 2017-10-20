@@ -55,6 +55,8 @@ class Command(BaseCommand):
 
             #End Of Get Data From User
 
+
+
             keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"دسته بندی ها", callback_data="categories"),InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search")],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad'), InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"وارد کردن اطلاعات شخصی برای خرید", callback_data='enterinfo_firstname')],[InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')],])
             if command == '/start':
                 for i in range(1,4):
@@ -153,11 +155,18 @@ class Command(BaseCommand):
             elif content_type == 'text' and user_state == 'buy_comment':
                 sabad = SHC(c_id=customer_id)
                 sabad_products = sabad.sabad_from_customer()
+                order = Order(c_id=customer_id, order_time=time.time(), info=command)
+                process_card = order.add_card_to_order()
+                is_order_done = process_card[0]
+                order_id = process_card[1]
+                print "Ohh"
+                print sabad.sabad_from_customer_objects()
+                print order_id
+                order_to_products = Order(products=sabad.sabad_from_customer_objects(), order_id=order_id)
+                order_to_products.add_products_to_order()
                 for product in sabad_products:
                     sabad_product = SHC(c_id=customer_id, p_id=product[0])
                     sabad_product.del_from_cart()
-                order = Order(c_id=customer_id, order_time=time.time(), info=command)
-                is_order_done = order.add_card_to_order()
                 if is_order_done:
                     customer.unset_state()
                     bot.sendMessage(chat_id, "خرید با موفقیت انجام شد")
@@ -172,6 +181,8 @@ class Command(BaseCommand):
             query_id, from_id, query_data = telepot.glance(msg, flavor='callback_query')
             customer = CDA(from_id)
             customer_id = customer.return_customer_id()
+            customer_sabad = SHC(c_id=customer_id)
+            max_cart = customer_sabad.number_items_in_cart()
             command = msg
             #ENd of getting Query Data from user
 
@@ -475,12 +486,17 @@ class Command(BaseCommand):
                 query = query_data.rsplit()
                 product_id = query[-1]
                 shopping_cart = SHC(c_id=customer_id, p_id=product_id)
-                flag = shopping_cart.add_to_cart()
-                if flag:
-                    notification = "محصول با موفقیت به سبد خرید شما اضافه شد"
-                    bot.answerCallbackQuery(query_id, text=notification)
+                print max_cart
+                if max_cart < 5:
+                    flag = shopping_cart.add_to_cart()
+                    if flag:
+                        notification = "محصول با موفقیت به سبد خرید شما اضافه شد"
+                        bot.answerCallbackQuery(query_id, text=notification)
+                    else:
+                        notification = "این محصول در سبد خرید شما وجود دارد"
+                        bot.answerCallbackQuery(query_id, text=notification)
                 else:
-                    notification = "این محصول در سبد خرید شما وجود دارد"
+                    notification = "تنها مجاز به اضافه کردن 5 محصول در سبد خرید خود هستید."
                     bot.answerCallbackQuery(query_id, text=notification)
 
             if "del_from_cart" in query_data:

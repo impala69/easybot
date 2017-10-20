@@ -5,6 +5,10 @@ class ShoppingCard:
         self.__c_id = c_id
         self.__p_id = p_id
 
+    def sabad_from_customer_objects(self):
+        rows = models.Sabad_Kharid.objects.filter(cus_id=self.__c_id)
+        return rows
+
     def sabad_from_customer(self):
            rows = models.Sabad_Kharid.objects.filter(cus_id=self.__c_id)
            products = [[item.p_id, item.number] for item in rows]
@@ -56,3 +60,11 @@ class ShoppingCard:
 
     def get_object(self):
         return models.Sabad_Kharid.objects.get(p_id=self.__p_id, cus_id=self.__c_id)
+
+
+    def number_items_in_cart(self):
+        print self.__c_id
+        products = models.Sabad_Kharid.objects.filter(cus_id=self.__c_id)
+        print products
+        return len(products)
+

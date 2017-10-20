@@ -1,5 +1,4 @@
 {% load static %}
-<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -70,12 +69,12 @@
                     aria-expanded="false">
                 افزودن
             </button>
-<<<<<<< HEAD
+
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="adding.html">افزودن محصول</a>
                 <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
                 <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
-=======
+
             <a class="navbar-brand" href="index.html"> <img alt="logo" src="{% static 'adminpanel/img/logo20.png' %}" class="hidden-xs"/>
                 <span>EasyBot</span></a>
 
@@ -104,29 +103,10 @@
 
             </div>
 
-            <!-- user dropdown ends -->
-
-            <!-- theme selector starts -->
-
-            <!-- theme selector ends -->
-
-            <ul class="collapse navbar-collapse nav navbar-nav  top-menu">
-
-
-                <li>
-                    <form class="navbar-search pull-left">
-                        <input style="text-align: right" placeholder="جستجو" class="search-query form-control col-md-10" name="query"
-                               type="text">
-                    </form>
-                </li>
-            </ul>
->>>>>>> 9b889466e5a7490eaae88dfe0970bffb14fb486b
 
             </div>
         </div>
-        <div class="btn-group pull-right" style="float: right">
-            <button type="button" class="btn btn-default" style="float: right;"> صفحه اصلی</button>
-        </div>
+
 
     </div>
 
@@ -148,20 +128,8 @@
                     </li>
                 </ul>
             </div>
-<<<<<<< HEAD
-=======
             <div class="box-content">
 
-                <form role="form" action="/admin-panel/adding" id="adding" method="post" name="adding_form">
-
-                    <div class="form-group " >
-                        <label for="categoryname" style="text-align: right ; float: right">دسته بندی</label>
-                        <select style="margin-top: 5%;text-align: right;direction: rtl ; "  class="selectpicker " data-width="100%" title="دسته بندی مورد نظر را انتخاب کنید" data-live-search="true" name="category_name" >
-                            {% for cat in cat_data %}
-                            <option value={{ cat.0 }} style="text-align: right">{{ cat.1 }}</option>
-                            {% endfor %}
-                        </select>
->>>>>>> 9b889466e5a7490eaae88dfe0970bffb14fb486b
 
             <div class="row">
                 <div class="col-md-12">
