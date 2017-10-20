@@ -160,25 +160,26 @@
                         <div class="form-group" style="text-align: right">
                             <label for="num_form" class="col-2 col-form-label" style="margin-top: 5%;text-align: right;direction: rtl ; " >تعداد</label>
 
-                            <input class="form-control" type="number"  id="num_form" name="product_number">
+                            <input class="form-control" type="text"  id="num_form" name="product_number" value={{ p_data.Number }}>
                      </div>
 
                         </div>
                     <div class="form-group" style="text-align: right">
                         <label for="name_form">نام محصول</label>
-                        <input style="text-align: right" type="text" class="form-control" id="name_form" name="product_name" placeholder={{product.1}}>
+                        <input style="text-align: right" type="text" class="form-control" id="name_form" name="product_name" value={{ p_data.Name }} >
                     </div>
+
                     <div class="form-group" style="text-align: right">
                         <label for="detail_form">توضیحات</label>
-                        <input style="text-align: right" type="text" class="form-control" id="detail_form" name="product_text" placeholder={{product.0}}>
+                        <input style="text-align: right" type="text" class="form-control" id="detail_form" name="product_text" value={{ p_data.Text }}>
                     </div>
                     <div class="form-group" style="text-align: right">
                         <label for="price_form">قیمت</label>
-                        <input style="text-align: right" type="text" class="form-control" id="price_form" name="product_price" placeholder="">
+                        <input style="text-align: right" type="text" class="form-control" id="price_form" name="product_price" value={{ p_data.Price }}>
                     </div>
                     <div class="form-group" style="margin-bottom: 3%;margin-top: 3%" >
                         <label style="text-align: right ; float:right" for="pic_form">عکس محصول</label>
-                        <input type="file" id="pic_form" name="product_image">
+                        <input type="file" id="pic_form" name="product_image" value= {{ p_data.Image }}>
 
                     </div>
 
