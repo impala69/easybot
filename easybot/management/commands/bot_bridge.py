@@ -148,6 +148,17 @@ class Command(BaseCommand):
                 else:
                     notification="لططفا مجددا نظر را وارد نمایید."
                     bot.sendMessage(chat_id, text=notification)
+            #end buying by getting comment
+            elif content_type == 'text' and user_state == 'buy_comment':
+                sabad = SHC(c_id=customer_id)
+                sabad_products = sabad.sabad_from_customer()
+                for product in sabad_products:
+                    sabad_product = SHC(c_id=customer_id, p_id=product[0])
+                    sabad_product.del_from_cart()
+                customer.unset_state()
+                bot.sendMessage(chat_id, "خرید با موفقیت انجام شد")
+
+
 
         def on_callback_query(msg):
             #Get User Query Data
@@ -245,15 +256,18 @@ class Command(BaseCommand):
                     bot.sendMessage(from_id,"محصولی در سبد خرید شما موجود نیست" , reply_markup=keyboard)
                 else:
                     bot.sendMessage(from_id," سبد خرید شما")
+                    total_price = 0
+                    sabad_items = u""
                     for product_plus_number in products:
                         product = product_plus_number[0]
                         numnber = product_plus_number[1]
                         name=u'نام محصول: '
                         text=u'توضیحات: '
                         price=u'قیمت: '
+                        sabad_items += product.product_name + ":" + str(numnber) + "\n"
+                        total_price += product.price
 
                         caption_name=name+product.product_name+'\n'
-                        caption_text=text+product.text+'\n'
                         caption_price=price+str(product.price)+'\n'
                         caption=caption_name+caption_price
                         product_id=product.id
@@ -262,6 +276,8 @@ class Command(BaseCommand):
 
                         bot.sendPhoto(from_id,photo=product.image,caption=caption,reply_markup=keyboard_sabad)
                         # bot.sendMessage(from_id,text=caption_text)
+                    keyboard_sabad_end = InlineKeyboardMarkup( inline_keyboard=[[InlineKeyboardButton(text=u"بازگشت به منو", callback_data="return"), InlineKeyboardButton(text=u"خرید محصولات", callback_data='buy')]])
+                    bot.sendMessage(from_id, u"اقلام موجود: " + "\n" + sabad_items + str(total_price), reply_markup=keyboard_sabad_end)
 
 
             #End Of Sabad_kharid Button
@@ -515,6 +531,14 @@ class Command(BaseCommand):
                 else:
                     notification = "انجام عملیات مقدور نبود"
                     bot.answerCallbackQuery(query_id, text=notification)
+
+            #When you click on buy
+            if query_data == 'buy':
+                shopping_cart = SHC(c_id=customer_id)
+                customer.set_state("buy_comment")
+                bot.sendMessage(from_id, "لطفا توضیحات محصول را وارد کنید.")
+
+
 
 
 

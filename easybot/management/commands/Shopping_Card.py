@@ -7,7 +7,7 @@ class ShoppingCard:
 
     def sabad_from_customer(self):
            rows = models.Sabad_Kharid.objects.filter(cus_id=self.__c_id)
-           products = [[item.p_id,item.number] for item in rows]
+           products = [[item.p_id, item.number] for item in rows]
            return products
 
     def del_from_cart(self):
