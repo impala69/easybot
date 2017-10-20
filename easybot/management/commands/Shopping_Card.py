@@ -28,7 +28,7 @@ class ShoppingCard:
         cart.number += numbers
         print cart.number
         if numbers > 0:
-            if models.Product.objects.get(id=self.__p_id).numbers >= cart.number:
+            if min(models.Product.objects.get(id=self.__p_id).numbers, 5) >= cart.number:
                 print "can add more"
                 cart.save()
                 return True
