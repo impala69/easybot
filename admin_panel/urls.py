@@ -16,5 +16,7 @@ urlpatterns = [
     url(r'^adding/category', views.category),
     url(r'^adding/comments', views.comments),
     url(r'^orders', views.orders),
+    url(r'^editDescription', views.editDescription),
+    url(r'^arrived', views.arrived),
 
     ]

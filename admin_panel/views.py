@@ -6,6 +6,7 @@ from django.shortcuts import render
 from .forms import AddProductForm
 from easybot import models
 from django.shortcuts import render_to_response
+from django.shortcuts import redirect
 
 def adding(request):
     if request.method == 'POST' :
@@ -66,12 +67,24 @@ def comments(request):
     return render_to_response('comments.html' , {'p_comment' : get_product_comments()})
 
 
+def editDescription(request):
+    if request.method == 'POST':
+        order_id = int(request.POST['order_id'])
+        new_description = request.POST['edit_description']
+        update_description(order_id=order_id, new_desc=new_description)
+        return redirect('/admin-panel/orders/')
+
+
+def arrived(request):
+    if request.method == "GET":
+        update_arrival(order_id=request.GET['o_id'])
+        return redirect('/admin-panel/orders/')
+
 def success(request):
     return render(request, "admin_panel/blank.html")
 
 
 def orders(request):
-    print get_all_orders()
     return render_to_response("orders.html", {'orders_data': get_all_orders()})
 
 
@@ -146,6 +159,7 @@ def get_all_orders():
         one_order.append(all_products)
         one_order.append(order.additional_info)
         one_order.append(order.order_time)
+        one_order.append(order.arrived)
         all_orders.append(one_order)
     return all_orders
 
@@ -154,3 +168,25 @@ def return_product(p_id):
     product = models.Product.objects.get(pk=p_id)
     product_dict = {'product_id': product.pk, 'Name': product.product_name, 'Price':product.price}
     return product_dict
+
+
+def update_description(order_id, new_desc):
+    try:
+        order = models.Order.objects.get(pk=order_id)
+        order.additional_info = new_desc
+        order.save()
+        return 1
+    except Exception as e:
+        print e
+        return 0
+
+
+def update_arrival(order_id):
+    try:
+        order = models.Order.objects.get(pk=order_id)
+        order.arrived = 1
+        order.save()
+        return 1
+    except Exception as e:
+        print e
+        return 0
