@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import sys
 
 from django.shortcuts import render
-from .forms import AddProductForm,EditProductForm
+from .forms import AddProductForm,EditProductForm , AddCategoryForm
 from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
@@ -12,7 +12,6 @@ def adding(request):
     if request.method == 'POST' :
         adding_form = AddProductForm(request.POST)
 
-        print(get_cats_names()[0][0])
         if adding_form.is_valid():
             cat_id = get_cats_names()[0][0]
             cat_id = models.Category.objects.get(pk=cat_id)
@@ -23,9 +22,8 @@ def adding(request):
 
             try:
                 new_product = models.Product(cat_id=cat_id,product_name=product_name,text=text,image=image,price=price)
-                print new_product.text
                 new_product.save()
-                print new_product.text
+
 
 
             except Exception as e:
@@ -33,7 +31,7 @@ def adding(request):
                 print e
 
 
-            return render_to_response("blank.html")
+            return render_to_response("showing.html")
 
         else:
             print('failed')
@@ -46,35 +44,73 @@ def adding(request):
 
 def showing(request):
     if request.method == 'POST':
+
+
+        return render_to_response("showing.html",{'product_data':get_product_data()},{'cat_data': get_cats_names() })
+
+    return render_to_response("showing.html", {'product_data':get_product_data() , 'range' : len(get_product_data())},{'cat_data': get_cats_names() })
+
+def edit(request):
+
+    if request.method == 'GET':
+        product_id = request.GET['p_id']
+        print(product_id)
+
+        return render_to_response("edit.html",{'cat_data': get_cats_names() , 'product':return_product(product_id)})
+    if request.method == 'POST':
         edit_form = EditProductForm(request.POST)
-        print(request.get_full_path())
+
         if edit_form.is_valid():
-            product_id = request.get_full_path().split("product_id=")[1]
+            print('2')
             cat_id = get_cats_names()[0][0]
             cat_id = models.Category.objects.get(pk=cat_id)
-            product_name = edit_form.cleande_data['name_form']
-            text = edit_form.cleaned_data['text_form']
-            image = edit_form.cleaned_data['pic_form']
-            price = edit_form.cleaned_data['price_form']
-            number = edit_form.cleaned_data['num_form']
-            product_object = models.Product.objects.get(pk=product_id)
+            product_name = edit_form.cleande_data['product_name']
+            text = edit_form.cleaned_data['product_text']
+            image = edit_form.cleaned_data['product_image']
+            price = edit_form.cleaned_data['product_price']
+            number = edit_form.cleaned_data['product_number']
+
             try:
-                product_object[0] = cat_id
-                product_object[1] = product_name
-                product_object[2] = text
-                product_object[3] = image
-                product_object[4] = price
-                product_object[5] = number
+                product_object = models.Product.objects.get(pk=product_id).update(cat_id=cat_id,product_name=product_name,text=text,price=price,image=image,numbers=number)
+                product_object.save()
             except Exception as e:
                 print('error')
                 print e
+        return render_to_response('edit.html',{'cat_data': get_cats_names() })
+    return render_to_response("edit.html",{'cat_data': get_cats_names() })
+
+def delete(request):
+    if request.method == 'GET':
+        p_id = request.GET['p_id']
+        models.Product.objects.get(pk=p_id).delete()
+        return render_to_response("showing.html",{'product_data':get_product_data(),'cat_data': get_cats_names() })
+    return render_to_response("showing.html",{'product_data':get_product_data(),'cat_data': get_cats_names() })
+
+def del_cat(request):
+    if request.method == 'GET':
+        c_id = request.GET['cat_id']
+        models.Category.objects.get(pk=c_id).delete()
+        return render_to_response('category.html', {'cat_data' : get_cats_names()})
+    return render_to_response('category.html', {'cat_data' : get_cats_names()})
 
 
+def add_cat(request):
+    if request.method == 'POST':
+        add_cat_form = AddCategoryForm(request.POST)
+        if add_cat_form.is_valid():
+            category_name = add_cat_form.cleaned_data['category_name']
+            try:
+                new_category = models.Category(cat_name= category_name)
+                new_category.save()
+            except Exception as e:
+                print('error')
+                print e
+            return render_to_response("showing.html")
+        else:
+            print('failed')
+            return render_to_response("failed.html")
+    return render_to_response("add_cat.html")
 
-
-        return render_to_response("showing.html", {'product_data':get_product_data()},{'cat_data': get_cats_names() })
-
-    return render_to_response("showing.html", {'product_data':get_product_data() , 'range' : len(get_product_data())},{'cat_data': get_cats_names() })
 
 
 def enteghadat(request):

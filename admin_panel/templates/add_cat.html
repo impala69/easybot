@@ -1,21 +1,7 @@
 {% load static %}
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <!--
-        ===
-        This comment should NOT be removed.
-
-        Charisma v2.0.0
-
-        Copyright 2012-2014 Muhammad Usman
-        Licensed under the Apache License v2.0
-        http://www.apache.org/licenses/LICENSE-2.0
-
-        http://usman.it
-        http://twitter.com/halalit_usman
-        ===
-    -->
     <meta charset="utf-8">
     <title>
         EasyBot
@@ -50,7 +36,18 @@
 
     <!-- The fav icon -->
     <link rel="shortcut icon" href="{% static 'adminpanel/img/favicon.ico' %}">
-
+  <style>
+        @font-face {
+        font-family: "Iranian Sans";
+        src: url({% static 'adminpanel/fonts/iraniansans.ttf' %});
+        }
+        body{
+        font-family: "Iranian Sans";
+        }
+        h2, h5{
+        font-family: "Iranian Sans";
+        }
+    </style>
 </head>
 
 <body>
@@ -71,12 +68,25 @@
             <!-- navbar buttons starts -->
             <div class="btn-group pull-right" role="group">
                 <button type="button" class="btn btn-default"> سفارشات</button>
-                <button type="button" class="btn btn-default"><a href="comments.html">  نظرات</a></button>
-                <button type="button" class="btn btn-default"><a href="category.html">  دسته بندی ها</a></button>
-                <button type="button" class="btn btn-default"><a href="enteghadat.html">  انتقادات پیشنهادات</a></button>
-                <button type="button" class="btn btn-default" ><a href="showing.html">  مشاهده کردن</a></button>
-                <button type="button" class="btn btn-primary"><a href="adding.html"> افزودن </a></button>
-                <button type="button" class="btn btn-default"> صفحه اصلی</button>
+                <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
+                <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
+                <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
+                <button type="button" class="btn btn-default" ><a href="showing.html"> مشاهده کردن</a></button>
+                
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  افزودن
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="adding.html">افزودن محصول</a>
+                  <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
+                  <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
+
+                </div>
+                </div>
+            <div class="btn-group pull-right" style="float: right">
+            <button type="button" class="btn btn-default" style="float: right;"> صفحه اصلی</button>
+                </div>
+
             </div>
 
             <!-- user dropdown ends -->
@@ -104,18 +114,6 @@
 <div class="ch-container">
     <div class="row">
 
-
-
-
-        <noscript>
-            <div class="alert alert-block col-md-12">
-                <h4 class="alert-heading">Warning!</h4>
-
-                <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a>
-                    enabled to use this site.</p>
-            </div>
-        </noscript>
-
         <div id="content" class="col-lg-10 col-sm-10">
             <!-- content starts -->
 
@@ -131,11 +129,6 @@
         </li>
     </ul>
 </div>
-<div class="alert alert-danger col-md-offset-4 col-md-10 " role="alert" style="text-align: right">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="float: right;text-align: right"></span>
-  <span class="sr-only" style="float: right">خطا</span>
-  اظلاعات وارد شده کامل نمیباشد
-</div>
 
 <div class="row">
     <div class="col-md-12">
@@ -144,40 +137,19 @@
     <div class="box  col-md-offset-7 col-md-7" >
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2 style="float: right"><i class="glyphicon glyphicon-star-empty"></i> افزودن</h2>
+                <h2 style="float: right"><i class="glyphicon glyphicon-star-empty"></i> افزودن دسته بندی</h2>
 
 
             </div>
             <div class="box-content">
 
-                <form role="form" action="/admin-panel/" id="adding" method="post" name="adding_form">
+                <form role="form" action="/admin-panel/add_cat" id="adding_cat" method="post" name="adding_cat_form">
 
-                    <div class="form-group " >
-                        <label for="categoryname" style="text-align: right ; float: right">دسته بندی</label>
-                        <select style="margin-top: 5%;text-align: right;direction: rtl ; "  class="selectpicker " data-width="100%" title="دسته بندی مورد نظر را انتخاب کنید" data-live-search="true" name="category_name" >
-                            {% for cat in cat_data %}
-                            <option value={{ cat.0 }} style="text-align: right">{{ cat.1 }}</option>
-                            {% endfor %}
-                        </select>
+                    <div class="form-group" style="text-align: right">
+                        <label for="categoryname">نام دسته بندی</label>
+                        <input style="text-align: right" type="text" class="form-control" id="categoryname" name="category_name" placeholder="">
+                    </div>
 
-                        </div>
-                    <div class="form-group" style="text-align: right">
-                        <label for="productname">نام محصول</label>
-                        <input style="text-align: right" type="text" class="form-control" id="productname" name="product_name" placeholder="">
-                    </div>
-                    <div class="form-group" style="text-align: right">
-                        <label for="producttext">توضیحات</label>
-                        <input style="text-align: right" type="text" class="form-control" id="producttext" name="product_text" placeholder="">
-                    </div>
-                    <div class="form-group" style="text-align: right">
-                        <label for="productprice">قیمت</label>
-                        <input style="text-align: right" type="text" class="form-control" id="productprice" name="product_price" placeholder="">
-                    </div>
-                    <div class="form-group" style="margin-bottom: 3%;margin-top: 3%" >
-                        <label style="text-align: right ; float:right" for="productimage">عکس محصول</label>
-                        <input type="file" id="productimage" name="product_image">
-
-                    </div>
 
 
 
@@ -222,14 +194,11 @@
     <hr>
 
 
-    <footer class="row">
-        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="#" target="_blank">EasyBot</a> 2012 - 2015</p>
-
-        <p class="col-md-3 col-sm-3 col-xs-12 powered-by">Powered by: <a
-                href="#">EasyBot</a></p>
+<footer class="row">
+        <p style="text-align: center" class="col-md-offset-3 col-sm-offset-3col-md-6 col-sm-6 col-xs-12 copyright">&copy; <a href="#" target="_blank">طراحی شده توسط تیم بات گرام</a></p>
     </footer>
 
-</div><!--/.fluid-container-->
+
 
 <!-- external javascript --><!-- Latest compiled and minified CSS -->
 
@@ -244,34 +213,7 @@
 <script src="{% static 'adminpanel/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
 
-<!-- calender plugin -->
-<script src="{% static 'adminpanel/bower_components/moment/min/moment.min.js' %}"></script>
-<script src="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.min.js' %}"></script>
-<!-- data table plugin -->
-<script src="{% static 'adminpanel/js/jquery.dataTables.min.js' %}"></script>
 
-<!-- select or dropdown enhancer -->
-<script src="{% static 'adminpanel/bower_components/chosen/chosen.jquery.min.js' %}"></script>
-<!-- plugin for gallery image view -->
-<script src="{% static 'adminpanel/bower_components/colorbox/jquery.colorbox-min.js' %}"></script>
-<!-- notification plugin -->
-<script src="{% static 'adminpanel/js/jquery.noty.js' %}"></script>
-<!-- library for making tables responsive -->
-<script src="{% static 'adminpanel/bower_components/responsive-tables/responsive-tables.js'%}"></script>
-<!-- tour plugin -->
-<script src="{% static 'adminpanel/bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js' %}"></script>
-<!-- star rating plugin -->
-<script src="{% static 'adminpanel/js/jquery.raty.min.js' %}"></script>
-<!-- for iOS style toggle switch -->
-<script src="{% static 'adminpanel/js/jquery.iphone.toggle.js' %}"></script>
-<!-- autogrowing textarea plugin -->
-<script src="{% static 'adminpanel/js/jquery.autogrow-textarea.js' %}"></script>
-<!-- multiple file upload plugin -->
-<script src="{% static 'adminpanel/js/jquery.uploadify-3.1.min.js' %}"></script>
-<!-- history.js for cross-browser state change on ajax -->
-<script src="{% static 'adminpanel/js/jquery.history.js' %}"></script>
-<!-- application script for Charisma demo -->
-<script src="{% static 'adminpanel/js/charisma.js' %}"></script>
 
 
 </body>
