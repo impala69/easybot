@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'^orders', views.orders),
     url(r'^editDescription', views.editDescription),
     url(r'^arrived', views.arrived),
+    url(r'^deletecomment', views.deletecomment),
 
     ]

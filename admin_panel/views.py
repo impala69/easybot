@@ -75,6 +75,13 @@ def editDescription(request):
         return redirect('/admin-panel/orders/')
 
 
+def deletecomment(request):
+    if request.method == 'GET':
+        cm_id = int(request.GET['cm_id'])
+        delete_comment(cm_id)
+        return redirect('/admin-panel/comments/')
+
+
 def arrived(request):
     if request.method == "GET":
         update_arrival(order_id=request.GET['o_id'])
@@ -133,7 +140,8 @@ def get_product_comments():
     comments = []
     all_comments = []
     for comment in result:
-        comments.append(comment.customer_id)
+        comments.append(comment.pk)
+        comments.append(return_username(comment.customer_id))
         comments.append(comment.product_id)
         comments.append(comment.text_comment)
         all_comments.append(comments)
@@ -189,4 +197,21 @@ def update_arrival(order_id):
         return 1
     except Exception as e:
         print e
+        return 0
+
+
+def delete_comment(cm_id):
+    try:
+        comment = models.Product_comment.objects.get(pk=cm_id)
+        comment.delete()
+        return 1
+    except Exception as e:
+        return 0
+
+
+def return_username(cus_id):
+    try:
+        customer = models.Customer.objects.get(pk=cus_id)
+        return customer.username
+    except Exception as e:
         return 0
