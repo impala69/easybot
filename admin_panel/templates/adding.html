@@ -75,8 +75,21 @@
                 <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
                 <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
                 <button type="button" class="btn btn-default" ><a href="showing.html"> مشاهده کردن</a></button>
-                <button type="button" class="btn btn-primary"><a href="adding.html"> افزودن </a></button>
-                <button type="button" class="btn btn-default"> صفحه اصلی</button>
+
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  افزودن
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="adding.html">افزودن محصول</a>
+                  <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
+                  <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
+
+                </div>
+                </div>
+            <div class="btn-group pull-right" style="float: right">
+            <button type="button" class="btn btn-default" style="float: right;"> صفحه اصلی</button>
+                </div>
+
             </div>
 
             <!-- user dropdown ends -->
@@ -145,7 +158,7 @@
             </div>
             <div class="box-content">
 
-                <form role="form" action="/admin-panel/adding/" id="adding" method="post" name="adding_form">
+                <form role="form" action="/admin-panel/adding" id="adding" method="post" name="adding_form">
 
                     <div class="form-group " >
                         <label for="categoryname" style="text-align: right ; float: right">دسته بندی</label>

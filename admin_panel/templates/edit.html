@@ -71,10 +71,10 @@
             <!-- navbar buttons starts -->
             <div class="btn-group pull-right" role="group">
                 <button type="button" class="btn btn-default"> سفارشات</button>
-                <button type="button" class="btn btn-default"><a href="comments.html">  نظرات</a></button>
-                <button type="button" class="btn btn-default"><a href="category.html">  دسته بندی ها</a></button>
-                <button type="button" class="btn btn-default"><a href="enteghadat.html">  انتقادات پیشنهادات</a></button>
-                <button type="button" class="btn btn-default" ><a href="showing.html">  مشاهده کردن</a></button>
+                <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
+                <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
+                <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
+                <button type="button" class="btn btn-default" ><a href="showing.html"> مشاهده کردن</a></button>
                 <button type="button" class="btn btn-primary"><a href="adding.html"> افزودن </a></button>
                 <button type="button" class="btn btn-default"> صفحه اصلی</button>
             </div>
@@ -123,18 +123,13 @@
 <div>
     <ul class="breadcrumb col-md-offset-4 col-md-10 " style="text-align: right">
         <li>
-            <a href="#">افزودن</a>
+            <a href="#">ویرایش</a>
 
         </li>
         <li>
             <a href="#">صفحه اصلی</a>
         </li>
     </ul>
-</div>
-<div class="alert alert-danger col-md-offset-4 col-md-10 " role="alert" style="text-align: right">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="float: right;text-align: right"></span>
-  <span class="sr-only" style="float: right">خطا</span>
-  اظلاعات وارد شده کامل نمیباشد
 </div>
 
 <div class="row">
@@ -144,13 +139,15 @@
     <div class="box  col-md-offset-7 col-md-7" >
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2 style="float: right"><i class="glyphicon glyphicon-star-empty"></i> افزودن</h2>
+                <h2 style="float: right"><i class="glyphicon glyphicon-star-empty"></i> ویرایش</h2>
 
 
             </div>
+
             <div class="box-content">
 
-                <form role="form" action="/admin-panel/" id="adding" method="post" name="adding_form">
+                <form role="form" action="/admin-panel/showing" id="edit" method="post" name="edit_form">
+
 
                     <div class="form-group " >
                         <label for="categoryname" style="text-align: right ; float: right">دسته بندی</label>
@@ -160,29 +157,37 @@
                             {% endfor %}
                         </select>
 
+                        <div class="form-group" style="text-align: right">
+                            <label for="num_form" class="col-2 col-form-label" style="margin-top: 5%;text-align: right;direction: rtl ; " >تعداد</label>
+
+                            <input class="form-control" type="number"  id="num_form" name="product_number">
+                     </div>
+
                         </div>
                     <div class="form-group" style="text-align: right">
-                        <label for="productname">نام محصول</label>
-                        <input style="text-align: right" type="text" class="form-control" id="productname" name="product_name" placeholder="">
+                        <label for="name_form">نام محصول</label>
+                        <input style="text-align: right" type="text" class="form-control" id="name_form" name="product_name" placeholder={{product.1}}>
                     </div>
                     <div class="form-group" style="text-align: right">
-                        <label for="producttext">توضیحات</label>
-                        <input style="text-align: right" type="text" class="form-control" id="producttext" name="product_text" placeholder="">
+                        <label for="detail_form">توضیحات</label>
+                        <input style="text-align: right" type="text" class="form-control" id="detail_form" name="product_text" placeholder={{product.0}}>
                     </div>
                     <div class="form-group" style="text-align: right">
-                        <label for="productprice">قیمت</label>
-                        <input style="text-align: right" type="text" class="form-control" id="productprice" name="product_price" placeholder="">
+                        <label for="price_form">قیمت</label>
+                        <input style="text-align: right" type="text" class="form-control" id="price_form" name="product_price" placeholder="">
                     </div>
                     <div class="form-group" style="margin-bottom: 3%;margin-top: 3%" >
-                        <label style="text-align: right ; float:right" for="productimage">عکس محصول</label>
-                        <input type="file" id="productimage" name="product_image">
+                        <label style="text-align: right ; float:right" for="pic_form">عکس محصول</label>
+                        <input type="file" id="pic_form" name="product_image">
 
                     </div>
 
 
 
                     <button style="margin-left: 90% ; width: 10% ; font-size: medium" type="submit" class="btn btn-primary btn-round">تایید</button>
+
                 </form>
+
             </div>
         </div>
     </div>

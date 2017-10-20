@@ -71,12 +71,25 @@
             <!-- navbar buttons starts -->
             <div class="btn-group pull-right" role="group">
                 <button type="button" class="btn btn-default"> سفارشات</button>
-                <button type="button" class="btn btn-default"><a href="comments.html">  نظرات</a></button>
-                <button type="button" class="btn btn-default"><a href="category.html">  دسته بندی ها</a></button>
-                <button type="button" class="btn btn-default"><a href="enteghadat.html">  انتقادات پیشنهادات</a></button>
-                <button type="button" class="btn btn-default" ><a href="showing.html">  مشاهده کردن</a></button>
-                <button type="button" class="btn btn-primary"><a href="adding.html"> افزودن </a></button>
-                <button type="button" class="btn btn-default"> صفحه اصلی</button>
+                <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
+                <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
+                <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
+                <button type="button" class="btn btn-default" ><a href="showing.html"> مشاهده کردن</a></button>
+                
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  افزودن
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="adding.html">افزودن محصول</a>
+                  <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
+                  <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
+
+                </div>
+                </div>
+            <div class="btn-group pull-right" style="float: right">
+            <button type="button" class="btn btn-default" style="float: right;"> صفحه اصلی</button>
+                </div>
+
             </div>
 
             <!-- user dropdown ends -->
@@ -131,11 +144,6 @@
         </li>
     </ul>
 </div>
-<div class="alert alert-danger col-md-offset-4 col-md-10 " role="alert" style="text-align: right">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="float: right;text-align: right"></span>
-  <span class="sr-only" style="float: right">خطا</span>
-  اظلاعات وارد شده کامل نمیباشد
-</div>
 
 <div class="row">
     <div class="col-md-12">
@@ -144,40 +152,19 @@
     <div class="box  col-md-offset-7 col-md-7" >
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2 style="float: right"><i class="glyphicon glyphicon-star-empty"></i> افزودن</h2>
+                <h2 style="float: right"><i class="glyphicon glyphicon-star-empty"></i> افزودن دسته بندی</h2>
 
 
             </div>
             <div class="box-content">
 
-                <form role="form" action="/admin-panel/" id="adding" method="post" name="adding_form">
+                <form role="form" action="/admin-panel/adding_cat" id="adding_cat" method="post" name="adding_cat_form">
 
-                    <div class="form-group " >
-                        <label for="categoryname" style="text-align: right ; float: right">دسته بندی</label>
-                        <select style="margin-top: 5%;text-align: right;direction: rtl ; "  class="selectpicker " data-width="100%" title="دسته بندی مورد نظر را انتخاب کنید" data-live-search="true" name="category_name" >
-                            {% for cat in cat_data %}
-                            <option value={{ cat.0 }} style="text-align: right">{{ cat.1 }}</option>
-                            {% endfor %}
-                        </select>
+                    <div class="form-group" style="text-align: right">
+                        <label for="categoryname">نام دسته بندی</label>
+                        <input style="text-align: right" type="text" class="form-control" id="categoryname" name="category_name" placeholder="">
+                    </div>
 
-                        </div>
-                    <div class="form-group" style="text-align: right">
-                        <label for="productname">نام محصول</label>
-                        <input style="text-align: right" type="text" class="form-control" id="productname" name="product_name" placeholder="">
-                    </div>
-                    <div class="form-group" style="text-align: right">
-                        <label for="producttext">توضیحات</label>
-                        <input style="text-align: right" type="text" class="form-control" id="producttext" name="product_text" placeholder="">
-                    </div>
-                    <div class="form-group" style="text-align: right">
-                        <label for="productprice">قیمت</label>
-                        <input style="text-align: right" type="text" class="form-control" id="productprice" name="product_price" placeholder="">
-                    </div>
-                    <div class="form-group" style="margin-bottom: 3%;margin-top: 3%" >
-                        <label style="text-align: right ; float:right" for="productimage">عکس محصول</label>
-                        <input type="file" id="productimage" name="product_image">
-
-                    </div>
 
 
 

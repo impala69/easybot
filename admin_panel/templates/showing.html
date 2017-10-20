@@ -203,6 +203,7 @@
 <!-- /showingmodal -->
 
 <!-- editmodal -->
+                <!--
 <div class="modal fade " id="editmodal{{ data.0 }}" tabindex="0" role="dialog" aria-labelledby="editmodal{{ data.0 }}" aria-hidden="true" style="padding-top: 9% ; ">
 <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -229,7 +230,7 @@
             </thead>
             <tbody>
             <tr>
-                <form role="form" action="/adminpanel/showing/?product_id={{data.0}}" id="showing" method="post" name="editing_form">
+                <form role="form" action="/admin-panel/showing/?p_id={{data.0}}" id="showing" method="post" name="editing_form">
                 <td>
                     <div class="form-group " >
                         <label for="categoryname" style="text-align: right ; float: right">دسته بندی</label>
@@ -261,8 +262,8 @@
   <td>
 
         <div class="form-group">
-            <label for="detailform">{{data.3}}</label>
-            <input type="text" class="form-control" id="detailform" name="detail_form" placeholder="">
+
+            <input type="text" class="form-control" id="detailform" name="detail_form" placeholder="" value={{data.3}}>
   </div></td>
 
   <td>
@@ -281,28 +282,31 @@
                    </form>
 
 </div></div></div></div></div></div>
-</div>
+</div> -->
 
 <!-- /editmodal -->
                 <div class="row" >
                     <button type="button" class="btn btn-success btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small" data-toggle="modal" data-target="#showingmodal{{ data.0  }}">
+
                             <i class="glyphicon glyphicon-zoom-in icon-white"></i>
 
                             نمایش
 
                     </button>
-                    <button type="button" class="btn btn-info btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small" data-toggle="modal" data-target="#editmodal{{ data.0  }}">
+                    <a href="/admin-panel/edit?p_id={{data.0}}">
+                    <button type="button" class="btn btn-info btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small"  >
 
                             <i class="glyphicon glyphicon-edit icon-white"></i>
                             تغییر
 
-                    </button>
+                    </button></a>
+                    <a href="/admin-panel/delete?p_id={{data.0}}">
                     <button type="button" class="btn btn-danger btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small">
 
                             <i class="glyphicon glyphicon-trash icon-white"></i>
                             حذف
 
-                    </button>
+                    </button></a>
                 </div>
 
             </td>
