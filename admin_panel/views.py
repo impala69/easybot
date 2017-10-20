@@ -89,7 +89,11 @@ def delete(request):
         return render_to_response("showing.html",{'product_data':get_product_data(),'cat_data': get_cats_names() })
     return render_to_response("showing.html",{'product_data':get_product_data(),'cat_data': get_cats_names() })
 
+<<<<<<< HEAD
+def del_cat(request):
+=======
 def delete_cat(request):
+>>>>>>> 9b889466e5a7490eaae88dfe0970bffb14fb486b
     if request.method == 'GET':
         c_id = request.GET['cat_id']
         models.Category.objects.get(pk=c_id).delete()
@@ -112,7 +116,26 @@ def adding_cat(request):
             print('failed')
             return render_to_response("failed.html")
 
+<<<<<<< HEAD
+def add_cat(request):
+    if request.method == 'POST':
+        add_cat_form = AddCategoryForm(request.POST)
+        if add_cat_form.is_valid():
+            category_name = add_cat_form.cleaned_data['category_name']
+            try:
+                new_category = models.Category(cat_name= category_name)
+                new_category.save()
+            except Exception as e:
+                print('error')
+                print e
+            return render_to_response("showing.html")
+        else:
+            print('failed')
+            return render_to_response("failed.html")
+    return render_to_response("add_cat.html")
+=======
     return render_to_response("adding_cat.html")
+>>>>>>> 9b889466e5a7490eaae88dfe0970bffb14fb486b
 
 
 
