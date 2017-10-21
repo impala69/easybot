@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^comments',views.comments),
     url(r'^adding',views.adding),
     url(r'^adding/showing/', views.showing),
-    url(r'^adding/enteghadat/', views.enteghadat),
+    url(r'^add_feed_cat', views.add_naghd),
     url(r'^adding/category/', views.category),
     url(r'^adding/comments/', views.comments),
     url(r'^orders', views.orders),
@@ -26,4 +26,9 @@ urlpatterns = [
     url(r'^add_cat',views.add_cat),
     url(r'^del_cat',views.del_cat),
     url(r'^add_cat',views.add_cat),
+    url(r'^cm_del',views.cm_del),
+    url(r'^show_naghd_cat',views.show_naghd_cat),
+    url(r'^add_naghd',views.add_naghd),
+    url(r'^del_naghd',views.del_naghd),
+    url(r'^ed_cat',views.ed_cat),
     ]

@@ -98,6 +98,40 @@ def del_cat(request):
     return render_to_response('category.html', {'cat_data' : get_cats_names()})
 
 
+def del_naghd(request):
+    if request.method == 'GET':
+        c_id = request.GET['naghd_id']
+        models.Feedback_cat.objects.get(pk=c_id).delete()
+        return redirect('/admin-panel/show_naghd_cat/')
+    return redirect('/admin-panel/show_naghd_cat/')
+
+def cm_del(request):
+    if request.method == 'GET':
+        cm_id = request.GET['cm_id']
+        models.Comment.objects.get(pk=cm_id).delete()
+        return redirect('/admin-panel/enteghadat/')
+    return redirect('/admin-panel/enteghadat/')
+
+
+def add_naghd(request):
+    if request.method == 'POST':
+        add_feed_cat = AddCategoryForm(request.POST)
+        if add_feed_cat.is_valid():
+            category_name = add_feed_cat.cleaned_data['category_name']
+            try:
+                new_category = models.Feedback_cat(fb_name= category_name)
+                new_category.save()
+            except Exception as e:
+                print('error')
+                print e
+            return redirect("/admin-panel/show_naghd_cat/")
+        else:
+            print('failed')
+            return render_to_response("failed.html")
+    return render_to_response('add_feed_cat.html')
+
+def show_naghd_cat(request):
+    return render_to_response("feedCat.html" , {'cat_data' : get_feed_cats()})
 
 def add_cat(request):
     if request.method == 'POST':
@@ -110,7 +144,7 @@ def add_cat(request):
             except Exception as e:
                 print('error')
                 print e
-            return render_to_response("showing.html")
+            return redirect('/admin-panel/category/')
         else:
             print('failed')
             return render_to_response("failed.html")
@@ -121,6 +155,7 @@ def add_cat(request):
 
 
 def enteghadat(request):
+    print get_comments()
     if request.method == 'POST':
         return render_to_response("enteghadat.html" , {'comments': get_comments()})
     return render_to_response("enteghadat.html" , {'comments' : get_comments()})
@@ -135,6 +170,29 @@ def comments(request):
     if request.method == 'POST':
         return render_to_response("comments.html" , {'p_comment' : get_product_comments()})
     return render_to_response('comments.html' , {'p_comment' : get_product_comments()})
+
+
+def ed_cat(request):
+    if request.method == 'GET':
+        cat_id = request.GET['cat_id']
+    if request.method == "POST":
+        cat_id = request.POST['cat_id']
+        new_cat_name = request.POST['new_cat']
+        category = models.Category.objects.get(pk=cat_id)
+        category.cat_name = new_cat_name
+        category.save()
+        return redirect('/admin-panel/category/')
+
+    return render_to_response("edit_cat.html", {'cat_data': get_cat_data(cat_id)})
+
+def get_cat_data(cat_id):
+    result = models.Category.objects.filter(pk=cat_id)
+    cat_data = []
+    for cat in result:
+        cat_data.append(cat.pk)
+        cat_data.append(cat.cat_name)
+
+    return cat_data
 
 
 def editDescription(request):
@@ -177,6 +235,20 @@ def get_cats_names():
 
     return all_cat
 
+
+def get_feed_cats():
+    result = models.Feedback_cat.objects.filter()
+    cat_data = []
+    all_cat = []
+    for cat in result:
+        cat_data.append(cat.pk)
+        cat_data.append(cat.fb_name)
+        all_cat.append(cat_data)
+        cat_data = []
+
+    return all_cat
+
+
 def get_product_data():
    result = models.Product.objects.all()
    product_data = []
@@ -198,9 +270,10 @@ def get_comments():
     comments = []
     all_comments = []
     for comment in result:
-        comments.append(comment.telegram_id)
+        comments.append(comment.pk)
+        comments.append(return_username_with_telegram_id(comment.telegram_id))
         comments.append(comment.comment)
-        comments.append(comment.comment_cat)
+        comments.append(return_cm_cat_name(comment.comment_cat))
         all_comments.append(comments)
         comments = []
     return all_comments
@@ -287,5 +360,19 @@ def return_username(cus_id):
     try:
         customer = models.Customer.objects.get(pk=cus_id)
         return customer.username
+    except Exception as e:
+        return 0
+
+def return_username_with_telegram_id(t_id):
+    try:
+        customer = models.Customer.objects.get(telegram_id=t_id)
+        return customer.username
+    except Exception as e:
+        return 0
+
+def return_cm_cat_name(c_id):
+    try:
+        cat_name = models.Feedback_cat.objects.get(pk=c_id)
+        return cat_name.fb_name
     except Exception as e:
         return 0

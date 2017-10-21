@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -43,111 +43,90 @@
         body{
         font-family: "Iranian Sans";
         }
-        h2, h5{
+        h2, h5, a{
         font-family: "Iranian Sans";
         }
     </style>
 </head>
+
 <body>
-    <!-- topbar starts -->
+
     <div class="navbar navbar-default" role="navigation">
 
         <div class="navbar-inner">
-            <button type="button" class="navbar-toggle pull-left animated flip">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" class="hidden-xs"/>
-                <span>EasyBot</span></a>
 
-            <!-- user dropdown starts -->
-            <!-- navbar buttons starts -->
+            <a style="font-family: 'Iranian Sans'" class="navbar-brand" href="index.html">بات گرام</a>
+
             <div class="btn-group pull-right" role="group">
                 <button type="button" class="btn btn-default"> سفارشات</button>
                 <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
-                <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
+                <button type="button" class="btn btn-primary"><a href="category.html"> دسته بندی ها</a></button>
                 <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
-                <button type="button" class="btn btn-primary"><a href="showing.html"> مشاهده کردن</a></button>
-                <button type="button" class="btn btn-default"><a href=adding.html"> افزودن </a></button>
+                <button type="button" class="btn btn-default"> <a href="showing.html">مشاهده کردن</a></button>
+                <button type="button" class="btn btn-default"><a href="adding.html">افزودن</a></button>
                 <button type="button" class="btn btn-default"> صفحه اصلی</button>
             </div>
 
-
         </div>
     </div>
-    <!-- topbar ends -->
+
 <div class="container-fluid">
 <div class="row">
-<div class="box col-md-12 col-sm-3 ">
+<div class="box col-md-offset-2 col-md-10 col-sm-3 ">
 <div class="box-inner">
     <div class="box-header well" data-original-title="">
-        <h2 style="float:right">نظرات در یک نگاه</h2>
-        <div class="box-icon" style="float: left">
-            <a href="#" class="btn btn-minimize btn-round btn-default"><i
-                    class="glyphicon glyphicon-chevron-up"></i></a>
-            <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
-    </div>
+        <h2 style="float:right">دسته بندی ها</h2>
+
     </div>
     <div class="box-content">
     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
         <thead>
         <tr>
-            <th style="text-align: right"> تغییرات</th>
-            <th style="text-align: right">آی دی نظردهنده </th>
-            <th style="text-align: right"> دسته بندی</th>
-            <th style="text-align: right"> نظر</th>
-
+            {% for cat in cat_data %}
+            <th style="text-align: right">تغییرات</th>
+            <th style="text-align: right">نام دسته بندی</th>
         </tr>
         </thead>
         <tbody>
         <tr>
+            <td class="center pull-right">
 
+            <a class="btn btn-danger" href="/admin-panel/del_naghd?naghd_id={{cat.0}}">
 
-        {% for comment in comments %}
+                <i class="glyphicon glyphicon-trash icon-white"></i>
+                حذف
+            </a>
+                <a class="btn btn-info" >
+                <i class="glyphicon glyphicon-edit icon-white"></i>
+                    تغییر
+            </a>
 
-            <td style="text-align: right;" class="center ">
-                <div class="btn-group" role="group">
-
-                    <a href="/admin-panel/cm_del?cm_id={{comment.0}}">
-                        <button type="button" class="btn btn-danger btn-sm" style="float: right">
-
-                            <i class="glyphicon glyphicon-trash icon-white"></i>
-                            حذف
-
-                    </button>
-                    </a>
-                </div>
-
-            </td>
-                <td style="text-align: right;direction: rtl;"> {{comment.1}}</td>
-                <td style="text-align: right;direction: rtl;"> {{comment.3}}</td>
-                <td style="text-align: right;direction: rtl;"> {{comment.2}}</td>
-
-
-
-
+        </td>
+            <td style="text-align: right"> {{cat.1}} </td>
         </tr>
-{% endfor %}
+            {% endfor %}
 
         </tbody>
-
     </table>
 
     </div>
 
+</div>
+</div>
+</div>
+</div>
 
-</div>
-</div>
-</div>
-</div>
+
+
+
+<hr>
 
 
 
 <footer class="row">
         <p style="text-align: center" class="col-md-offset-3 col-sm-offset-3col-md-6 col-sm-6 col-xs-12 copyright">&copy; <a href="#" target="_blank">طراحی شده توسط تیم بات گرام</a></p>
     </footer>
+
 
 </body>
 </html>
