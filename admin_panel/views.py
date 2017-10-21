@@ -54,14 +54,15 @@ def edit(request):
 
     if request.method == 'GET':
         product_id = request.GET['p_id']
-        print(product_id)
+        return render_to_response('edit.html',{'p_data':return_product_data(product_id),'cat_data': get_cats_names()})
 
-        return render_to_response("edit.html",{'cat_data': get_cats_names() , 'product':return_product(product_id)})
     if request.method == 'POST':
+
         edit_form = EditProductForm(request.POST)
 
         if edit_form.is_valid():
-            print('2')
+            product_id = request.POST['p_id']
+            print(product_id)
             cat_id = get_cats_names()[0][0]
             cat_id = models.Category.objects.get(pk=cat_id)
             product_name = edit_form.cleande_data['product_name']
@@ -76,7 +77,9 @@ def edit(request):
             except Exception as e:
                 print('error')
                 print e
-        return render_to_response('edit.html',{'cat_data': get_cats_names() })
+        print('2')
+        return render_to_response("edit.html",{'cat_data': get_cats_names() , 'product':return_product_data(product_id)})
+
     return render_to_response("edit.html",{'cat_data': get_cats_names() })
 
 def delete(request):
@@ -244,6 +247,10 @@ def return_product(p_id):
     product_dict = {'product_id': product.pk, 'Name': product.product_name, 'Price':product.price}
     return product_dict
 
+def return_product_data(p_id):
+    product = models.Product.objects.get(pk=p_id)
+    product_dict = {'product_id' : product.pk, 'Name':product.product_name , 'Price': product.price, 'Text': product.text , 'Image' : product.image , 'Number': product.numbers}
+    return product_dict
 
 def update_description(order_id, new_desc):
     try:
