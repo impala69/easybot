@@ -12,6 +12,7 @@ from Comment import CommentDataAccess as com_DA
 from CustomerDataAccess import CustomerDataAccess as CDA
 from ProductDataAccess import ProductDataAccess as PDA
 from Search import SearchDataAccess as SDA
+from AdvanceSearch import AdvanceSearchDataAccess as ASDA
 from Shopping_Card import ShoppingCard as SHC
 from Order import Order
 from ... import models
@@ -48,16 +49,16 @@ class Command(BaseCommand):
 
             if type(customer.return_user_state()) !=  None:
                 user_state = customer.return_user_state()
-                print "state: " + str(user_state)
+                print "state: " + unicode(user_state)
             else:
                 user_state = "Null"
-                print "state: " + str(user_state)
+                print "state: " + unicode(user_state)
 
             #End Of Get Data From User
 
 
 
-            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"دسته بندی ها", callback_data="categories"),InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search")],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad'), InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"وارد کردن اطلاعات شخصی برای خرید", callback_data='enterinfo_firstname')],[InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')],])
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"دسته بندی ها", callback_data="categories"),InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search")],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad'), InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')],[ InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجوی پیشرفته", callback_data='advance_search')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"وارد کردن اطلاعات شخصی برای خرید", callback_data='enterinfo_firstname')],[InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')],])
             if command == '/start':
                 for i in range(1,4):
                     try:
@@ -98,6 +99,39 @@ class Command(BaseCommand):
                     customer.set_current(current_word='search_' + command + '_1')
                     customer.unset_state()
 
+            #When going to AdvanceSearch after entering search word
+            elif content_type == 'text' and'advance_search' in user_state:
+                # print unicode(user_state)
+                # search_obj = ASDA(search_word=command)
+                # search_results = search_obj.search()
+                # print list(search_results)
+                # if list(search_results) == []:
+                if(user_state.split("_")[0]=="s"):
+                    keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجوی همه", callback_data="search_all")],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجوی موجودها", callback_data="search_avalable")], [InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"انتخاب کلمه", callback_data="advance_search")],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"کف قیمت", callback_data="low_price")],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"سقف قیمت", callback_data="high_price")], [ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+' '+ u"بازگشت به منوی اصلی" , callback_data='return')]])
+                    bot.sendMessage(chat_id,u"جستجوی: " + command+"\n", reply_markup=keyboard)
+                    customer.unset_state()
+                    next_str = ""
+                    for item in user_state.split(",")[2:]:
+                        next_str += item+","
+                    next_str = next_str[:-1]
+                    customer.set_state(user_state.split(",")[0]+","+command+","+next_str)
+                if(user_state.split("_")[0]=="kgh"):
+                    pass
+
+
+
+                # else :
+                #     for item in search_results:
+                #         product = PDA(p_id=str(item['id']))
+                #         keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(product.show_product()['Price'])+" تومان")+"💵", callback_data="4"), InlineKeyboardButton(text=u"افزودن به سبد خرید"+emoji.emojize(" :package:",use_aliases=True), callback_data='add_to_cart '+str(item['id']))] ,[InlineKeyboardButton(text=u"جزییات بیشتر"+emoji.emojize(" :clipboard:",use_aliases=True) ,callback_data=str("Product"+str(product.show_product()["product_id"])))],])
+                #         #bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
+                #         caption=u"نام محصول: "+product.show_product()['Name']
+                #         bot.sendPhoto(chat_id,product.show_product()['Image'],caption=caption,reply_markup=keyboard_1)
+                #     keyboard_morenext= InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize( " :arrow_right:",use_aliases=True)+ " " + u"نمایش ۱۰ محصول بعدی" ,callback_data='morenext')],[InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+ "  " + u"بازگشت به منوی اصلی", callback_data='return')]])
+                #     bot.sendMessage(chat_id,"  نتیجه جستجوی شما  ", reply_markup=keyboard_morenext)
+                #     customer.set_current(current_word='search_' + command + '_1')
+                #     customer.unset_state()
+            #End
             elif content_type == 'text' and user_state == 'enterinfo_firstname':
                 customer.enter_first_name(f_name=command)
                 customer.set_state(state_word='enterinfo_lastname')
@@ -191,6 +225,34 @@ class Command(BaseCommand):
                 if customer.set_state(state_word='search'):
                     bot.answerCallbackQuery(query_id, text="نام محصول را وارد کنید", show_alert=True)
             #End Of Search Button
+
+            #When user Press on AdvanceSearch Button
+            if query_data == u"advance_search":
+                customer = CDA(from_id)
+                user_state = customer.return_user_state()
+                print user_state
+                if "advance_search" in user_state:
+                    bot.answerCallbackQuery(query_id, text="نام محصول را وارد کنید", show_alert=True)
+                else:
+                    customer.set_state(state_word='s_advance_search,¢,0,999999999,0')
+                    bot.answerCallbackQuery(query_id, text="نام محصول را وارد کنید", show_alert=True)
+            #End Of AdvanceSearch Button
+
+            #When user press on low_price button
+            if query_data == u"low_price":
+                customer = CDA(from_id)
+                user_state = customer.return_user_state()
+                print user_state
+                next_str=""
+                for item in user_state.split(",")[2:]:
+                    next_str += item + ","
+                next_str = next_str[:-1]
+                customer.set_state(user_state.split(",")[0] + "," + command + "," + next_str)
+
+                customer.set_state(state_word='lgh_advance_search,¢,0,999999999,0')
+                bot.answerCallbackQuery(query_id, text="نام محصول را وارد کنید", show_alert=True)
+
+            #End of low price button
 
             #Whene user Press on Enter Info Button
             if query_data == u"enterinfo_firstname":
