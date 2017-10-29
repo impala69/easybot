@@ -223,6 +223,20 @@ def orders(request):
     return render_to_response("orders.html", {'orders_data': get_all_orders()})
 
 
+def peyk_motori_add(request):
+    if request.method == "POST":
+        f_name = request.POST['peyk_first_name']
+        l_name = request.POST['peyk_last_name']
+        phone = request.POST['peyk_phone']
+        o_id = request.POST['order_id']
+        if add_peyk_motori(f_name=f_name, l_name=l_name, phone=phone, o_id=return_order(o_id=o_id)):
+            return redirect('/admin-panel/orders/')
+        else:
+            print "failed"
+    return redirect('/admin-panel/orders/')
+
+
+
 def get_cats_names():
     result = models.Category.objects.filter()
     cat_data = []
@@ -370,9 +384,29 @@ def return_username_with_telegram_id(t_id):
     except Exception as e:
         return 0
 
+
 def return_cm_cat_name(c_id):
     try:
         cat_name = models.Feedback_cat.objects.get(pk=c_id)
         return cat_name.fb_name
     except Exception as e:
+        return 0
+
+
+def add_peyk_motori(f_name, l_name, phone, o_id):
+    try:
+        new_peyk = models.Peyk_motori(order_id=o_id, first_name=f_name, last_name=l_name, phone=phone)
+        new_peyk.save()
+        return 1
+    except Exception as e:
+        print e
+        return 0
+
+
+def return_order(o_id):
+    try:
+        order = models.Order.objects.get(pk=o_id)
+        return order
+    except Exception as e:
+        print e
         return 0

@@ -15,7 +15,8 @@ urlpatterns = [
     url(r'^add_feed_cat', views.add_naghd),
     url(r'^adding/category/', views.category),
     url(r'^adding/comments/', views.comments),
-    url(r'^orders', views.orders),
+    url('orders/peyk_add', views.peyk_motori_add),
+    url('orders', views.orders),
     url(r'^editDescription', views.editDescription),
     url(r'^arrived', views.arrived),
     url(r'^deletecomment', views.deletecomment),
@@ -31,4 +32,5 @@ urlpatterns = [
     url(r'^add_naghd',views.add_naghd),
     url(r'^del_naghd',views.del_naghd),
     url(r'^ed_cat',views.ed_cat),
+
     ]

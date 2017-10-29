@@ -86,3 +86,10 @@ class Order(models.Model):
 class Order_to_product(models.Model):
     order_id = models.ForeignKey(to=Order, on_delete=models.CASCADE)
     product_id = models.ForeignKey(to=Product, on_delete=models.CASCADE)
+
+
+class Peyk_motori(models.Model):
+    order_id = models.ForeignKey(to=Order, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=30, null=True)
+    last_name = models.CharField(max_length=30, null=True)
+    phone = models.CharField(max_length=20, unique=True, null=True)
