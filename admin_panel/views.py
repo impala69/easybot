@@ -212,7 +212,13 @@ def deletecomment(request):
 
 def arrived(request):
     if request.method == "GET":
-        update_arrival(order_id=request.GET['o_id'])
+        update_arrival(order_id=request.GET['o_id'], arrive_state=2)
+        return redirect('/admin-panel/orders/')
+
+
+def inpeyk(request):
+    if request.method == "GET":
+        update_arrival(order_id=request.GET['o_id'], arrive_state=1)
         return redirect('/admin-panel/orders/')
 
 def success(request):
@@ -234,6 +240,16 @@ def peyk_motori_add(request):
         else:
             print "failed"
     return redirect('/admin-panel/orders/')
+
+
+def del_order(request):
+    if request.method == "GET":
+        if delete_order(o_id=request.GET['orderid']):
+            return redirect('/admin-panel/orders/')
+        else:
+            print "failed"
+    return redirect('/admin-panel/orders/')
+
 
 
 
@@ -350,10 +366,10 @@ def update_description(order_id, new_desc):
         return 0
 
 
-def update_arrival(order_id):
+def update_arrival(order_id, arrive_state):
     try:
         order = models.Order.objects.get(pk=order_id)
-        order.arrived = 1
+        order.arrived = arrive_state
         order.save()
         return 1
     except Exception as e:
@@ -407,6 +423,15 @@ def return_order(o_id):
     try:
         order = models.Order.objects.get(pk=o_id)
         return order
+    except Exception as e:
+        print e
+        return 0
+
+
+def delete_order(o_id):
+    try:
+        order = models.Order.objects.get(pk=o_id)
+        order.delete()
     except Exception as e:
         print e
         return 0

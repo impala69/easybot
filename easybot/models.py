@@ -31,6 +31,7 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=30, null=True)
     address = models.CharField(max_length=100, null=True)
+    email = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=20, unique=True, null=True)
     username = models.CharField(max_length=50, unique=True)
     state = models.CharField(max_length=255, default="null")
@@ -77,7 +78,7 @@ class Order(models.Model):
     cus_id = models.ForeignKey(to=Customer, on_delete=models.CASCADE)
     additional_info = models.TextField(null=True)
     order_time = models.CharField(max_length=30, null=True)
-    arrived = models.BooleanField(default=False)
+    arrived = models.IntegerField(default=1)
 
     def __unicode__(self):
         return (unicode(self.id) + 'V' + unicode(self.cus_id))
@@ -93,3 +94,9 @@ class Peyk_motori(models.Model):
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=30, null=True)
     phone = models.CharField(max_length=20, unique=True, null=True)
+
+
+class Advertise(models.Model):
+    title = models.CharField(max_length=300, null=True)
+    text = models.TextField(null=True)
+    image = models.ImageField(null=True, upload_to="uploads/")

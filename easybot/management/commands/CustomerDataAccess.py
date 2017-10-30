@@ -75,6 +75,15 @@ class CustomerDataAccess:
         except:
             return False
 
+    def enter_email(self, email):
+        try:
+            customer = models.Customer.objects.get(telegram_id=self.__t_id)
+            customer.email = email
+            customer.save()
+            return True
+        except:
+            return False
+
     def enter_address(self, address):
         try:
             customer = models.Customer.objects.get(telegram_id=self.__t_id)

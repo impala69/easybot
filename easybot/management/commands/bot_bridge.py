@@ -139,6 +139,11 @@ class Command(BaseCommand):
 
             elif content_type == 'text' and user_state == 'enterinfo_lastname':
                 customer.enter_last_name(l_name=command)
+                customer.set_state(state_word='enterinfo_email')
+                bot.sendMessage(chat_id, "ایمیل خود را وارد کنید")
+
+            elif content_type == 'text' and user_state == 'enterinfo_email':
+                customer.enter_email(email=command)
                 customer.set_state(state_word='enterinfo_address')
                 bot.sendMessage(chat_id, "آدرس خود را وارد کنید")
 

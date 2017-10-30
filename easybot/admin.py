@@ -5,7 +5,7 @@ from django.forms import ModelForm
 from django.contrib.admin import ModelAdmin
 from suit.widgets import EnclosedInput,NumberInput
 
-from .models import Customer, Product, Category,Sabad_Kharid,Comment, Feedback_cat
+from .models import Customer, Product, Category,Sabad_Kharid,Comment, Feedback_cat, Advertise
 
 
 class ProductForm(ModelForm):
@@ -57,5 +57,6 @@ admin.site.register(Product ,ProductAdmin)
 admin.site.register(Category)
 admin.site.register(Comment , Product_CommentAdmin)
 admin.site.register(Feedback_cat)
+admin.site.register(Advertise)
 
 # Register your models here.
