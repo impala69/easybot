@@ -3,7 +3,11 @@ from __future__ import unicode_literals
 import sys
 
 from django.shortcuts import render
+<<<<<<< HEAD
 from .forms import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm
+=======
+from .forms import AddProductForm, EditProductForm, AddCategoryForm, AddAdvertiseForm
+>>>>>>> 5a62fa35318d3a58426bf12379e56f135e74f9d9
 from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
@@ -151,7 +155,33 @@ def add_cat(request):
     return render_to_response("add_cat.html")
 
 
+def advertise(request):
+    return render_to_response("advertise.html", {'all_ads': get_advertise_data()})
 
+def add_advertise(request):
+    if request.method == 'POST':
+        add_advertise_form = AddAdvertiseForm(request.POST, request.FILES)
+        if add_advertise_form.is_valid():
+            ad_title = add_advertise_form.cleaned_data['advertise_title']
+            ad_text = add_advertise_form.cleaned_data['advertise_text']
+            ad_image = add_advertise_form.cleaned_data['advertise_image']
+            try:
+                new_ad = models.Advertise(title=ad_title, text=ad_text, image=ad_image)
+                new_ad.save()
+            except Exception as e:
+                print e
+            return redirect('/admin-panel/add_advertise/')
+        else:
+            return render_to_response("failed.html")
+    return render_to_response("add_ad.html")
+
+
+def del_ad(request):
+    if request.method == 'GET':
+        ad_id = request.GET['ad_id']
+        models.Advertise.objects.get(pk=ad_id).delete()
+        return redirect('/admin-panel/advertise/')
+    return redirect('/admin-panel/advertise/')
 
 def survey(request):
     if request.method == 'POST':
@@ -280,6 +310,21 @@ def get_cats_names():
     return all_cat
 
 
+def get_advertise_data():
+    result = models.Advertise.objects.filter()
+    ad_data = {}
+    all_ads = []
+    for one_advertise in result:
+        print one_advertise
+        ad_data['ad_id'] = one_advertise.pk
+        ad_data['ad_title'] = one_advertise.title
+        ad_data['ad_text'] = one_advertise.text
+        ad_data['ad_image'] = one_advertise.image
+        all_ads.append(ad_data)
+        ad_data = {}
+    return all_ads
+
+
 def get_feed_cats():
     result = models.Feedback_cat.objects.filter()
     cat_data = []
@@ -288,7 +333,7 @@ def get_feed_cats():
         cat_data.append(cat.pk)
         cat_data.append(cat.fb_name)
         all_cat.append(cat_data)
-        cat_data = []
+        cat_data = {}
 
     return all_cat
 
