@@ -17,3 +17,6 @@ class EditProductForm(forms.Form):
 
 class AddCategoryForm(forms.Form):
     category_name = forms.CharField(label="Category" , max_length=30)
+
+class AddSurveyForm(forms.Form):
+    survey_title = forms.CharField(max_length=30, label='SurveyTitle')

@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import sys
 
 from django.shortcuts import render
-from .forms import AddProductForm,EditProductForm , AddCategoryForm
+from .forms import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm
 from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
@@ -153,6 +153,20 @@ def add_cat(request):
 
 
 
+def survey(request):
+    if request.method == 'POST':
+        add_survey_form = AddSurveyForm(request.POST)
+        if add_survey_form.is_valid():
+            survey_tile = add_survey_form.cleaned_data['survey_title']
+            try:
+                new_survey = models.Survey(title =survey_tile)
+                new_survey.save()
+            except Exception as e:
+                print('false')
+                print e
+            return render_to_response("survey.html")
+
+    return render_to_response("survey_question.html")
 
 def enteghadat(request):
     print get_comments()

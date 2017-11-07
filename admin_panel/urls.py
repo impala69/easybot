@@ -34,5 +34,6 @@ urlpatterns = [
     url(r'^add_naghd',views.add_naghd),
     url(r'^del_naghd',views.del_naghd),
     url(r'^ed_cat',views.ed_cat),
+    url(r'^survey',views.survey),
 
     ]
