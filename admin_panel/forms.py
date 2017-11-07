@@ -19,10 +19,15 @@ class EditProductForm(forms.Form):
 
 
 class AddCategoryForm(forms.Form):
-    category_name = forms.CharField(label="Category", max_length=30)
+    category_name = forms.CharField(label="Category" , max_length=30)
+
+
+class AddSurveyForm(forms.Form):
+    survey_title = forms.CharField(max_length=30, label='SurveyTitle')
 
 
 class AddAdvertiseForm(forms.Form):
     advertise_title = forms.CharField(label="Advertise Title", max_length=300)
     advertise_text = forms.CharField(widget=forms.Textarea)
     advertise_image = forms.ImageField()
+

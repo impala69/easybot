@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import sys
 
 from django.shortcuts import render
-from .forms import AddProductForm, EditProductForm, AddCategoryForm, AddAdvertiseForm
+from .forms import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm, AddAdvertiseForm
 from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
@@ -179,6 +179,20 @@ def del_ad(request):
         return redirect('/admin-panel/advertise/')
     return redirect('/admin-panel/advertise/')
 
+def survey(request):
+    if request.method == 'POST':
+        add_survey_form = AddSurveyForm(request.POST)
+        if add_survey_form.is_valid():
+            survey_tile = add_survey_form.cleaned_data['survey_title']
+            try:
+                new_survey = models.Survey(title =survey_tile)
+                new_survey.save()
+            except Exception as e:
+                print('false')
+                print e
+            return render_to_response("survey.html")
+
+    return render_to_response("survey_question.html")
 
 def enteghadat(request):
     print get_comments()
