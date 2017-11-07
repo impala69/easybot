@@ -3,11 +3,7 @@ from __future__ import unicode_literals
 import sys
 
 from django.shortcuts import render
-<<<<<<< HEAD
-from .forms import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm
-=======
-from .forms import AddProductForm, EditProductForm, AddCategoryForm, AddAdvertiseForm
->>>>>>> 5a62fa35318d3a58426bf12379e56f135e74f9d9
+from .forms import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm, AddAdvertiseForm
 from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
