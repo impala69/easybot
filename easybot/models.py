@@ -99,7 +99,7 @@ class Peyk_motori(models.Model):
 class Advertise(models.Model):
     title = models.CharField(max_length=300, null=True)
     text = models.TextField(null=True)
-    image = models.ImageField(null=True, upload_to="uploads/")
+    image = models.CharField(null=True, max_length=255)
 
 class Survey(models.Model):
     title = models.CharField(max_length=30)

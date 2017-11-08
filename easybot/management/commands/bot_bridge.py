@@ -15,6 +15,7 @@ from Search import SearchDataAccess as SDA
 from AdvanceSearch import AdvanceSearchDataAccess as ASDA
 from Shopping_Card import ShoppingCard as SHC
 from Order import Order
+from Advertise import Advertise
 from ... import models
 
 
@@ -319,6 +320,7 @@ class Command(BaseCommand):
                 user_state = customer.return_user_state()
                 advance_search_dict = get_AdvanceSearchOptions(user_state)
                 advance_search_obj = ASDA(advance_search_dict.get("word"), advance_search_dict.get("low_price", 0), advance_search_dict.get("high_price", 999999999))
+                customer.unset_state()
                 search_results = advance_search_obj.searchAll()
                 for item in search_results:
                     product = PDA(p_id=str(item['id']))
@@ -349,6 +351,7 @@ class Command(BaseCommand):
                 advance_search_dict = get_AdvanceSearchOptions(user_state)
                 advance_search_obj = ASDA(advance_search_dict.get("word"), advance_search_dict.get("low_price", 0), advance_search_dict.get("high_price", 999999999))
                 search_results = advance_search_obj.searchAvalable()
+                customer.unset_state()
                 for item in search_results:
                     product = PDA(p_id=str(item['id']))
                     # keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
@@ -797,8 +800,21 @@ class Command(BaseCommand):
         bot.message_loop({'chat': on_chat_message, 'callback_query': on_callback_query})
         print('Listening ...')
 
+        counter = 0
+        adCounter = 0
         while 1:
             time.sleep(10)
+            if counter % 1 == 0:
+                ad = Advertise(adCounter)
+                adCounter += 1
+                advertise = ad.getAdvertise()
+                print advertise.title
+                customers = ad.getAllCustomers()
+                for customer in customers:
+                    image = advertise.image
+                    bot.sendPhoto(customer.telegram_id, photo=image, caption=advertise.title+"\n"+advertise.text)
+            counter += 1
+
 
 
 
