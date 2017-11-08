@@ -108,24 +108,45 @@ class Command(BaseCommand):
                 # if list(search_results) == []:
                 if(user_state.split("_")[0]=="s"):
                     keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجوی همه", callback_data="search_all")],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجوی موجودها", callback_data="search_avalable")], [InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"انتخاب کلمه", callback_data="advance_search")],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"کف قیمت", callback_data="low_price")],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"سقف قیمت", callback_data="high_price")], [ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+' '+ u"بازگشت به منوی اصلی" , callback_data='return')]])
-                    bot.sendMessage(chat_id,u"جستجوی: " + command+"\n", reply_markup=keyboard)
+                    message_dict = get_AdvanceSearchOptions(user_state)
+                    message_dict["word"] = command
+                    bot.sendMessage(chat_id,u"جستجوی: " + message_dict.get("word",u"تعیین نشده")+"\n"+u"کف قیمت: "+message_dict.get("low_price",u"تعیین نشده")+"\n"+u"سقف قیمت: "+message_dict.get("high_price",u"تعیین نشده"), reply_markup=keyboard)
                     customer.unset_state()
                     next_str = ""
                     for item in user_state.split(",")[2:]:
                         next_str += item+","
                     next_str = next_str[:-1]
                     customer.set_state(user_state.split(",")[0]+","+command+","+next_str)
-                if(user_state.split("_")[0]=="lgh"):
+                elif(user_state.split("_")[0]=="lgh"):
                     keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجوی همه", callback_data="search_all")],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجوی موجودها", callback_data="search_avalable")], [InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"انتخاب کلمه", callback_data="advance_search")],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"کف قیمت", callback_data="low_price")],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"سقف قیمت", callback_data="high_price")], [ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+' '+ u"بازگشت به منوی اصلی" , callback_data='return')]])
                     message_dict = get_AdvanceSearchOptions(user_state)
                     message_dict["low_price"] = command
-                    bot.sendMessage(chat_id,u"جستجوی: " + message_dict.get("word",u"تعیین نشده")+"\n"+message_dict.get("low_price",u"تعیین نشده")+"\n"+message_dict.get("high_price",u"تعیین نشده"), reply_markup=keyboard)
+                    bot.sendMessage(chat_id,u"جستجوی: " + message_dict.get("word",u"تعیین نشده")+"\n"+u"کف قیمت: "+message_dict.get("low_price",u"تعیین نشده")+"\n"+u"سقف قیمت: "+message_dict.get("high_price",u"تعیین نشده"), reply_markup=keyboard)
                     customer.unset_state()
                     next_str = ""
-                    for item in user_state.split(",")[2:]:
+                    for item in user_state.split(",")[3:]:
                         next_str += item+","
                     next_str = next_str[:-1]
-                    customer.set_state(user_state.split(",")[0]+","+command+","+next_str)
+                    pre_str = ""
+                    for item in user_state.split(",")[:2]:
+                        pre_str += item+","
+                    pre_str = pre_str[:-1]
+                    customer.set_state(pre_str+","+command+","+next_str)
+                elif(user_state.split("_")[0]=="hgh"):
+                    keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجوی همه", callback_data="search_all")],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجوی موجودها", callback_data="search_avalable")], [InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"انتخاب کلمه", callback_data="advance_search")],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"کف قیمت", callback_data="low_price")],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"سقف قیمت", callback_data="high_price")], [ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+' '+ u"بازگشت به منوی اصلی" , callback_data='return')]])
+                    message_dict = get_AdvanceSearchOptions(user_state)
+                    message_dict["high_price"] = command
+                    bot.sendMessage(chat_id,u"جستجوی: " + message_dict.get("word",u"تعیین نشده")+"\n"+u"کف قیمت: "+message_dict.get("low_price",u"تعیین نشده")+"\n"+u"سقف قیمت: "+message_dict.get("high_price",u"تعیین نشده"), reply_markup=keyboard)
+                    customer.unset_state()
+                    next_str = ""
+                    for item in user_state.split(",")[4:]:
+                        next_str += item+","
+                    next_str = next_str[:-1]
+                    pre_str = ""
+                    for item in user_state.split(",")[:3]:
+                        pre_str += item+","
+                    pre_str = pre_str[:-1]
+                    customer.set_state(pre_str+","+command+","+next_str)
 
 
 
@@ -247,6 +268,12 @@ class Command(BaseCommand):
                 print user_state
                 if "advance_search" in user_state:
                     bot.answerCallbackQuery(query_id, text="نام محصول را وارد کنید", show_alert=True)
+                    next_str = ""
+                    for item in user_state.split(",")[1:]:
+                        next_str += item + ","
+                    next_str = next_str[:-1]
+                    customer.set_state("s_advance_search," + next_str)
+
                 else:
                     customer.set_state(state_word='s_advance_search,¢,0,999999999,0')
                     bot.answerCallbackQuery(query_id, text="نام محصول را وارد کنید", show_alert=True)
@@ -268,6 +295,84 @@ class Command(BaseCommand):
                 bot.answerCallbackQuery(query_id, text="کف قیمت محصول را وارد کنید", show_alert=True)
 
             #End of low price button
+
+            #When user press on high_price button
+            if query_data == u"high_price":
+                customer = CDA(from_id)
+                user_state = customer.return_user_state()
+                print user_state
+                next_str=""
+                for item in user_state.split(",")[1:]:
+                    next_str += item + ","
+                next_str = next_str[:-1]
+                customer.set_state("hgh_advance_search," + next_str)
+                print customer.return_user_state()
+
+                # customer.set_state(state_word='lgh_advance_search,¢,0,999999999,0')
+                bot.answerCallbackQuery(query_id, text="سقف قیمت محصول را وارد کنید", show_alert=True)
+            #End of high price button
+
+            #When user press on search all button
+            if query_data == u"search_all":
+                print "search_allllll"
+                customer = CDA(from_id)
+                user_state = customer.return_user_state()
+                advance_search_dict = get_AdvanceSearchOptions(user_state)
+                advance_search_obj = ASDA(advance_search_dict.get("word"), advance_search_dict.get("low_price", 0), advance_search_dict.get("high_price", 999999999))
+                search_results = advance_search_obj.searchAll()
+                for item in search_results:
+                    product = PDA(p_id=str(item['id']))
+                    # keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
+                    keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
+                        text=str(str(product.show_product()['Price']) + " تومان") + "💵", callback_data="4"),
+                        InlineKeyboardButton(
+                            text=u"افزودن به سبد خرید" + emoji.emojize(
+                                " :package:", use_aliases=True),
+                            callback_data='add_to_cart ' + str(
+                                item['id']))], [
+                        InlineKeyboardButton(
+                            text="جزییات بیشتر",
+                            callback_data=str("Product" + str(
+                                product.show_product()[
+                                    "product_id"])))], ])
+
+                    # bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
+                    caption = u"نام محصول: " + product.show_product()['Name']
+                    bot.sendPhoto(from_id, product.show_product()['Image'], caption=caption, reply_markup=keyboard_1)
+                if len(search_results) == 0:
+                    bot.sendMessage(from_id, u"متاسفانه محصولی با این مشخصات یافت نشد")
+                print "search_allllll_done"
+            if query_data == u"search_avalable":
+                print "search_allllll"
+                customer = CDA(from_id)
+                user_state = customer.return_user_state()
+                advance_search_dict = get_AdvanceSearchOptions(user_state)
+                advance_search_obj = ASDA(advance_search_dict.get("word"), advance_search_dict.get("low_price", 0), advance_search_dict.get("high_price", 999999999))
+                search_results = advance_search_obj.searchAvalable()
+                for item in search_results:
+                    product = PDA(p_id=str(item['id']))
+                    # keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=str(str(show_product(str(item['id']))['Price'])+" تومان"), callback_data="4"), InlineKeyboardButton(text="افزودن به سبد خرید", callback_data='add_to_cart '+str(item['id']))],[InlineKeyboardButton(text="جزییات بیشتر" ,callback_data=str("Product"+str(show_product(str(item['id']))["product_id"])))],])
+                    keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
+                        text=str(str(product.show_product()['Price']) + " تومان") + "💵", callback_data="4"),
+                        InlineKeyboardButton(
+                            text=u"افزودن به سبد خرید" + emoji.emojize(
+                                " :package:", use_aliases=True),
+                            callback_data='add_to_cart ' + str(
+                                item['id']))], [
+                        InlineKeyboardButton(
+                            text="جزییات بیشتر",
+                            callback_data=str("Product" + str(
+                                product.show_product()[
+                                    "product_id"])))], ])
+
+                    # bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
+                    caption = u"نام محصول: " + product.show_product()['Name']
+                    bot.sendPhoto(from_id, product.show_product()['Image'], caption=caption, reply_markup=keyboard_1)
+                if len(search_results) == 0:
+                    bot.sendMessage(from_id, u"متاسفانه محصولی با این مشخصات یافت نشد")
+                print "search_allllll_done"
+
+            #End of search all button
 
             #Whene user Press on Enter Info Button
             if query_data == u"enterinfo_firstname":
