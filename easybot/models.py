@@ -100,6 +100,7 @@ class Advertise(models.Model):
     title = models.CharField(max_length=300, null=True)
     text = models.TextField(null=True)
     image = models.CharField(null=True, max_length=255)
+    repeat = models.IntegerField(null=False, default=1)
 
 class Surveys(models.Model):
     title = models.CharField(max_length=30 , unique=True)
