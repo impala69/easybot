@@ -808,11 +808,15 @@ class Command(BaseCommand):
                 ad = Advertise(adCounter)
                 adCounter += 1
                 advertise = ad.getAdvertise()
-                print advertise.title
-                customers = ad.getAllCustomers()
-                for customer in customers:
-                    image = advertise.image
-                    bot.sendPhoto(customer.telegram_id, photo=image, caption=advertise.title+"\n"+advertise.text)
+                if advertise != 0:
+                    print advertise.title
+                    customers = ad.getAllCustomers()
+                    for customer in customers:
+                        image = advertise.image
+                        try:
+                            bot.sendPhoto(customer.telegram_id, photo=image, caption=advertise.title+"\n"+advertise.text)
+                        except:
+                            print "failed sending advertise"
             counter += 1
 
 
