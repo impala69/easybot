@@ -101,9 +101,10 @@ class Advertise(models.Model):
     text = models.TextField(null=True)
     image = models.ImageField(null=True, upload_to="uploads/")
 
-class Survey(models.Model):
-    title = models.CharField(max_length=30)
+class Surveys(models.Model):
+    title = models.CharField(max_length=30 , unique=True)
+
 
 class Questions(models.Model):
-    survey_id = models.ForeignKey(to=Survey, on_delete=models.CASCADE)
+    survey_id = models.ForeignKey(to=Surveys, on_delete=models.CASCADE)
     text = models.CharField(max_length=100)

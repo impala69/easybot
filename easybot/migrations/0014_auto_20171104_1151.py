@@ -31,20 +31,7 @@ class Migration(migrations.Migration):
                 ('phone', models.CharField(max_length=20, null=True, unique=True)),
             ],
         ),
-        migrations.CreateModel(
-            name='Questions',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', models.CharField(max_length=100)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Survey',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=30)),
-            ],
-        ),
+
         migrations.AddField(
             model_name='customer',
             name='email',
@@ -55,11 +42,7 @@ class Migration(migrations.Migration):
             name='arrived',
             field=models.IntegerField(default=1),
         ),
-        migrations.AddField(
-            model_name='questions',
-            name='survey_id',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='easybot.Survey'),
-        ),
+
         migrations.AddField(
             model_name='peyk_motori',
             name='order_id',

@@ -109,68 +109,66 @@
 
 
     </div>
+<div class="container-fluid">
+<div class="row">
+<div class="box col-md-12 col-sm-3 ">
+<div class="box-inner">
+    <div class="box-header well" data-original-title="">
+        <h2 style="float:right"><i  style="padding-right: 2%" class="glyphicon glyphicon-user">نظرسنجی</i> </h2>
+        <div class="box-icon" style="float: left">
+            <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                    class="glyphicon glyphicon-chevron-up"></i></a>
+            <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
+    </div>
+    </div>
+    <div class="box-content">
+    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+        <thead>
+        <tr>
+            <th style="text-align: right">سوالات</th>
+            <th style="text-align: right">موضوع</th>
+            <th style="text-align: right">شماره</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+
+
+
+            {% for data in survey_data %}
+
+
+
+
+                <td style="text-align: right;direction: rtl">{{data.3}}</td>
+                <td style="text-align: right;direction: rtl">{{data.0}}</td>
+                <td style="text-align: right;direction: rtl">{{data.1}}</td>
+
+
+        </tr>
+
+        {% endfor %}
+
+
+        </tbody>
+
+    </table>
+
+    </div>
 
 
 </div>
+</div>
+</div>
+</div>
 
- <div class="box-content">
 
-
-     <div class="row">
-         <div class="col-md-12">
-             <div class="container-fluid">
-                 <div class="box   col-md-12">
-                     <div class="box-inner">
-                         <div class="box-header well" data-original-title="">
-                             <h2 style="float: right"><i class="glyphicon glyphicon-star-empty"></i> نظرسنجی</h2>
-                         </div>
-                         <div class="box-content"  style="margin-left: 85%">
-                             <form role="form" action="/admin-panel/survey" id="add_survey" method="post" name="add_survey_form">
-                                  <fieldset>
-                                      <h4 class="fs-title" style="text-align: right">موضوع نظرسنجی </h4>
-                                      <div class="input_fields_wrap">
-                                      <div style="padding-top: 3%"><input style="font-family: 'Iranian Sans';border-radius: 10px;text-align: right" type="text" name="survey_title" placeholder="موضوع نظرسنجی"></div>
-            <a style="font-family: 'Iranian Sans';text-decoration: none;float: right;کtext-align:right;color: black;font-size: smaller;padding-top: 2%" href="#" class="add_field_button">اضافه کردن سوال</a>
-        </div>
-
-                                  </fieldset>
-                                  <button style="margin-left: 70% ; width: 30% ; font-size: medium;margin-top: 5%" type="submit"
-                                                class="btn btn-primary btn-round">تایید
-                                  </button>
-                             </form>
-                         </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div>
 
 <footer class="row">
     <p style="text-align: center" class="col-md-offset-3 col-sm-offset-3col-md-6 col-sm-6 col-xs-12 copyright">&copy; <a
             href="#" target="_blank">طراحی شده توسط تیم بات گرام</a></p>
 </footer>
-<script>
-    $(document).ready(function() {
-        var max_fields      = 10; //maximum input boxes allowed
-        var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-        var add_button      = $(".add_field_button"); //Add button ID
 
-        var x = 1; //initlal text box count
-        $(add_button).click(function(e){ //on add input button click
-            e.preventDefault();
-            if(x < max_fields){ //max input box allowed
-                x++; //text box increment
-                $(wrapper).append('<div style="font-family: Iranian Sans;padding-top: 12%" ><input style="font-family: Iranian Sans;border-radius: 10px; text-align: right" type="text" name="Q" placeholder="سوال"/><a style="text-decoration: none;color: black;font-size: x-small;float: right;padding-top: 2%" href="#" class="remove_field">حذف سوال</a></div>'); //add input box
-                ;
-            }
-        });
-
-        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-            e.preventDefault(); $(this).parent('div').remove(); x--;
-        })
-    });
-</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>

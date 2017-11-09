@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^del_naghd',views.del_naghd),
     url(r'^ed_cat',views.ed_cat),
     url(r'^survey',views.survey),
+    url(r'^show_survey',views.show_survey),
     url(r'^add_advertise', views.add_advertise),
     url(r'^advertise', views.advertise),
     url(r'^del_ad', views.del_ad),
