@@ -39,14 +39,16 @@
     <link rel="shortcut icon" href="{% static 'adminpanel/img/favicon.ico' %}">
     <style>
         @font-face {
-        font-family: "Iranian Sans";
-        src: url({% static 'adminpanel/fonts/iraniansans.ttf' %});
+            font-family: "Iranian Sans";
+            src: url({% static 'adminpanel/fonts/iraniansans.ttf' %});
         }
-        body{
-        font-family: "Iranian Sans";
+
+        body {
+            font-family: "Iranian Sans";
         }
-        h2, h5{
-        font-family: "Iranian Sans";
+
+        h2, h5 {
+            font-family: "Iranian Sans";
         }
     </style>
 </head>
@@ -75,114 +77,130 @@
                 <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
                 <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
 
-            <a class="navbar-brand" href="index.html"> <img alt="logo" src="{% static 'adminpanel/img/logo20.png' %}" class="hidden-xs"/>
-                <span>EasyBot</span></a>
+                <a class="navbar-brand" href="index.html"> <img alt="logo"
+                                                                src="{% static 'adminpanel/img/logo20.png' %}"
+                                                                class="hidden-xs"/>
+                    <span>EasyBot</span></a>
 
-            <!-- user dropdown starts -->
-            <!-- navbar buttons starts -->
-            <div class="btn-group pull-right" role="group">
-                <button type="button" class="btn btn-default"> سفارشات</button>
-                <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
-                <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
-                <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
-                <button type="button" class="btn btn-default" ><a href="showing.html"> مشاهده کردن</a></button>
+                <!-- user dropdown starts -->
+                <!-- navbar buttons starts -->
+                <div class="btn-group pull-right" role="group">
+                    <button type="button" class="btn btn-default"> سفارشات</button>
+                    <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
+                    <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
+                    <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a>
+                    </button>
+                    <button type="button" class="btn btn-default"><a href="showing.html"> مشاهده کردن</a></button>
 
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  افزودن
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="adding.html">افزودن محصول</a>
-                  <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
-                  <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        افزودن
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="adding.html">افزودن محصول</a>
+                        <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
+                        <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
 
+                    </div>
                 </div>
-                </div>
-            <div class="btn-group pull-right" style="float: right">
-            <button type="button" class="btn btn-default" style="float: right;"> صفحه اصلی</button>
+                <div class="btn-group pull-right" style="float: right">
+                    <button type="button" class="btn btn-default" style="float: right;"> صفحه اصلی</button>
                 </div>
 
             </div>
 
 
-            </div>
         </div>
-
-
     </div>
 
 
 </div>
 
- <div class="box-content">
+
+</div>
+
+<div class="box-content">
 
 
-     <div class="row">
-         <div class="col-md-12">
-             <div class="container-fluid">
-                 <div class="box   col-md-12">
-                     <div class="box-inner">
-                         <div class="box-header well" data-original-title="">
-                             <h2 style="float: right"><i class="glyphicon glyphicon-star-empty"></i> نظرسنجی</h2>
-                         </div>
-                         <div class="box-content"  style="margin-left: 85%">
-                             <form role="form" action="/admin-panel/survey" id="add_survey" method="post" name="add_survey_form">
-                                  <fieldset>
-                                      <h4 class="fs-title" style="text-align: right">موضوع نظرسنجی </h4>
-                                      <div class="input_fields_wrap">
-                                      <div style="padding-top: 3%"><input style="font-family: 'Iranian Sans';border-radius: 10px;text-align: right" type="text" name="survey_title" placeholder="موضوع نظرسنجی"></div>
-            <a style="font-family: 'Iranian Sans';text-decoration: none;float: right;کtext-align:right;color: black;font-size: smaller;padding-top: 2%" href="#" class="add_field_button">اضافه کردن سوال</a>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="container-fluid">
+                <div class="box   col-md-12">
+                    <div class="box-inner">
+                        <div class="box-header well" data-original-title="">
+                            <h2 style="float: right"> نظرسنجی</h2>
+                        </div>
+                        <div class="box-content" style="margin-left: 85%">
+                            <form role="form" action="/admin-panel/survey" id="add_survey" method="post"
+                                  name="add_survey_form">
+                                <fieldset>
+                                    <h6 style="text-align: right;font-family: 'Iranian Sans'">موضوع نظرسنجی </h6>
+                                    <div class="input_fields_wrap">
+                                        <div style="padding-top: 3%">
+                                            <input class="form-control"
+                                                   style="font-family: 'Iranian Sans';border-radius: 10px;text-align: right"
+                                                   type="text" name="survey_title"
+                                                   placeholder="موضوع نظرسنجی">
+                                        </div>
+                                        <h6 style="text-align: right;font-family: 'Iranian Sans'">سوال</h6>
+                                        <div class="row" style="padding-top: 3%;margin-top: -4%">
+                                            <div class="col-md-10 pull-right">
+                                                <input class="form-control" style="font-family: 'Iranian Sans';border-radius: 10px;text-align: right" type="text" name="questions[]" placeholder="سوال">
+                                            </div>
+                                            <div style="padding-right: 0;padding-top: 7px;" class="col-md-2">
+                                                <a style="font-family: 'Iranian Sans';text-decoration: none;float: right;کtext-align:right;color: black;font-size: smaller;padding-top: 2%" href="#" class="add_field_button">
+                                                    <i style="font-size: 200%;" class="glyphicon glyphicon-plus"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+                                <button style="margin-left: 70% ; width: 30% ; font-size: medium;margin-top: 5%"
+                                        type="submit"
+                                        class="btn btn-primary btn-round">تایید
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-                                  </fieldset>
-                                  <button style="margin-left: 70% ; width: 30% ; font-size: medium;margin-top: 5%" type="submit"
-                                                class="btn btn-primary btn-round">تایید
-                                  </button>
-                             </form>
-                         </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div>
+    </div>
+</div>
 
 <footer class="row">
     <p style="text-align: center" class="col-md-offset-3 col-sm-offset-3col-md-6 col-sm-6 col-xs-12 copyright">&copy; <a
             href="#" target="_blank">طراحی شده توسط تیم بات گرام</a></p>
 </footer>
 <script>
-    $(document).ready(function() {
-        var max_fields      = 10; //maximum input boxes allowed
-        var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-        var add_button      = $(".add_field_button"); //Add button ID
+    $(document).ready(function () {
+        var max_fields = 10; //maximum input boxes allowed
+        var wrapper = $(".input_fields_wrap"); //Fields wrapper
+        var add_button = $(".add_field_button"); //Add button ID
 
         var x = 1; //initlal text box count
-        $(add_button).click(function(e){ //on add input button click
+        $(add_button).click(function (e) { //on add input button click
             e.preventDefault();
-            if(x < max_fields){ //max input box allowed
+            if (x < max_fields) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div style="font-family: Iranian Sans;padding-top: 12%" ><input style="font-family: Iranian Sans;border-radius: 10px; text-align: right" type="text" name="Q[]" placeholder="سوال"/><a style="text-decoration: none;color: black;font-size: x-small;float: right;padding-top: 2%" href="#" class="remove_field">حذف سوال</a></div>'); //add input box
-                {{ name }};
+                $(wrapper).append('<div style="font-family: Iranian Sans;padding-top: 12%" ><input class="form-control" style="font-family: Iranian Sans;border-radius: 10px; text-align: right" type="text" name="questions[]" placeholder="سوال"/><a style="text-decoration: none;color: black;font-size: x-small;float: right;padding-top: 2%" href="#" class="remove_field">حذف سوال</a></div>'); //add input box
+                ;
+            }
+            else {
+                alert("بیشترین تعداد سوال ساخته شد.");
             }
         });
 
-        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-            e.preventDefault(); $(this).parent('div').remove(); x--;
+        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+            e.preventDefault();
+            $(this).parent('div').remove();
+            x--;
         })
     });
 </script>
-<!--
-<script>
-$(function(){
-    $("#button-wrapper button").click(function(){
 
-        $("#button-wrapper").html('<input type="text" style="border-radius: 30px;text-align: right;" placeholder="موضوع نظرسنجی"   id="survey-title"/>'
-        + '<button  class="btn btn-primary" type="submit" href="#" />');
-        $("#button-wrapper input").focus();
-        $("#button-wrapper button").focus();
-    });
-});
-</script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
 <script src="{% static 'adminpanel/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
