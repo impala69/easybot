@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import sys
 
 from django.shortcuts import render
-from .forms import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm, AddAdvertiseForm
+from .forms import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm, AddAdvertiseForm, AddCodeForm
 from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
@@ -179,6 +179,35 @@ def del_ad(request):
         return redirect('/admin-panel/advertise/')
     return redirect('/admin-panel/advertise/')
 
+
+def codes(request):
+    return render_to_response("codes.html", {'all_codes': get_codes_data()})
+
+
+def add_code(request):
+    if request.method == 'POST':
+        add_code_form = AddCodeForm(request.POST)
+        if add_code_form.is_valid():
+            code_char = add_code_form.cleaned_data['code_char']
+            try:
+                new_code = models.DiscountCode(code_char=code_char)
+                new_code.save()
+            except Exception as e:
+                print e
+            return redirect('/admin-panel/add_code/')
+        else:
+            return render_to_response("failed.html")
+    return render_to_response("add_code.html")
+
+
+def del_code(request):
+    if request.method == 'GET':
+        code_id = request.GET['code_id']
+        models.DiscountCode.objects.get(pk=code_id).delete()
+        return redirect('/admin-panel/codes/')
+    return redirect('/admin-panel/codes/')
+
+
 def survey(request):
     if request.method == 'POST':
         add_survey_form = AddSurveyForm(request.POST)
@@ -311,7 +340,6 @@ def get_advertise_data():
     ad_data = {}
     all_ads = []
     for one_advertise in result:
-        print one_advertise
         ad_data['ad_id'] = one_advertise.pk
         ad_data['ad_title'] = one_advertise.title
         ad_data['ad_text'] = one_advertise.text
@@ -319,6 +347,18 @@ def get_advertise_data():
         all_ads.append(ad_data)
         ad_data = {}
     return all_ads
+
+
+def get_codes_data():
+    result = models.DiscountCode.objects.filter()
+    code_data = {}
+    all_codess = []
+    for one_code in result:
+        code_data['code_id'] = one_code.pk
+        code_data['code_char'] = one_code.code_char
+        all_codess.append(code_data)
+        code_data = {}
+    return all_codess
 
 
 def get_feed_cats():

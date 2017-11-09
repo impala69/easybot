@@ -107,3 +107,8 @@ class Survey(models.Model):
 class Questions(models.Model):
     survey_id = models.ForeignKey(to=Survey, on_delete=models.CASCADE)
     text = models.CharField(max_length=100)
+
+
+class DiscountCode(models.Model):
+    code_char = models.CharField(max_length=30, null=False, default=None)
+
