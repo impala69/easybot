@@ -184,10 +184,7 @@ def survey(request):
         add_survey_form = AddSurveyForm(request.POST)
         if add_survey_form.is_valid():
             survey_title = add_survey_form.cleaned_data['survey_title']
-            Q = []
-            for i in range(2):
-                Q.append(request.POST['Q'])
-            print(Q)
+            Q = request.POST['Q']
             try:
                 new_survey = models.Surveys(title =survey_title)
                 new_survey.save()
@@ -209,6 +206,12 @@ def show_survey(request):
         return render_to_response("show_survey.html" , {'survey_data' : get_survey_data()})
     return render_to_response("show_survey.html", {'survey_data' : get_survey_data()})
 
+def del_survey(request):
+    if request.method == 'GET':
+        s_id = request.GET['s_id']
+        models.Surveys.objects.get(pk=s_id).delete()
+        return render_to_response("show_survey.html" , {'survey_data' : get_survey_data()})
+    return render_to_response("show_survey.html", {'survey_data' : get_survey_data()})
 
 def enteghadat(request):
     print get_comments()
@@ -372,10 +375,12 @@ def get_survey_data():
     all_data = []
     for question in result:
         survey_title = (question.survey_id ).title
+        question_data.append(((question.survey_id).id))
         question_data.append(survey_title)
         question_data.append(question.pk)
         question_data.append(question.survey_id)
         question_data.append(question.text)
+        print question.text
         all_data.append(question_data)
         question_data = []
     return all_data
