@@ -7,27 +7,24 @@
         EasyBot
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <!-- The styles -->
     <link id="bs-css" href="{% static 'adminpanel/css/bootstrap-cerulean.min.css' %}" rel="stylesheet">
 
     <link href="{% static 'adminpanel/css/charisma-app.css' %}" rel="stylesheet">
     <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.print.css' %}" rel='stylesheet'
-          media='print'>
+    <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.print.css' %}" rel='stylesheet' media='print'>
     <link href="{% static 'adminpanel/bower_components/chosen/chosen.min.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/bower_components/colorbox/example3/colorbox.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/bower_components/responsive-tables/responsive-tables.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' %}"
-          rel='stylesheet'>
+    <link href="{% static 'adminpanel/bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/css/jquery.noty.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/css/noty_theme_default.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/css/elfinder.min.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/css/elfinder.theme.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/css/jquery.iphone.toggle.css' %}" rel='stylesheet'>
     <link href="{% static 'adminpanel/css/uploadify.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'adminpanel/css/animate.min.css' %}" rel="stylesheet" >
 
     <!-- jQuery -->
     <script src="{% static 'adminpanel/bower_components/jquery/jquery.min.js' %}"></script>
@@ -39,7 +36,7 @@
 
     <!-- The fav icon -->
     <link rel="shortcut icon" href="{% static 'adminpanel/img/favicon.ico' %}">
-    <style>
+  <style>
         @font-face {
         font-family: "Iranian Sans";
         src: url({% static 'adminpanel/fonts/iraniansans.ttf' %});
@@ -54,48 +51,45 @@
 </head>
 
 <body>
-<!-- topbar starts -->
 <div class="navbar navbar-default" role="navigation">
 
     <div class="navbar-inner">
-        <button type="button" class="navbar-toggle pull-left animated flip">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.html"> <img alt="logo" src="{% static 'adminpanel/img/logo20.png' %}"
-                                                        class="hidden-xs"/>
-            <span>EasyBot</span></a>
+        <a style="font-family: 'Iranian Sans'" class="navbar-brand" href="index.html">بات گرام</a>
 
-        <!-- user dropdown starts -->
-        <!-- navbar buttons starts -->
         <div class="btn-group pull-right" role="group">
-            <button type="button" class="btn btn-default"> سفارشات</button>
+            <button type="button" class="btn btn-default"><a href="codes.html"> کد تخفیف</a></button>
+            <button type="button" class="btn btn-default"><a href="advertise.html"> تبلیغات</a></button>
+            <button type="button" class="btn btn-default"><a href="show_survey.html"> نظرسنجی</a></button>
+            <button type="button" class="btn btn-default"><a href="orders.html">سفارشات</a></button>
             <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
             <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
             <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
             <button type="button" class="btn btn-default"><a href="showing.html"> مشاهده کردن</a></button>
 
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                 افزودن
             </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="adding.html">افزودن محصول</a>
-                <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
-                <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+                <li class="dropdown-item" href="adding.html" style="padding-left: 30%"><a href="adding.html">افزودن محصول</a></li>
+                <li class="dropdown-item" href="add_cat.html" style="padding-left: 20%"><a href="add_cat.html">افزودن دسته بندی</a></li>
+                <li class="dropdown-item" href="add_feed_cat" style="padding-left:45%"><a href="add_feed_cat.html">افزودن نظر</a></li>
+                <li class="dropdown-item" href="survey.html" style="padding-left:24%"><a href="survey.html">افزودن نظرسنجی</a></li>
+                <li class="dropdown-item" href="add_ad.html" style="padding-left:30%"><a href="add_ad.html">افزودن تبلیغات</a></li>
+                <li class="dropdown-item" href="add_code.html" style="padding-left:22%"><a href="add_code.html">افزودن کد تخفیف</a></li>
+
+
+                </ul>
+
 
             </div>
-        </div>
-        <div class="btn-group pull-right" style="float: right">
-            <button type="button" class="btn btn-default" style="float: right;"> صفحه اصلی</button>
-        </div>
 
+
+        </div>
     </div>
 
 
-</div>
 
 
 <div class="ch-container">
@@ -169,15 +163,18 @@
 
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
-    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
-
-
-    <script src="{% static 'adminpanel/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
 
 </div>
+
+
+<!-- external javascript -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
+<script src="{% static 'adminpanel/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
 </body>
 </html>
+

@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^show_survey',views.show_survey),
     url(r'^add_advertise', views.add_advertise),
     url(r'^advertise', views.advertise),
+    url(r'^add_ad',views.add_advertise),
     url(r'^del_ad', views.del_ad),
     url(r'^add_code', views.add_code),
     url(r'^codes', views.codes),

@@ -7,6 +7,7 @@
         EasyBot
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <!-- The styles -->
     <link id="bs-css" href="{% static 'adminpanel/css/bootstrap-cerulean.min.css' %}" rel="stylesheet">
 
@@ -43,32 +44,51 @@
         body{
         font-family: "Iranian Sans";
         }
-        h2, h5, a{
+        h2, h5{
         font-family: "Iranian Sans";
         }
     </style>
 </head>
 
 <body>
+<div class="navbar navbar-default" role="navigation">
 
-    <div class="navbar navbar-default" role="navigation">
+    <div class="navbar-inner">
+        <a style="font-family: 'Iranian Sans'" class="navbar-brand" href="index.html">بات گرام</a>
 
-        <div class="navbar-inner">
+        <div class="btn-group pull-right" role="group">
+            <button type="button" class="btn btn-default"><a href="codes.html"> کد تخفیف</a></button>
+            <button type="button" class="btn btn-default"><a href="advertise.html"> تبلیغات</a></button>
+            <button type="button" class="btn btn-default"><a href="show_survey.html"> نظرسنجی</a></button>
+            <button type="button" class="btn btn-default"><a href="orders.html">سفارشات</a></button>
+            <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
+            <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
+            <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
+            <button type="button" class="btn btn-default"><a href="showing.html"> مشاهده کردن</a></button>
 
-            <a style="font-family: 'Iranian Sans'" class="navbar-brand" href="index.html">بات گرام</a>
+            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                افزودن
+            </button>
 
-            <div class="btn-group pull-right" role="group">
-                <button type="button" class="btn btn-default"> سفارشات</button>
-                <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
-                <button type="button" class="btn btn-primary"><a href="category.html"> دسته بندی ها</a></button>
-                <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
-                <button type="button" class="btn btn-default"> <a href="showing.html">مشاهده کردن</a></button>
-                <button type="button" class="btn btn-default"><a href="adding.html">افزودن</a></button>
-                <button type="button" class="btn btn-default"> صفحه اصلی</button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
+                <li class="dropdown-item" href="adding.html" style="padding-left: 30%"><a href="adding.html">افزودن محصول</a></li>
+                <li class="dropdown-item" href="add_cat.html" style="padding-left: 20%"><a href="add_cat.html">افزودن دسته بندی</a></li>
+                <li class="dropdown-item" href="add_feed_cat" style="padding-left:45%"><a href="add_feed_cat.html">افزودن نظر</a></li>
+                <li class="dropdown-item" href="survey.html" style="padding-left:24%"><a href="survey.html">افزودن نظرسنجی</a></li>
+                <li class="dropdown-item" href="add_ad.html" style="padding-left:30%"><a href="add_ad.html">افزودن تبلیغات</a></li>
+                <li class="dropdown-item" href="add_code.html" style="padding-left:22%"><a href="add_code.html">افزودن کد تخفیف</a></li>
+
+
+                </ul>
+
+
             </div>
+
 
         </div>
     </div>
+
 
 <div class="container-fluid">
 <div class="row">
@@ -128,5 +148,17 @@
     </footer>
 
 
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<!-- external javascript -->
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
+<script src="{% static 'adminpanel/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
 </body>
 </html>
+
