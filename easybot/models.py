@@ -103,7 +103,7 @@ class Advertise(models.Model):
     repeat = models.IntegerField(null=False, default=1)
 
 class Surveys(models.Model):
-    title = models.CharField(max_length=30 , unique=True)
+    title = models.CharField(max_length=30 , unique=False)
 
 
 class Questions(models.Model):

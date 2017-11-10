@@ -36,6 +36,25 @@ class SurveyDataAccess:
             print e
             return 0
 
+    def get_number_of_questions(self):
+        try:
+            survey_object = models.Surveys.objects.get(pk=self.__survey_id)
+            numebr_of_questions = models.Questions.objects.filter(survey_id=survey_object).count()
+            return numebr_of_questions
+        except Exception as e:
+            print e
+            return 0
+
+    def get_question_data(self, question_order):
+        try:
+            survey_object = models.Surveys.objects.get(pk=self.__survey_id)
+            question = models.Questions.objects.get(survey_id=survey_object)[question_order-1]
+
+        except Exception as e:
+            print e
+            return 0
+
+
 
 
 
