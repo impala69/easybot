@@ -828,9 +828,13 @@ class Command(BaseCommand):
                     customers = ad.getAllCustomers()
                     for customer in customers:
                         image = advertise.image
+                        print image
                         try:
-                            bot.sendPhoto(customer.telegram_id, photo=image, caption=advertise.title+"\n"+advertise.text)
-                        except:
+                            bot.sendPhoto(chat_id=customer.telegram_id,
+                                          photo=open(str(image)),
+                                          caption=advertise.title+"\n"+advertise.text)
+                        except Exception as e:
+                            print e
                             print "failed sending advertise"
             counter += 1
 
