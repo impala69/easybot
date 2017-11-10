@@ -1,0 +1,185 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>
+        EasyBot
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <!-- The styles -->
+    <link id="bs-css" href="{% static 'adminpanel/css/bootstrap-cerulean.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'adminpanel/css/charisma-app.css' %}" rel="stylesheet">
+    <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.print.css' %}" rel='stylesheet' media='print'>
+    <link href="{% static 'adminpanel/bower_components/chosen/chosen.min.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/bower_components/colorbox/example3/colorbox.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/bower_components/responsive-tables/responsive-tables.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/jquery.noty.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/noty_theme_default.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/elfinder.min.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/elfinder.theme.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/jquery.iphone.toggle.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/uploadify.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/animate.min.css' %}" rel="stylesheet" >
+
+    <!-- jQuery -->
+    <script src="{% static 'adminpanel/bower_components/jquery/jquery.min.js' %}"></script>
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- The fav icon -->
+    <link rel="shortcut icon" href="{% static 'adminpanel/img/favicon.ico' %}">
+  <style>
+        @font-face {
+        font-family: "Iranian Sans";
+        src: url({% static 'adminpanel/fonts/iraniansans.ttf' %});
+        }
+        body{
+        font-family: "Iranian Sans";
+        }
+        h2, h5{
+        font-family: "Iranian Sans";
+        }
+    </style>
+</head>
+
+<body>
+    <!-- topbar starts -->
+    <div class="navbar navbar-default" role="navigation">
+
+        <div class="navbar-inner">
+            <button type="button" class="navbar-toggle pull-left animated flip">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html"> <img alt="logo" src="{% static 'adminpanel/img/logo20.png' %}" class="hidden-xs"/>
+                <span>EasyBot</span></a>
+
+            <!-- user dropdown starts -->
+            <!-- navbar buttons starts -->
+            <div class="btn-group pull-right" role="group">
+                <button type="button" class="btn btn-default"> سفارشات</button>
+                <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
+                <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
+                <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
+                <button type="button" class="btn btn-default" ><a href="showing.html"> مشاهده کردن</a></button>
+                
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  افزودن
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="adding.html">افزودن محصول</a>
+                  <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
+                  <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
+
+                </div>
+                </div>
+            <div class="btn-group pull-right" style="float: right">
+            <button type="button" class="btn btn-default" style="float: right;"> صفحه اصلی</button>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+<div class="ch-container">
+    <div class="row">
+
+        <div id="content" class="col-lg-10 col-sm-10">
+            <!-- content starts -->
+
+
+<div>
+    <ul class="breadcrumb col-md-offset-4 col-md-10 " style="text-align: right">
+        <li>
+            <a href="#">افزودن</a>
+
+        </li>
+        <li>
+            <a href="#">صفحه اصلی</a>
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+    <div class="container-fluid">
+
+    <div class="box  col-md-offset-7 col-md-7" >
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2 style="float: right"><i class="glyphicon glyphicon-star-empty"></i> افزودن کد تخفیف</h2>
+
+
+            </div>
+            <div class="box-content">
+
+                <form role="form" action="/admin-panel/add_code" id="adding_code" method="post" name="adding_code_form">
+
+                    <div class="form-group" style="text-align: right">
+                        <label for="code_char">کد تخفیف</label>
+                        <input style="text-align: right" type="text" class="form-control" id="code_char" name="code_char" placeholder="">
+                    </div>
+
+
+
+
+                    <button style="margin-left: 90% ; width: 10% ; font-size: medium" type="submit" class="btn btn-primary btn-round">تایید</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+        </div>
+
+
+</div><!--/row-->
+
+
+
+    <!-- content ends -->
+    </div><!--/#content.col-md-0-->
+</div><!--/fluid-row-->
+
+
+    <hr>
+
+
+<footer class="row">
+        <p style="text-align: center" class="col-md-offset-3 col-sm-offset-3col-md-6 col-sm-6 col-xs-12 copyright">&copy; <a href="#" target="_blank">طراحی شده توسط تیم بات گرام</a></p>
+    </footer>
+
+
+
+<!-- external javascript --><!-- Latest compiled and minified CSS -->
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
+
+
+<script src="{% static 'adminpanel/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+
+
+
+
+</body>
+</html>
