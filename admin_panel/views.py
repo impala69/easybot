@@ -210,14 +210,17 @@ def del_code(request):
 
 def survey(request):
     if request.method == 'POST':
+        print request.POST
         add_survey_form = AddSurveyForm(request.POST)
+        print add_survey_form
         if add_survey_form.is_valid():
             survey_title = add_survey_form.cleaned_data['survey_title']
             Q = request.POST.getlist('questions[]') #this list conatins all questions
             Q_List = []
-
             for i in range(len(Q)):
                 Q_List.append((Q[i].encode('utf8')))
+
+            print Q_List
             try:
                 new_survey = models.Surveys(title =survey_title)
                 new_survey.save()
