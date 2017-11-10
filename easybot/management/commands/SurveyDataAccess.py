@@ -2,7 +2,8 @@ from ... import models
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 
-class ProductDataAccess:
+
+class SurveyDataAccess:
     def __init__(self, survey_id=None):
         self.__survey_id = survey_id
 

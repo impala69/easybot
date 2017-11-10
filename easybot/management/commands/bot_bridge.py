@@ -14,6 +14,7 @@ from ProductDataAccess import ProductDataAccess as PDA
 from Search import SearchDataAccess as SDA
 from AdvanceSearch import AdvanceSearchDataAccess as ASDA
 from Shopping_Card import ShoppingCard as SHC
+from SurveyDataAccess import SurveyDataAccess as SDA
 from Order import Order
 from Advertise import Advertise
 from ... import models
@@ -59,7 +60,7 @@ class Command(BaseCommand):
 
 
 
-            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"دسته بندی ها", callback_data="categories"),InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search")],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad'), InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')],[ InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجوی پیشرفته", callback_data='advance_search')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"وارد کردن اطلاعات شخصی برای خرید", callback_data='enterinfo_firstname')],[InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')],])
+            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"دسته بندی ها", callback_data="categories"),InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search")],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad'), InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')],[ InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجوی پیشرفته", callback_data='advance_search')],[ InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"نظرسنجی‌ها", callback_data='show_surveys')],[ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"وارد کردن اطلاعات شخصی برای خرید", callback_data='enterinfo_firstname')],[InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')],])
             if command == '/start':
                 for i in range(1,4):
                     try:
@@ -404,6 +405,20 @@ class Command(BaseCommand):
 
                 cats_keyboard.append([ InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')])
                 bot.sendMessage(from_id,"دسته مورد نظر خود را انتخاب کنید: ",reply_markup=InlineKeyboardMarkup(inline_keyboard=cats_keyboard))
+
+            # show all surveys
+            if query_data == "show_surveys":
+                print "surveys"
+                survey_object = SDA()
+                all_surveys_data = survey_object.get_all_survey()
+                keyboard = []
+                print all_surveys_data
+                for survey in all_surveys_data:
+                    keyboard.append([InlineKeyboardButton(text=survey['title'], callback_data="survey"+str(survey['id']))])
+
+                markup_keyboard = InlineKeyboardMarkup(inline_keyboard=keyboard)
+                print markup_keyboard
+                bot.sendMessage(chat_id=from_id, text="Surveys", reply_markup=markup_keyboard)
 
 
             #When a category is selected
