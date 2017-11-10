@@ -100,6 +100,7 @@ class Advertise(models.Model):
     title = models.CharField(max_length=300, null=True)
     text = models.TextField(null=True)
     image = models.CharField(null=True, max_length=255)
+    repeat = models.IntegerField(null=False, default=1)
 
 class Surveys(models.Model):
     title = models.CharField(max_length=30 , unique=True)
@@ -108,3 +109,8 @@ class Surveys(models.Model):
 class Questions(models.Model):
     survey_id = models.ForeignKey(to=Surveys, on_delete=models.CASCADE)
     text = models.CharField(max_length=100)
+
+
+class DiscountCode(models.Model):
+    code_char = models.CharField(max_length=30, null=False, default=None)
+

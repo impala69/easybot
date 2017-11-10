@@ -31,3 +31,8 @@ class AddAdvertiseForm(forms.Form):
     advertise_text = forms.CharField(widget=forms.Textarea)
     advertise_image = forms.ImageField()
 
+
+class AddCodeForm(forms.Form):
+    code_char = forms.CharField(label="Code Char", max_length=30)
+
+

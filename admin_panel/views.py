@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import sys
+import sys ,ast
 
 from django.shortcuts import render
-from .forms import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm, AddAdvertiseForm
+from .forms import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm, AddAdvertiseForm, AddCodeForm
 from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
@@ -179,21 +179,51 @@ def del_ad(request):
         return redirect('/admin-panel/advertise/')
     return redirect('/admin-panel/advertise/')
 
+
+def codes(request):
+    return render_to_response("codes.html", {'all_codes': get_codes_data()})
+
+
+def add_code(request):
+    if request.method == 'POST':
+        add_code_form = AddCodeForm(request.POST)
+        if add_code_form.is_valid():
+            code_char = add_code_form.cleaned_data['code_char']
+            try:
+                new_code = models.DiscountCode(code_char=code_char)
+                new_code.save()
+            except Exception as e:
+                print e
+            return redirect('/admin-panel/add_code/')
+        else:
+            return render_to_response("failed.html")
+    return render_to_response("add_code.html")
+
+
+def del_code(request):
+    if request.method == 'GET':
+        code_id = request.GET['code_id']
+        models.DiscountCode.objects.get(pk=code_id).delete()
+        return redirect('/admin-panel/codes/')
+    return redirect('/admin-panel/codes/')
+
+
 def survey(request):
     if request.method == 'POST':
         add_survey_form = AddSurveyForm(request.POST)
         if add_survey_form.is_valid():
             survey_title = add_survey_form.cleaned_data['survey_title']
-            Q = request.POST['Q']
+            Q = request.POST.getlist('questions[]') #this list conatins all questions
+            Q_List = []
+
+            for i in range(len(Q)):
+                Q_List.append((Q[i].encode('utf8')))
             try:
                 new_survey = models.Surveys(title =survey_title)
                 new_survey.save()
                 cat_id = models.Surveys.objects.filter(title=survey_title)[0]
-                print(cat_id)
-                new_question = models.Questions(survey_id=cat_id,text=Q)
+                new_question = models.Questions(survey_id=cat_id,text=Q_List)
                 new_question.save()
-                print(new_survey.id)
-                print(new_question)
             except Exception as e:
                 print('false')
                 print e
@@ -330,7 +360,6 @@ def get_advertise_data():
     ad_data = {}
     all_ads = []
     for one_advertise in result:
-        print one_advertise
         ad_data['ad_id'] = one_advertise.pk
         ad_data['ad_title'] = one_advertise.title
         ad_data['ad_text'] = one_advertise.text
@@ -338,6 +367,18 @@ def get_advertise_data():
         all_ads.append(ad_data)
         ad_data = {}
     return all_ads
+
+
+def get_codes_data():
+    result = models.DiscountCode.objects.filter()
+    code_data = {}
+    all_codess = []
+    for one_code in result:
+        code_data['code_id'] = one_code.pk
+        code_data['code_char'] = one_code.code_char
+        all_codess.append(code_data)
+        code_data = {}
+    return all_codess
 
 
 def get_feed_cats():
@@ -379,8 +420,12 @@ def get_survey_data():
         question_data.append(survey_title)
         question_data.append(question.pk)
         question_data.append(question.survey_id)
-        question_data.append(question.text)
-        print question.text
+        text = ast.literal_eval(question.text)
+        print type(text)
+        question_data.append(text)
+        '''question_data.append(text)
+        print text
+        print len(text)'''
         all_data.append(question_data)
         question_data = []
     return all_data
@@ -449,6 +494,7 @@ def return_survey_title(s_id):
     survey = models.Surveys.objects.get(pk=s_id)
     survey_title = survey.title
     return survey_title
+
 def update_description(order_id, new_desc):
     try:
         order = models.Order.objects.get(pk=order_id)
