@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import sys
+import sys ,ast
 
 from django.shortcuts import render
 from .forms import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm, AddAdvertiseForm, AddCodeForm
@@ -216,16 +216,17 @@ def survey(request):
         if add_survey_form.is_valid():
             survey_title = add_survey_form.cleaned_data['survey_title']
             Q = request.POST.getlist('questions[]') #this list conatins all questions
-            print Q
+            Q_List = []
+            for i in range(len(Q)):
+                Q_List.append((Q[i].encode('utf8')))
+
+            print Q_List
             try:
                 new_survey = models.Surveys(title =survey_title)
                 new_survey.save()
                 cat_id = models.Surveys.objects.filter(title=survey_title)[0]
-                print(cat_id)
-                new_question = models.Questions(survey_id=cat_id,text=Q)
+                new_question = models.Questions(survey_id=cat_id,text=Q_List)
                 new_question.save()
-                print(new_survey.id)
-                print(new_question)
             except Exception as e:
                 print('false')
                 print e
@@ -422,8 +423,12 @@ def get_survey_data():
         question_data.append(survey_title)
         question_data.append(question.pk)
         question_data.append(question.survey_id)
-        question_data.append(question.text)
-        print question.text
+        text = ast.literal_eval(question.text)
+        print type(text)
+        question_data.append(text)
+        '''question_data.append(text)
+        print text
+        print len(text)'''
         all_data.append(question_data)
         question_data = []
     return all_data
@@ -492,6 +497,7 @@ def return_survey_title(s_id):
     survey = models.Surveys.objects.get(pk=s_id)
     survey_title = survey.title
     return survey_title
+
 def update_description(order_id, new_desc):
     try:
         order = models.Order.objects.get(pk=order_id)
