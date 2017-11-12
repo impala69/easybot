@@ -99,11 +99,11 @@ class Peyk_motori(models.Model):
 class Advertise(models.Model):
     title = models.CharField(max_length=300, null=True)
     text = models.TextField(null=True)
-    image = models.CharField(null=True, max_length=255)
+    image = models.ImageField(upload_to='uploads', null=True)
     repeat = models.IntegerField(null=False, default=1)
 
 class Surveys(models.Model):
-    title = models.CharField(max_length=30 , unique=True)
+    title = models.CharField(max_length=30 , unique=False)
 
 
 class Questions(models.Model):
@@ -113,4 +113,9 @@ class Questions(models.Model):
 
 class DiscountCode(models.Model):
     code_char = models.CharField(max_length=30, null=False, default=None)
+
+
+class Answers(models.Model):
+    question_id = models.ForeignKey(to=Questions, on_delete=models.CASCADE)
+    text = models.TextField(null=False, default=None)
 

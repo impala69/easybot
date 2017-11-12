@@ -210,31 +210,28 @@ def del_code(request):
 
 def survey(request):
     if request.method == 'POST':
-        print request.POST
         add_survey_form = AddSurveyForm(request.POST)
-        print add_survey_form
         if add_survey_form.is_valid():
             survey_title = add_survey_form.cleaned_data['survey_title']
             Q = request.POST.getlist('questions[]') #this list conatins all questions
-            Q_List = []
+            questions = []
             for i in range(len(Q)):
-                Q_List.append((Q[i].encode('utf8')))
-
-            print Q_List
+                questions.append((Q[i].encode('utf8')))
             try:
-                new_survey = models.Surveys(title =survey_title)
+                new_survey = models.Surveys(title=survey_title)
                 new_survey.save()
-                cat_id = models.Surveys.objects.filter(title=survey_title)[0]
-                new_question = models.Questions(survey_id=cat_id,text=Q_List)
-                new_question.save()
+                for question in questions:
+                    new_question = models.Questions(survey_id=new_survey, text=question)
+                    new_question.save()
             except Exception as e:
-                print('false')
                 print e
             return render_to_response("survey.html")
 
     return render_to_response("survey.html")
 
 def show_survey(request):
+    print "hello!"
+    print get_survey_data()
     if request.method == 'POST':
         return render_to_response("show_survey.html" , {'survey_data' : get_survey_data()})
     return render_to_response("show_survey.html", {'survey_data' : get_survey_data()})
@@ -243,8 +240,8 @@ def del_survey(request):
     if request.method == 'GET':
         s_id = request.GET['s_id']
         models.Surveys.objects.get(pk=s_id).delete()
-        return render_to_response("show_survey.html" , {'survey_data' : get_survey_data()})
-    return render_to_response("show_survey.html", {'survey_data' : get_survey_data()})
+        return redirect('/admin-panel/show_survey/')
+        return redirect('/admin-panel/show_survey/')
 
 def enteghadat(request):
     print get_comments()
@@ -398,40 +395,43 @@ def get_feed_cats():
 
 
 def get_product_data():
-   result = models.Product.objects.all()
-   product_data = []
-   all_product = []
-   for product in result:
-       product_data.append(product.pk)
-       product_data.append(product.cat_id)
-       product_data.append(product.product_name)
-       product_data.append(product.text)
-       product_data.append(product.image)
-       product_data.append(product.price)
-       all_product.append(product_data)
-       product_data = []
+    result = models.Product.objects.all()
+    product_data = []
+    all_product = []
+    for product in result:
+        product_data.append(product.pk)
+        product_data.append(product.cat_id)
+        product_data.append(product.product_name)
+        product_data.append(product.text)
+        product_data.append(product.image)
+        product_data.append(product.price)
+        all_product.append(product_data)
+        product_data = []
+    return all_product
 
-   return all_product
 
 def get_survey_data():
-    result = models.Questions.objects.all()
-    question_data = []
-    all_data = []
-    for question in result:
-        survey_title = (question.survey_id ).title
-        question_data.append(((question.survey_id).id))
-        question_data.append(survey_title)
-        question_data.append(question.pk)
-        question_data.append(question.survey_id)
-        text = ast.literal_eval(question.text)
-        print type(text)
-        question_data.append(text)
-        '''question_data.append(text)
-        print text
-        print len(text)'''
-        all_data.append(question_data)
-        question_data = []
-    return all_data
+    all_surveys = models.Surveys.objects.all()
+    all_surveys_data = []
+    for survey in all_surveys:
+        # add one survey data in dictionary
+        # example: {u'questions': [{u'text': u'test1', u'id': 49}, {u'text': u'test2', u'id': 50}], u'title': u'test yeah'}
+        survey_data = {}
+        # survey contains title
+        survey_data['id'] = survey.pk
+        survey_data['title'] = survey.title
+        all_questions = models.Questions.objects.filter(survey_id=survey)
+        all_questions_data_list = []
+        for question in all_questions:
+            question_data = {}
+            question_data['id'] = question.pk
+            question_data['text'] = question.text
+            all_questions_data_list.append(question_data)
+        all_surveys_data.append(survey_data)
+        # survey contains questions
+        survey_data['questions'] = all_questions_data_list
+    return all_surveys_data
+
 
 def get_comments():
     result = models.Comment.objects.all()

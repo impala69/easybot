@@ -51,43 +51,7 @@
 </head>
 
 <body>
-<div class="navbar navbar-default" role="navigation">
-
-    <div class="navbar-inner">
-        <a style="font-family: 'Iranian Sans'" class="navbar-brand" href="index.html">بات گرام</a>
-
-        <div class="btn-group pull-right" role="group">
-            <button type="button" class="btn btn-default"><a href="codes.html"> کد تخفیف</a></button>
-            <button type="button" class="btn btn-default"><a href="advertise.html"> تبلیغات</a></button>
-            <button type="button" class="btn btn-default"><a href="show_survey.html"> نظرسنجی</a></button>
-            <button type="button" class="btn btn-default"><a href="orders.html">سفارشات</a></button>
-            <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
-            <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
-            <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
-            <button type="button" class="btn btn-default"><a href="showing.html"> مشاهده کردن</a></button>
-
-            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-                افزودن
-            </button>
-
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
-                <li class="dropdown-item" href="adding.html" style="padding-left: 30%"><a href="adding.html">افزودن محصول</a></li>
-                <li class="dropdown-item" href="add_cat.html" style="padding-left: 20%"><a href="add_cat.html">افزودن دسته بندی</a></li>
-                <li class="dropdown-item" href="add_feed_cat" style="padding-left:45%"><a href="add_feed_cat.html">افزودن نظر</a></li>
-                <li class="dropdown-item" href="survey.html" style="padding-left:24%"><a href="survey.html">افزودن نظرسنجی</a></li>
-                <li class="dropdown-item" href="add_ad.html" style="padding-left:30%"><a href="add_ad.html">افزودن تبلیغات</a></li>
-                <li class="dropdown-item" href="add_code.html" style="padding-left:22%"><a href="add_code.html">افزودن کد تخفیف</a></li>
-
-
-                </ul>
-
-
-            </div>
-
-
-        </div>
-    </div>
+{% include "header.html" %}
 
 <div class="container-fluid">
 <div class="row">
@@ -116,10 +80,10 @@
         <tr>
 
 
+            {% for survey in survey_data %}
 
-            {% for data in survey_data %}
 <td style=" width: 16%;" class="center ">
-  <div class="modal fade " id="surveymodal{{ data.0 }}" tabindex="0" role="dialog" aria-labelledby="surveymodal{{ data.0 }}" aria-hidden="true" style="padding-top: 9% ; ">
+  <div class="modal fade " id="surveymodal{{ survey.id }}" tabindex="0" role="dialog" aria-labelledby="surveymodal{{ survey.id }}" aria-hidden="true" style="padding-top: 9% ; ">
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="width: 100%">
       <div class="modal-header">
@@ -145,12 +109,12 @@
             <tbody>
 
 
-            {%  for question in data.4 %}
+            {%  for question in survey.questions %}
             <tr>
 
 
-                <td>{{  question }}
-                <a href="/admin-panel/del_survey?q_id={{ data.0 }}">
+                <td>{{  question.text }}
+                <a href="/admin-panel/del_question?q_id={{ question.id }}">
                     <button type="button" class="btn btn-danger btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small">
 
                             <i class="glyphicon glyphicon-trash icon-white"></i>
@@ -181,7 +145,7 @@
 
 
                 <div class="row">
-                 <a href="/admin-panel/del_survey?s_id={{data.0}}">
+                 <a href="/admin-panel/del_survey?s_id={{survey.id}}">
                  <button type="button" class="btn btn-danger btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small">
 
                             <i class="glyphicon glyphicon-trash icon-white"></i>
@@ -198,13 +162,13 @@
                 <td>
                     <div class="row">
 
-                 <button  type="button" class="btn btn-success btn-sm"  style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small" data-toggle="modal" data-target="#surveymodal{{ data.0  }}">
+                 <button  type="button" class="btn btn-success btn-sm"  style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small" data-toggle="modal" data-target="#surveymodal{{ survey.id  }}">
 
                             <i class="glyphicon glyphicon-zoom-in icon-white"></i>نمایش
                     </button></a>
                 </div></td>
-                <td style="text-align: right;direction: rtl">{{data.1}}</td>
-                <td style="text-align: right;direction: rtl">{{data.2}}</td>
+                <td style="text-align: right;direction: rtl">{{survey.title}}</td>
+                <td style="text-align: right;direction: rtl">{{survey.id}}</td>
 
 
         </tr>
