@@ -241,6 +241,12 @@ def del_survey(request):
         s_id = request.GET['s_id']
         models.Surveys.objects.get(pk=s_id).delete()
         return redirect('/admin-panel/show_survey/')
+
+
+def del_question(request):
+    if request.method == 'GET':
+        q_id = request.GET['q_id']
+        models.Questions.objects.get(pk=q_id).delete()
         return redirect('/admin-panel/show_survey/')
 
 def enteghadat(request):
