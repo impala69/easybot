@@ -7,6 +7,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+
 import os
 
 
@@ -160,3 +161,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/mainpage/static',
 ]
+
+MEDIA_ROOT = BASE_DIR
+MEDIA_URL = '/uploads/'

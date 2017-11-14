@@ -10,7 +10,7 @@ from django.shortcuts import redirect
 
 def adding(request):
     if request.method == 'POST' :
-        adding_form = AddProductForm(request.POST)
+        adding_form = AddProductForm(request.POST, request.FILES)
 
         if adding_form.is_valid():
             cat_id = get_cats_names()[0][0]
@@ -409,7 +409,7 @@ def get_product_data():
         product_data.append(product.cat_id)
         product_data.append(product.product_name)
         product_data.append(product.text)
-        product_data.append(product.image)
+        product_data.append(product.image.url)
         product_data.append(product.price)
         all_product.append(product_data)
         product_data = []

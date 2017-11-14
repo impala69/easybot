@@ -4,9 +4,6 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-# Create your models here.
-
-
 class Category(models.Model):
     cat_name = models.CharField(max_length=20, null=True, unique=True)
 
@@ -15,7 +12,7 @@ class Product(models.Model):
     cat_id = models.ForeignKey(to=Category, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=30, null=True)
     text = models.TextField(null=True)
-    image = models.CharField(max_length=255, null=True)
+    image = models.ImageField(upload_to='uploads/products', null=True)
     price = models.IntegerField(null=True)
     numbers = models.IntegerField(null=False, default=1)
 
@@ -99,7 +96,7 @@ class Peyk_motori(models.Model):
 class Advertise(models.Model):
     title = models.CharField(max_length=300, null=True)
     text = models.TextField(null=True)
-    image = models.ImageField(upload_to='uploads', null=True)
+    image = models.ImageField(upload_to='uploads/ads', null=True)
     repeat = models.IntegerField(null=False, default=1)
 
 class Surveys(models.Model):
