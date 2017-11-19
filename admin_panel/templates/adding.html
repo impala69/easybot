@@ -5,7 +5,6 @@
 {% include "header.html" %}
 
 
-
 <div class="ch-container">
     <div class="row">
 
@@ -21,80 +20,63 @@
                     </li>
                 </ul>
             </div>
-            <div class="box-content">
-
-
             <div class="row">
                 <div class="col-md-12">
-                    <div class="container-fluid">
+                    <div class="container">
 
-                        <div class="box  col-md-offset-7 col-md-7">
-                            <div class="box-inner">
-                                <div class="box-header well" data-original-title="">
-                                    <h2 style="float: right"><i class="glyphicon glyphicon-star-empty"></i> افزودن</h2>
+                        <div class="card col-md-offset-7 col-md-7">
+                            <h2 style="text-align: right"> افزودن</h2>
+                            <form role="form" action="/admin-panel/adding" id="adding" method="post"
+                                  name="adding_form" enctype="multipart/form-data">
 
+                                <div class="form-group " style="text-align: right;margin-top: 5%">
+                                <label style="text-align: right" for="productname">دسته بندی</label>
+                                    <select style="text-align: right;direction: rtl;width: 100%;"
+                                            data-width="100%" title="دسته بندی مورد نظر را انتخاب کنید"
+                                            name="category_name">
+                                        {% for cat in cat_data %}
+                                            <option value={{ cat.0 }} style="text-align: right">
+                                            {{ cat.1 }}</option>
+                                        {% endfor %}
+                                    </select>
 
                                 </div>
-                                <div class="box-content">
-
-                                    <form role="form" action="/admin-panel/adding" id="adding" method="post"
-                                          name="adding_form" enctype="multipart/form-data">
-
-                                        <div class="form-group ">
-                                            <label for="categoryname" style="text-align: right ; float: right">دسته
-                                                بندی</label>
-                                            <select style="margin-top: 5%;text-align: right;direction: rtl ; "
-                                                    class="selectpicker " data-width="100%"
-                                                    title="دسته بندی مورد نظر را انتخاب کنید" data-live-search="true"
-                                                    name="category_name">
-                                                {% for cat in cat_data %}
-                                                <option value={{ cat.0 }} style="text-align: right">{{ cat.1 }}</option>
-                                                {% endfor %}
-                                            </select>
-
-                                        </div>
-                                        <div class="form-group" style="text-align: right">
-                                            <label for="productname">نام محصول</label>
-                                            <input style="text-align: right" type="text" class="form-control"
-                                                   id="productname" name="product_name" placeholder="">
-                                        </div>
-                                        <div class="form-group" style="text-align: right">
-                                            <label for="producttext">توضیحات</label>
-                                            <input style="text-align: right" type="text" class="form-control"
-                                                   id="producttext" name="product_text" placeholder="">
-                                        </div>
-                                        <div class="form-group" style="text-align: right">
-                                            <label for="productprice">قیمت</label>
-                                            <input style="text-align: right" type="text" class="form-control"
-                                                   id="productprice" name="product_price" placeholder="">
-                                        </div>
-                                        <div class="form-group" style="margin-bottom: 3%;margin-top: 3%">
-                                            <label style="text-align: right ; float:right" for="productimage">عکس
-                                                محصول</label>
-                                            <input type="file" id="productimage" name="product_image">
-
-                                        </div>
-
-
-                                        <button style="margin-left: 90% ; width: 10% ; font-size: medium" type="submit"
-                                                class="btn btn-primary btn-round">تایید
-                                        </button>
-                                    </form>
+                                <div class="form-group" style="text-align: right">
+                                    <label for="productname">نام محصول</label>
+                                    <input style="text-align: right" type="text" class="form-control"
+                                           id="productname" name="product_name" placeholder="">
                                 </div>
-                            </div>
+                                <div class="form-group" style="text-align: right">
+                                    <label for="producttext">توضیحات</label>
+                                    <input style="text-align: right" type="text" class="form-control"
+                                           id="producttext" name="product_text" placeholder="">
+                                </div>
+                                <div class="form-group" style="text-align: right">
+                                    <label for="productprice">قیمت</label>
+                                    <input style="text-align: right" type="text" class="form-control"
+                                           id="productprice" name="product_price" placeholder="">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 3%;margin-top: 3%">
+                                    <label style="text-align: right ; float:right" for="productimage">عکس
+                                        محصول</label>
+                                    <input type="file" id="productimage" name="product_image">
+
+                                </div>
+
+
+                                <button style="margin-left: 90% ; width: 10% ; font-size: medium" type="submit"
+                                        class="btn btn-primary btn-round">تایید
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
+
+
     </div>
-
-
 </div>
-</div>
-
 <hr>
 {% include "footer.html" %}
 </body>

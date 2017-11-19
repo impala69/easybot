@@ -34,8 +34,7 @@ def adding(request):
             return render_to_response("showing.html")
 
         else:
-            print('failed')
-            return render_to_response("failed.html")
+            return render_to_response("adding.html")
 
 
 
