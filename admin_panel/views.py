@@ -3,10 +3,12 @@ from __future__ import unicode_literals
 import sys ,ast
 
 from django.shortcuts import render
-from .forms import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm, AddAdvertiseForm, AddCodeForm
+from .FormsHandler import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm, AddAdvertiseForm, AddCodeForm
 from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
+from manager import DiscountCodeManager
+
 
 def adding(request):
     if request.method == 'POST' :
@@ -178,33 +180,31 @@ def del_ad(request):
         return redirect('/admin-panel/advertise/')
     return redirect('/admin-panel/advertise/')
 
+# Discount Codes View Handler
+
 
 def codes(request):
-    return render_to_response("codes.html", {'all_codes': get_codes_data()})
+    discount_code_object = DiscountCodeManager.DiscountCodeManager()
+    return render_to_response("codes.html", {'all_codes': discount_code_object.get_all_discount_code()})
 
 
 def add_code(request):
     if request.method == 'POST':
-        add_code_form = AddCodeForm(request.POST)
-        if add_code_form.is_valid():
-            code_char = add_code_form.cleaned_data['code_char']
-            try:
-                new_code = models.DiscountCode(code_char=code_char)
-                new_code.save()
-            except Exception as e:
-                print e
+        discount_code_object = DiscountCodeManager.DiscountCodeManager(code_data=request.POST)
+        if discount_code_object.add_discount_code():
             return redirect('/admin-panel/add_code/')
-        else:
-            return render_to_response("failed.html")
     return render_to_response("add_code.html")
 
 
 def del_code(request):
     if request.method == 'GET':
         code_id = request.GET['code_id']
-        models.DiscountCode.objects.get(pk=code_id).delete()
-        return redirect('/admin-panel/codes/')
+        discount_code_object = DiscountCodeManager.DiscountCodeManager(deleted_code_id=code_id)
+        if discount_code_object.delete_code():
+            return redirect('/admin-panel/codes/')
     return redirect('/admin-panel/codes/')
+
+# End Of Discount Code Handler
 
 
 def survey(request):
@@ -372,18 +372,6 @@ def get_advertise_data():
         all_ads.append(ad_data)
         ad_data = {}
     return all_ads
-
-
-def get_codes_data():
-    result = models.DiscountCode.objects.filter()
-    code_data = {}
-    all_codess = []
-    for one_code in result:
-        code_data['code_id'] = one_code.pk
-        code_data['code_char'] = one_code.code_char
-        all_codess.append(code_data)
-        code_data = {}
-    return all_codess
 
 
 def get_feed_cats():

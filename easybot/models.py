@@ -110,6 +110,7 @@ class Questions(models.Model):
 
 class DiscountCode(models.Model):
     code_char = models.CharField(max_length=30, null=False, default=None)
+    # price = models.IntegerField(null=False, default=0)
 
 
 class Answers(models.Model):
