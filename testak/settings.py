@@ -25,7 +25,7 @@ SECRET_KEY = 'nwtiez4j(zc+r-#1p48msj@x^dsg@zvqt23k81=8ydfo)_h(7p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.2', '127.0.0.1']
+ALLOWED_HOSTS = ['192.168.1.2', '127.0.0.1', 'botgram.in:2052']
 
 
 # Application definition
