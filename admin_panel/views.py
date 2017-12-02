@@ -3,11 +3,11 @@ from __future__ import unicode_literals
 import sys ,ast
 
 from django.shortcuts import render
-from .FormsHandler import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm, AddAdvertiseForm, AddCodeForm
+from .FormsHandler import AddProductForm,EditProductForm , AddCategoryForm , AddSurveyForm
 from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
-from manager import DiscountCodeManager, AdsManager
+from manager import DiscountCodeManager, AdsManager, SurveyManager
 
 
 def adding(request):
@@ -178,6 +178,8 @@ def del_ad(request):
             print("Error in Deleting Ads")
     return redirect('/admin-panel/advertise/')
 
+# End of Advertise View Handler
+
 # Discount Codes View Handler
 
 
@@ -204,47 +206,45 @@ def del_code(request):
 
 # End Of Discount Code Handler
 
+# Survey View Handler
+
 
 def survey(request):
     if request.method == 'POST':
-        add_survey_form = AddSurveyForm(request.POST)
-        if add_survey_form.is_valid():
-            survey_title = add_survey_form.cleaned_data['survey_title']
-            Q = request.POST.getlist('questions[]') #this list conatins all questions
-            questions = []
-            for i in range(len(Q)):
-                questions.append((Q[i].encode('utf8')))
-            try:
-                new_survey = models.Surveys(title=survey_title)
-                new_survey.save()
-                for question in questions:
-                    new_question = models.Questions(survey_id=new_survey, text=question)
-                    new_question.save()
-            except Exception as e:
-                print e
-            return render_to_response("survey.html")
-
+        survey_object = SurveyManager.SurveyManager(survey_data=request.POST)
+        if survey_object.add_survey():
+            return redirect('/admin-panel/show_survey/')
+        else:
+            print "Failed to Add Survey!"
     return render_to_response("survey.html")
 
+
 def show_survey(request):
-    print "hello!"
-    print get_survey_data()
-    if request.method == 'POST':
-        return render_to_response("show_survey.html" , {'survey_data' : get_survey_data()})
-    return render_to_response("show_survey.html", {'survey_data' : get_survey_data()})
+    survey_object = SurveyManager.SurveyManager()
+    return render_to_response("show_survey.html", {'survey_data' : survey_object.get_all_surveys() })
+
 
 def del_survey(request):
     if request.method == 'GET':
         s_id = request.GET['s_id']
-        models.Surveys.objects.get(pk=s_id).delete()
-        return redirect('/admin-panel/show_survey/')
+        survey_object = SurveyManager.SurveyManager(deleted_survey_id=s_id)
+        if survey_object.delete_survey():
+            return redirect('/admin-panel/show_survey/')
+        else:
+            print "Faild Deleting Survey!"
 
 
 def del_question(request):
     if request.method == 'GET':
         q_id = request.GET['q_id']
-        models.Questions.objects.get(pk=q_id).delete()
-        return redirect('/admin-panel/show_survey/')
+        survey_object = SurveyManager.SurveyManager(deleted_question_id=q_id)
+        if survey_object.delete_question():
+            return redirect('/admin-panel/show_survey/')
+        else:
+            print "Failed in Deleting Question!"
+
+# End of Survey View Handler
+
 
 def enteghadat(request):
     print get_comments()
@@ -257,6 +257,7 @@ def category(request):
     if request.method == 'POST':
         return render_to_response("category.html" , {'cat_data' : get_cats_names()})
     return render_to_response("category.html" , {'cat_data' : get_cats_names()})
+
 
 def comments(request):
     if request.method == 'POST':
@@ -276,6 +277,7 @@ def ed_cat(request):
         return redirect('/admin-panel/category/')
 
     return render_to_response("edit_cat.html", {'cat_data': get_cat_data(cat_id)})
+
 
 def get_cat_data(cat_id):
     result = models.Category.objects.filter(pk=cat_id)
@@ -385,30 +387,6 @@ def get_product_data():
         all_product.append(product_data)
         product_data = []
     return all_product
-
-
-def get_survey_data():
-    all_surveys = models.Surveys.objects.all()
-    all_surveys_data = []
-    for survey in all_surveys:
-        # add one survey data in dictionary
-        # example: {u'questions': [{u'text': u'test1', u'id': 49}, {u'text': u'test2', u'id': 50}], u'title': u'test yeah'}
-        survey_data = {}
-        # survey contains title
-        survey_data['id'] = survey.pk
-        survey_data['title'] = survey.title
-        all_questions = models.Questions.objects.filter(survey_id=survey)
-        all_questions_data_list = []
-        for question in all_questions:
-            question_data = {}
-            question_data['id'] = question.pk
-            question_data['text'] = question.text
-            all_questions_data_list.append(question_data)
-        all_surveys_data.append(survey_data)
-        # survey contains questions
-        survey_data['questions'] = all_questions_data_list
-    return all_surveys_data
-
 
 def get_comments():
     result = models.Comment.objects.all()
