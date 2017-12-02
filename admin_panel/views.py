@@ -7,7 +7,7 @@ from .FormsHandler import AddProductForm,EditProductForm , AddCategoryForm , Add
 from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
-from manager import DiscountCodeManager
+from manager import DiscountCodeManager, AdsManager
 
 
 def adding(request):
@@ -151,33 +151,31 @@ def add_cat(request):
             return render_to_response("failed.html")
     return render_to_response("add_cat.html")
 
+# Advertise View Handler
 
 def advertise(request):
-    return render_to_response("advertise.html", {'all_ads': get_advertise_data()})
+    ads_object = AdsManager.AdsManager()
+    return render_to_response("advertise.html", {'all_ads': ads_object.get_all_ads()})
+
 
 def add_advertise(request):
     if request.method == 'POST':
-        add_advertise_form = AddAdvertiseForm(request.POST, request.FILES)
-        if add_advertise_form.is_valid():
-            ad_title = add_advertise_form.cleaned_data['advertise_title']
-            ad_text = add_advertise_form.cleaned_data['advertise_text']
-            ad_image = add_advertise_form.cleaned_data['advertise_image']
-            try:
-                new_ad = models.Advertise(title=ad_title, text=ad_text, image=ad_image)
-                new_ad.save()
-            except Exception as e:
-                print e
-            return redirect('/admin-panel/add_advertise/')
+        ads_object = AdsManager.AdsManager(ad_data=request.POST, ad_files=request.FILES)
+        if ads_object.add_ad():
+            return redirect('/admin-panel/advertise/')
         else:
-            return render_to_response("failed.html")
+            print "Faild to Add Advertise."
     return render_to_response("add_ad.html")
 
 
 def del_ad(request):
     if request.method == 'GET':
         ad_id = request.GET['ad_id']
-        models.Advertise.objects.get(pk=ad_id).delete()
-        return redirect('/admin-panel/advertise/')
+        ads_object = AdsManager.AdsManager(deleted_ad_id=ad_id)
+        if ads_object.delete_ad():
+            return redirect('/admin-panel/advertise/')
+        else:
+            print("Error in Deleting Ads")
     return redirect('/admin-panel/advertise/')
 
 # Discount Codes View Handler
@@ -358,20 +356,6 @@ def get_cats_names():
         cat_data = []
 
     return all_cat
-
-
-def get_advertise_data():
-    result = models.Advertise.objects.filter()
-    ad_data = {}
-    all_ads = []
-    for one_advertise in result:
-        ad_data['ad_id'] = one_advertise.pk
-        ad_data['ad_title'] = one_advertise.title
-        ad_data['ad_text'] = one_advertise.text
-        ad_data['ad_image'] = one_advertise.image
-        all_ads.append(ad_data)
-        ad_data = {}
-    return all_ads
 
 
 def get_feed_cats():
