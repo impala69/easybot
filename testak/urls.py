@@ -24,6 +24,6 @@ urlpatterns = [
     url(r'', include('mainpage.urls')),
     url(r'^admin-panel/', include('admin_panel.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^uploads/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
+    # url(r'^uploads/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
 ]
 

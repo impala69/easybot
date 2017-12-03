@@ -27,8 +27,10 @@ class AdsManager:
             ad_title = add_ads_form.cleaned_data['advertise_title']
             ad_text = add_ads_form.cleaned_data['advertise_text']
             ad_image = add_ads_form.cleaned_data['advertise_image']
+            print ad_image
             try:
                 new_ad = models.Advertise(title=ad_title, text=ad_text, image=ad_image)
+                print new_ad
                 new_ad.save()
                 return 1
             except Exception as e:
