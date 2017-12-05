@@ -36,3 +36,12 @@ class AddCodeForm(forms.Form):
     code_char = forms.CharField(label="Code Char", max_length=30)
 
 
+class AddPeykForm(forms.Form):
+    peyk_first_name = forms.CharField(label="firstName", max_length=30)
+    peyk_last_name = forms.CharField(label="lastName", max_length=30)
+    peyk_phone = forms.CharField(label="phone", max_length=30)
+    order_id = forms.IntegerField(label="OrderNumber")
+
+
+
+
