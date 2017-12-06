@@ -15,6 +15,7 @@
                 <tr>
                     <th style="text-align: right"> تغییرات</th>
                     <th style="text-align: right"> عکس محصول</th>
+                    <th style="text-align: right"> رفتن به محصول</th>
                     <th style="text-align: right"> قیمت</th>
                     <th style="text-align: right"> توضیحات</th>
                     <th style="text-align: right">نام محصول</th>
@@ -28,7 +29,7 @@
 
 
 
-                        <td style="    width: 16%;" class="center ">
+                        <td style="    width: 16%;" class="center">
                             <!-- showingmodal -->
                             <div class="modal fade " id="showingmodal{{ data.0 }}" tabindex="0" role="dialog"
                                  aria-labelledby="showingmodal{{ data.0 }}" aria-hidden="true"
@@ -103,7 +104,6 @@
                             </div>
 
                         </td>
-
                         <td>
                             <!-- showingmodal -->
                             <div class="modal fade " id="showingmodal_image{{ data.0 }}" tabindex="0"
@@ -147,6 +147,22 @@
                                 تصویر
 
                             </button>
+                        </td>
+                        <td style="    width: 16%;" class="center">
+                            <!-- showingmodal -->
+                            <div class="row">
+
+                                <a href="/admin-panel/product?p_id={{ data.0 }}">
+                                    <button type="button" class="btn btn-info btn-sm"
+                                            style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small">
+
+                                        <i class="glyphicon glyphicon-edit icon-white"></i>
+                                        نمایش محصول
+
+                                    </button>
+                                </a>
+                            </div>
+
                         </td>
                         <td style="text-align: right;direction: rtl">{{ data.5 }}</td>
                         <td style="text-align: right;direction: rtl"><button type="button" class="btn btn-success btn-sm"

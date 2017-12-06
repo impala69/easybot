@@ -1,64 +1,47 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import sys ,ast
-
-from django.shortcuts import render
-from .FormsHandler import AddProductForm,EditProductForm , AddCategoryForm
+from .FormsHandler import AddProductForm, EditProductForm
 from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
-from manager import DiscountCodeManager, AdsManager, SurveyManager, OrderManager, CategoryManager
+from manager import DiscountCodeManager, AdsManager, SurveyManager, OrderManager, CategoryManager, FeedbackManager, \
+    ProductManager
 
 
-def adding(request):
-    if request.method == 'POST' :
-        adding_form = AddProductForm(request.POST, request.FILES)
-
-        if adding_form.is_valid():
-            cat_id = get_cats_names()[0][0]
-            cat_id = models.Category.objects.get(pk=cat_id)
-            product_name = adding_form.cleaned_data['product_name']
-            text = adding_form.cleaned_data['product_text']
-            image = adding_form.cleaned_data['product_image']
-            price = adding_form.cleaned_data['product_price']
-
-            try:
-                new_product = models.Product(cat_id=cat_id,product_name=product_name,text=text,image=image,price=price)
-                new_product.save()
-
-
-
-            except Exception as e:
-                print('error')
-                print e
-
-
-            return render_to_response("showing.html")
-
-        else:
-            return render_to_response("adding.html")
-
-
-
-    return render_to_response("adding.html", {'cat_data': get_cats_names() })
-
-
-def showing(request):
+def add_product(request):
+    category_object = CategoryManager.CategoryManager()
     if request.method == 'POST':
+        product_object = ProductManager.ProductManager(product_data=request.POST, image_data=request.FILES)
+        if product_object.add_product():
+            return redirect("/admin-panel/show_products/")
+        else:
+            return redirect("/admin-panel/add_product/")
+    return render_to_response("add_product.html", {'cat_data': category_object.get_all_categories()})
 
 
-        return render_to_response("showing.html",{'product_data':get_product_data()},{'cat_data': get_cats_names() })
+def show_products(request):
+    category_object = CategoryManager.CategoryManager()
+    product_object = ProductManager.ProductManager()
+    return render_to_response("show_products.html", {'product_data': product_object.get_all_products(), },
+                              {'cat_data': category_object.get_all_categories()})
 
-    return render_to_response("showing.html", {'product_data':get_product_data() , 'range' : len(get_product_data())},{'cat_data': get_cats_names() })
 
-def edit(request):
-
+def show_product(request):
     if request.method == 'GET':
         product_id = request.GET['p_id']
-        return render_to_response('edit.html',{'p_data':return_product_data(product_id),'cat_data': get_cats_names()})
+        product_object = ProductManager.ProductManager(product_id=product_id)
+        return render_to_response("show_product.html", {'product_data': product_object.get_product_data()})
+
+def edit(request):
+    category_object = CategoryManager.CategoryManager()
+    if request.method == 'GET':
+        product_id = request.GET['p_id']
+        product_object = ProductManager.ProductManager(product_id=product_id)
+        return render_to_response('edit.html', {'p_data': product_object.get_product_data(),
+                                                'cat_data': category_object.get_all_categories()})
 
     if request.method == 'POST':
-
+        product_object = ProductManager.ProductManager(product_id=product_id)
         edit_form = EditProductForm(request.POST)
 
         if edit_form.is_valid():
@@ -73,22 +56,26 @@ def edit(request):
             number = edit_form.cleaned_data['product_number']
 
             try:
-                product_object = models.Product.objects.get(pk=product_id).update(cat_id=cat_id,product_name=product_name,text=text,price=price,image=image,numbers=number)
+                product_object = models.Product.objects.get(pk=product_id).update(cat_id=cat_id,
+                                                                                  product_name=product_name, text=text,
+                                                                                  price=price, image=image,
+                                                                                  numbers=number)
                 product_object.save()
             except Exception as e:
                 print('error')
                 print e
-        print('2')
-        return render_to_response("edit.html",{'cat_data': get_cats_names() , 'product':return_product_data(product_id)})
+        return render_to_response("edit.html",
+                                  {'cat_data': get_cats_names(), 'product': product_object.get_product_data()})
 
-    return render_to_response("edit.html",{'cat_data': get_cats_names() })
+    return render_to_response("edit.html", {'cat_data': category_object.get_category_object()})
+
 
 def delete(request):
     if request.method == 'GET':
         p_id = request.GET['p_id']
         models.Product.objects.get(pk=p_id).delete()
-        return render_to_response("showing.html",{'product_data':get_product_data(),'cat_data': get_cats_names() })
-    return render_to_response("showing.html",{'product_data':get_product_data(),'cat_data': get_cats_names() })
+        return redirect("/admin-panel/show_products/")
+    return redirect("/admin-panel/show_products/")
 
 
 def del_cat(request):
@@ -102,12 +89,16 @@ def del_cat(request):
     return redirect("/admin-panel/category/")
 
 
-def del_naghd(request):
+def delete_feedback(request):
     if request.method == 'GET':
         c_id = request.GET['naghd_id']
-        models.Feedback_cat.objects.get(pk=c_id).delete()
-        return redirect('/admin-panel/show_naghd_cat/')
+        naghd_object = FeedbackManager.NaghdManager(deleted_naghd_id=c_id)
+        if naghd_object.delete_naghd():
+            return redirect('/admin-panel/show_naghd_cat/')
+        else:
+            print "Failed Deleting Naghd!"
     return redirect('/admin-panel/show_naghd_cat/')
+
 
 def cm_del(request):
     if request.method == 'GET':
@@ -117,25 +108,21 @@ def cm_del(request):
     return redirect('/admin-panel/enteghadat/')
 
 
-def add_naghd(request):
+def add_feedback_category(request):
     if request.method == 'POST':
-        add_feed_cat = AddCategoryForm(request.POST)
-        if add_feed_cat.is_valid():
-            category_name = add_feed_cat.cleaned_data['category_name']
-            try:
-                new_category = models.Feedback_cat(fb_name= category_name)
-                new_category.save()
-            except Exception as e:
-                print('error')
-                print e
+        feedback_object = FeedbackManager.FeedbackManager(feedback_category_data=request.POST)
+        if feedback_object.add_feedback_category():
             return redirect("/admin-panel/show_naghd_cat/")
         else:
-            print('failed')
-            return render_to_response("failed.html")
+            print('Failed Adding FeedBack Category!')
+
     return render_to_response('add_feed_cat.html')
 
-def show_naghd_cat(request):
-    return render_to_response("feedCat.html" , {'cat_data' : get_feed_cats()})
+
+def show_feedback_categories(request):
+    feedback_object = FeedbackManager.FeedbackManager()
+    return render_to_response("feedCat.html", {'cat_data': feedback_object.get_all_feedback_categories()})
+
 
 def add_cat(request):
     if request.method == 'POST':
@@ -145,6 +132,7 @@ def add_cat(request):
         else:
             print " Failed Adding Category!"
     return render_to_response("add_cat.html")
+
 
 # Advertise View Handler
 
@@ -173,6 +161,7 @@ def del_ad(request):
             print("Error in Deleting Ads")
     return redirect('/admin-panel/advertise/')
 
+
 # End of Advertise View Handler
 
 # Discount Codes View Handler
@@ -199,6 +188,7 @@ def del_code(request):
             return redirect('/admin-panel/codes/')
     return redirect('/admin-panel/codes/')
 
+
 # End Of Discount Code Handler
 
 # Survey View Handler
@@ -216,7 +206,7 @@ def survey(request):
 
 def show_survey(request):
     survey_object = SurveyManager.SurveyManager()
-    return render_to_response("show_survey.html", {'survey_data' : survey_object.get_all_surveys() })
+    return render_to_response("show_survey.html", {'survey_data': survey_object.get_all_surveys()})
 
 
 def del_survey(request):
@@ -238,25 +228,26 @@ def del_question(request):
         else:
             print "Failed in Deleting Question!"
 
+
 # End of Survey View Handler
 
 
 def enteghadat(request):
     print get_comments()
     if request.method == 'POST':
-        return render_to_response("enteghadat.html" , {'comments': get_comments()})
-    return render_to_response("enteghadat.html" , {'comments' : get_comments()})
+        return render_to_response("enteghadat.html", {'comments': get_comments()})
+    return render_to_response("enteghadat.html", {'comments': get_comments()})
 
 
 def category(request):
     category_object = CategoryManager.CategoryManager()
-    return render_to_response("category.html" , {'cat_data' : category_object.get_all_categories()})
+    return render_to_response("category.html", {'cat_data': category_object.get_all_categories()})
 
 
 def comments(request):
     if request.method == 'POST':
-        return render_to_response("comments.html" , {'p_comment' : get_product_comments()})
-    return render_to_response('comments.html' , {'p_comment' : get_product_comments()})
+        return render_to_response("comments.html", {'p_comment': get_product_comments()})
+    return render_to_response('comments.html', {'p_comment': get_product_comments()})
 
 
 def ed_cat(request):
@@ -307,9 +298,6 @@ def inpeyk(request):
         else:
             print "Failed Update Arrival in state 1!"
 
-def success(request):
-    return render(request, "admin_panel/blank.html")
-
 
 def orders(request):
     order_object = OrderManager.OrderManager()
@@ -336,33 +324,6 @@ def del_order(request):
             print "failed"
     return redirect('/admin-panel/orders/')
 
-def get_feed_cats():
-    result = models.Feedback_cat.objects.filter()
-    cat_data = []
-    all_cat = []
-    for cat in result:
-        cat_data.append(cat.pk)
-        cat_data.append(cat.fb_name)
-        all_cat.append(cat_data)
-        cat_data = {}
-
-    return all_cat
-
-
-def get_product_data():
-    result = models.Product.objects.all()
-    product_data = []
-    all_product = []
-    for product in result:
-        product_data.append(product.pk)
-        product_data.append(product.cat_id)
-        product_data.append(product.product_name)
-        product_data.append(product.text)
-        product_data.append(product.image.url)
-        product_data.append(product.price)
-        all_product.append(product_data)
-        product_data = []
-    return all_product
 
 def get_comments():
     result = models.Comment.objects.all()
@@ -377,6 +338,7 @@ def get_comments():
         comments = []
     return all_comments
 
+
 def get_product_comments():
     result = models.Product_comment.objects.all()
     comments = []
@@ -390,15 +352,6 @@ def get_product_comments():
         comments = []
     return all_comments
 
-def return_product(p_id):
-    product = models.Product.objects.get(pk=p_id)
-    product_dict = {'product_id': product.pk, 'Name': product.product_name, 'Price':product.price}
-    return product_dict
-
-def return_product_data(p_id):
-    product = models.Product.objects.get(pk=p_id)
-    product_dict = {'product_id' : product.pk, 'Name':product.product_name , 'Price': product.price, 'Text': product.text , 'Image' : product.image , 'Number': product.numbers}
-    return product_dict
 
 def update_description(order_id, new_desc):
     try:
@@ -409,6 +362,7 @@ def update_description(order_id, new_desc):
     except Exception as e:
         print e
         return 0
+
 
 def delete_comment(cm_id):
     try:
@@ -426,6 +380,7 @@ def return_username(cus_id):
     except Exception as e:
         return 0
 
+
 def return_username_with_telegram_id(t_id):
     try:
         customer = models.Customer.objects.get(telegram_id=t_id)
@@ -440,4 +395,3 @@ def return_cm_cat_name(c_id):
         return cat_name.fb_name
     except Exception as e:
         return 0
-
