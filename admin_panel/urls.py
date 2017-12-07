@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^show_products', views.show_products),
     url(r'^enteghadat', views.enteghadat),
     url(r'^category', views.category),
-    url(r'^comments', views.comments),
+    url(r'^comments', views.show_product_comments),
     url(r'^add_feed_cat', views.add_feedback_category),
     url('orders/peyk_add', views.peyk_motori_add),
     url('orders/del_order', views.del_order),

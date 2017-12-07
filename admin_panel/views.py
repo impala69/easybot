@@ -5,7 +5,7 @@ from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
 from manager import DiscountCodeManager, AdsManager, SurveyManager, OrderManager, CategoryManager, FeedbackManager, \
-    ProductManager
+    ProductManager, CommentManager
 
 
 def add_product(request):
@@ -233,10 +233,8 @@ def del_question(request):
 
 
 def enteghadat(request):
-    print get_comments()
-    if request.method == 'POST':
-        return render_to_response("enteghadat.html", {'comments': get_comments()})
-    return render_to_response("enteghadat.html", {'comments': get_comments()})
+    feedback_object = FeedbackManager.FeedbackManager()
+    return render_to_response("enteghadat.html", {'comments': feedback_object.get_all_feedbacks()})
 
 
 def category(request):
@@ -244,10 +242,9 @@ def category(request):
     return render_to_response("category.html", {'cat_data': category_object.get_all_categories()})
 
 
-def comments(request):
-    if request.method == 'POST':
-        return render_to_response("comments.html", {'p_comment': get_product_comments()})
-    return render_to_response('comments.html', {'p_comment': get_product_comments()})
+def show_product_comments(request):
+    comment_object = CommentManager.CommentManager()
+    return render_to_response('comments.html', {'p_comment': comment_object.get_all_comments()})
 
 
 def ed_cat(request):
@@ -268,15 +265,21 @@ def editDescription(request):
     if request.method == 'POST':
         order_id = int(request.POST['order_id'])
         new_description = request.POST['edit_description']
-        update_description(order_id=order_id, new_desc=new_description)
-        return redirect('/admin-panel/orders/')
+        order_object = OrderManager.OrderManager(order_id=order_id)
+        if order_object.update_description(new_description=new_description):
+            return redirect('/admin-panel/orders/')
+        else:
+            print " Failed Updating Description!"
 
 
 def deletecomment(request):
     if request.method == 'GET':
         cm_id = int(request.GET['cm_id'])
-        delete_comment(cm_id)
-        return redirect('/admin-panel/comments/')
+        comment_object = CommentManager.CommentManager(deleted_comment_id=cm_id)
+        if comment_object.delete_comment():
+            return redirect('/admin-panel/comments/')
+        else:
+            print "Failed Deleting Product Comment!"
 
 
 def arrived(request):
@@ -325,73 +328,5 @@ def del_order(request):
     return redirect('/admin-panel/orders/')
 
 
-def get_comments():
-    result = models.Comment.objects.all()
-    comments = []
-    all_comments = []
-    for comment in result:
-        comments.append(comment.pk)
-        comments.append(return_username_with_telegram_id(comment.telegram_id))
-        comments.append(comment.comment)
-        comments.append(return_cm_cat_name(comment.comment_cat))
-        all_comments.append(comments)
-        comments = []
-    return all_comments
 
 
-def get_product_comments():
-    result = models.Product_comment.objects.all()
-    comments = []
-    all_comments = []
-    for comment in result:
-        comments.append(comment.pk)
-        comments.append(return_username(comment.customer_id))
-        comments.append(comment.product_id)
-        comments.append(comment.text_comment)
-        all_comments.append(comments)
-        comments = []
-    return all_comments
-
-
-def update_description(order_id, new_desc):
-    try:
-        order = models.Order.objects.get(pk=order_id)
-        order.additional_info = new_desc
-        order.save()
-        return 1
-    except Exception as e:
-        print e
-        return 0
-
-
-def delete_comment(cm_id):
-    try:
-        comment = models.Product_comment.objects.get(pk=cm_id)
-        comment.delete()
-        return 1
-    except Exception as e:
-        return 0
-
-
-def return_username(cus_id):
-    try:
-        customer = models.Customer.objects.get(pk=cus_id)
-        return customer.username
-    except Exception as e:
-        return 0
-
-
-def return_username_with_telegram_id(t_id):
-    try:
-        customer = models.Customer.objects.get(telegram_id=t_id)
-        return customer.username
-    except Exception as e:
-        return 0
-
-
-def return_cm_cat_name(c_id):
-    try:
-        cat_name = models.Feedback_cat.objects.get(pk=c_id)
-        return cat_name.fb_name
-    except Exception as e:
-        return 0

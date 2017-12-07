@@ -69,3 +69,13 @@ class OrderManager:
         except Exception as e:
             print e
             return 0
+
+    def update_description(self, new_description):
+        try:
+            order = models.Order.objects.get(pk=self.order_id)
+            order.additional_info = new_description
+            order.save()
+            return 1
+        except Exception as e:
+            print e
+            return 0
