@@ -2,7 +2,10 @@
 <body>
 {% include "header.html" %}
 <div class="container">
-    <div class="card  col-md-offset-6 col-md-7">
+      <div class="col-md-3">
+			{% include "sidebar.html" %}
+		</div>
+    <div class="card  col-md-offset-1 col-md-8">
         <h2 style="text-align: right">افزودن کد تخفیف</h2>
         <form role="form" action="/admin-panel/add_code" id="adding_code" method="post" name="adding_code_form">
             <div class="form-group" style="text-align: right">

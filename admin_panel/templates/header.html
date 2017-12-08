@@ -19,70 +19,225 @@
 
         body {
             font-family: "Iranian Sans";
+            margin-top: 5%;
         }
 
         h2, h5 {
             font-family: "Iranian Sans";
         }
-        .form-group{
+
+        .form-group {
             margin-top: 5%;
         }
-        .card{
+
+        .card {
             background-color: #f8f8f8;
             border-radius: 7px;
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
         }
-        #product_description{
+
+        #product_description {
             text-align: right;
             direction: rtl;
         }
     </style>
+    <style>
+        .navbar, .dropdown-menu {
+            background: rgba(255, 255, 255, 0.25);
+            border: none;
+
+        }
+
+        .nav > li > a, .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover, .dropdown-menu > li > a, .dropdown-menu > li {
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav > li > a:focus, .nav > li > a:hover, .nav .open > a, .nav .open > a:focus, .nav .open > a:hover, .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
+            border-bottom: 3px solid transparent;
+            background: none;
+        }
+
+        .navbar a, .dropdown-menu > li > a, .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover, .navbar-toggle {
+            color: #fff;
+        }
+
+        .dropdown-menu {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+
+        .nav li:hover:nth-child(8n+1), .nav li.active:nth-child(8n+1) {
+            border-bottom: #C4E17F 3px solid;
+        }
+
+        .nav li:hover:nth-child(8n+2), .nav li.active:nth-child(8n+2) {
+            border-bottom: #F7FDCA 3px solid;
+        }
+
+        .nav li:hover:nth-child(8n+3), .nav li.active:nth-child(8n+3) {
+            border-bottom: #FECF71 3px solid;
+        }
+
+        .nav li:hover:nth-child(8n+4), .nav li.active:nth-child(8n+4) {
+            border-bottom: #F0776C 3px solid;
+        }
+
+        .nav li:hover:nth-child(8n+5), .nav li.active:nth-child(8n+5) {
+            border-bottom: #DB9DBE 3px solid;
+        }
+
+        .nav li:hover:nth-child(8n+6), .nav li.active:nth-child(8n+6) {
+            border-bottom: #C49CDE 3px solid;
+        }
+
+        .nav li:hover:nth-child(8n+7), .nav li.active:nth-child(8n+7) {
+            border-bottom: #669AE1 3px solid;
+        }
+
+        .nav li:hover:nth-child(8n+8), .nav li.active:nth-child(8n+8) {
+            border-bottom: #62C2E4 3px solid;
+        }
+
+        .navbar-toggle .icon-bar {
+            color: #fff;
+            background: #fff;
+        }
+
+        .dropdown-menu {
+            background: #ffa3a7 !important;
+            text-align: right;
+            -webkit-animation-direction: rtl;
+            -moz-animation-direction: rtl;
+            -o-animation-direction: rtl;
+            animation-direction: rtl;
+
+        }
+    </style>
 </head>
 <body>
-<div class="navbar navbar-default" role="navigation">
 
-    <div style="padding: 1% 3% 1% 5%;" class="navbar-inner">
-        <a style="font-family: 'Iranian Sans';letter-spacing: 0px;font-size: x-large;" class="navbar-brand" href="index.html">بات گرام</a>
+<div class="navbar-wrapper">
+    <div class="container-fluid">
+        <nav style="background: #1a436b;" class="navbar navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
 
-        <div class="btn-group pull-right" role="group">
-            <button type="button" class="btn btn-default"><a href="/admin-panel/codes.html"> کد تخفیف</a></button>
-            <button type="button" class="btn btn-default"><a href="/admin-panel/advertise.html"> تبلیغات</a></button>
-            <button type="button" class="btn btn-default"><a href="/admin-panel/show_survey.html"> نظرسنجی</a></button>
-            <button type="button" class="btn btn-default"><a href="/admin-panel/orders.html">سفارشات</a></button>
-            <button type="button" class="btn btn-default"><a href="/admin-panel/comments.html"> نظرات</a></button>
-            <button type="button" class="btn btn-default"><a href="/admin-panel/category.html"> دسته بندی ها</a>
-            </button>
-            <button type="button" class="btn btn-default"><a href="/admin-panel/enteghadat.html"> انتقادات پیشنهادات</a>
-            </button>
-            <button type="button" class="btn btn-default"><a href="/admin-panel/show_products.html"> مشاهده کردن</a></button>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
 
-            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
- <span class="caret"></span>               افزودن
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuDivider">
-                <li class="dropdown-item" style="padding-left: 30%"><a
-                        href="/admin-panel/add_product.html">افزودن محصول</a></li>
-                <li class="dropdown-item" style="padding-left: 20%"><a
-                        href="/admin-panel/add_cat.html">افزودن دسته بندی</a></li>
-                <li class="dropdown-item" style="padding-left:45%"><a
-                        href="/admin-panel/add_feed_cat.html">افزودن نظر</a></li>
-                <li class="dropdown-item" style="padding-left:24%"><a
-                        href="/admin-panel/survey.html">افزودن نظرسنجی</a></li>
-                <li class="dropdown-item" style="padding-left:30%"><a
-                        href="/admin-panel/add_ad.html">افزودن تبلیغات</a></li>
-                <li class="dropdown-item" style="padding-left:22%"><a
-                        href="/admin-panel/add_code.html">افزودن کد تخفیف</a></li>
+                    <ul class="nav navbar-nav pull-right">
+                        <a style="margin-left: 0%;" class="pull-right navbar-brand" href="#">بات‌‌گرام</a>
+                        <li class="pull-right active"><a href="#" class="">خانه</a></li>
+                        <li class="pull-right dropdown">
+                            <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">محصولات <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/show_products.html">نمایش همه</a>
+                                </li>
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/add_product.html">افزودن</a>
+                                </li>
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/comments.html">نمایش تمام نظرات</a>
+                                </li>
+                            </ul>
+                        </li>
 
+                        <li class="pull-right dropdown">
+                            <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">دسته‌بندی <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/category.html">نمایش همه</a>
+                                </li>
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/add_cat.html">افزودن</a>
+                                </li>
+                            </ul>
+                        </li>
 
-            </ul>
+                        <li class="pull-right dropdown"><a href="#" class="dropdown-toggle " data-toggle="dropdown"
+                                                           role="button" aria-haspopup="true" aria-expanded="false">انتقادات
+                            پیشنهادات <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/enteghadat.html">نمایش همه</a>
+                                </li>
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/add_feed_cat.html">افزودن دسته‌بندی</a>
+                                </li>
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/show_feedback_categories.html">نمایش دسته‌بندی‌ها</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="pull-right dropdown"><a href="#" class="dropdown-toggle active"
+                                                           data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                           aria-expanded="false">سفارشات <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/orders.html">نمایش همه</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="pull-right down"><a href="#" class="dropdown-toggle active" data-toggle="dropdown"
+                                                       role="button" aria-haspopup="true" aria-expanded="false">تبلیغات
+                            <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/advertise.html">نمایش همه</a>
+                                </li>
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/add_ad.html">افزودن</a>
+                                </li>
+                            </ul>
+                        </li>
 
+                        <li class="pull-right dropdown">
+                            <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">نظرسنجی <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/show_survey.html">نمایش همه</a>
+                                </li>
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/survey.html">افزودن</a>
+                                </li>
+                            </ul>
+                        </li>
 
-        </div>
+                        <li class="pull-right down"><a href="#" class="dropdown-toggle active" data-toggle="dropdown"
+                                                       role="button" aria-haspopup="true" aria-expanded="false">کد تخفیف
+                            <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/codes.html">نمایش همه</a>
+                                </li>
+                                <li class=" dropdown">
+                                    <a href="/admin-panel/add_code.html">افزودن</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
 
+                    <ul class="nav navbar-nav pull-left">
 
+                        <li class=""><a href="#">خروج</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </div>
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>

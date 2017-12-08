@@ -8,6 +8,8 @@ from manager import DiscountCodeManager, AdsManager, SurveyManager, OrderManager
     ProductManager, CommentManager
 
 
+# Product Section
+
 def add_product(request):
     category_object = CategoryManager.CategoryManager()
     if request.method == 'POST':
@@ -31,6 +33,7 @@ def show_product(request):
         product_id = request.GET['p_id']
         product_object = ProductManager.ProductManager(product_id=product_id)
         return render_to_response("show_product.html", {'product_data': product_object.get_product_data()})
+
 
 def edit(request):
     category_object = CategoryManager.CategoryManager()
@@ -70,12 +73,29 @@ def edit(request):
     return render_to_response("edit.html", {'cat_data': category_object.get_category_object()})
 
 
-def delete(request):
+def delete_product(request):
     if request.method == 'GET':
         p_id = request.GET['p_id']
         models.Product.objects.get(pk=p_id).delete()
         return redirect("/admin-panel/show_products/")
     return redirect("/admin-panel/show_products/")
+
+
+# Category Section
+
+def category(request):
+    category_object = CategoryManager.CategoryManager()
+    return render_to_response("category.html", {'cat_data': category_object.get_all_categories()})
+
+
+def add_cat(request):
+    if request.method == 'POST':
+        category_object = CategoryManager.CategoryManager(category_data=request.POST)
+        if category_object.add_category():
+            return redirect('/admin-panel/category/')
+        else:
+            print " Failed Adding Category!"
+    return render_to_response("add_cat.html")
 
 
 def del_cat(request):
@@ -89,15 +109,36 @@ def del_cat(request):
     return redirect("/admin-panel/category/")
 
 
+def ed_cat(request):
+    if request.method == 'GET':
+        cat_id = request.GET['cat_id']
+    if request.method == "POST":
+        cat_id = request.POST['cat_id']
+        new_cat_name = request.POST['new_cat']
+        category = models.Category.objects.get(pk=cat_id)
+        category.cat_name = new_cat_name
+        category.save()
+        return redirect('/admin-panel/category/')
+
+    return render_to_response("edit_cat.html", {'cat_data': get_cat_data(cat_id)})
+
+
+# Feedback Section
+
+def enteghadat(request):
+    feedback_object = FeedbackManager.FeedbackManager()
+    return render_to_response("enteghadat.html", {'comments': feedback_object.get_all_feedbacks()})
+
+
 def delete_feedback(request):
     if request.method == 'GET':
         c_id = request.GET['naghd_id']
-        naghd_object = FeedbackManager.NaghdManager(deleted_naghd_id=c_id)
-        if naghd_object.delete_naghd():
-            return redirect('/admin-panel/show_naghd_cat/')
+        feedback_object = FeedbackManager.FeedbackManager(deleted_naghd_id=c_id)
+        if feedback_object.delete_feddback_category():
+            return redirect('/admin-panel/show_feedback_categories/')
         else:
             print "Failed Deleting Naghd!"
-    return redirect('/admin-panel/show_naghd_cat/')
+    return redirect('/admin-panel/show_feedback_categories/')
 
 
 def cm_del(request):
@@ -112,7 +153,7 @@ def add_feedback_category(request):
     if request.method == 'POST':
         feedback_object = FeedbackManager.FeedbackManager(feedback_category_data=request.POST)
         if feedback_object.add_feedback_category():
-            return redirect("/admin-panel/show_naghd_cat/")
+            return redirect("/admin-panel/show_feedback_categories/")
         else:
             print('Failed Adding FeedBack Category!')
 
@@ -121,20 +162,10 @@ def add_feedback_category(request):
 
 def show_feedback_categories(request):
     feedback_object = FeedbackManager.FeedbackManager()
-    return render_to_response("feedCat.html", {'cat_data': feedback_object.get_all_feedback_categories()})
-
-
-def add_cat(request):
-    if request.method == 'POST':
-        category_object = CategoryManager.CategoryManager(category_data=request.POST)
-        if category_object.add_category():
-            return redirect('/admin-panel/category/')
-        else:
-            print " Failed Adding Category!"
-    return render_to_response("add_cat.html")
-
+    return render_to_response("show_feedback_categories.html", {'cat_data': feedback_object.get_all_feedback_categories()})
 
 # Advertise View Handler
+
 
 def advertise(request):
     ads_object = AdsManager.AdsManager()
@@ -176,7 +207,7 @@ def add_code(request):
     if request.method == 'POST':
         discount_code_object = DiscountCodeManager.DiscountCodeManager(code_data=request.POST)
         if discount_code_object.add_discount_code():
-            return redirect('/admin-panel/add_code/')
+            return redirect('/admin-panel/codes/')
     return render_to_response("add_code.html")
 
 
@@ -231,45 +262,11 @@ def del_question(request):
 
 # End of Survey View Handler
 
-
-def enteghadat(request):
-    feedback_object = FeedbackManager.FeedbackManager()
-    return render_to_response("enteghadat.html", {'comments': feedback_object.get_all_feedbacks()})
-
-
-def category(request):
-    category_object = CategoryManager.CategoryManager()
-    return render_to_response("category.html", {'cat_data': category_object.get_all_categories()})
-
+# Comment Section
 
 def show_product_comments(request):
     comment_object = CommentManager.CommentManager()
     return render_to_response('comments.html', {'p_comment': comment_object.get_all_comments()})
-
-
-def ed_cat(request):
-    if request.method == 'GET':
-        cat_id = request.GET['cat_id']
-    if request.method == "POST":
-        cat_id = request.POST['cat_id']
-        new_cat_name = request.POST['new_cat']
-        category = models.Category.objects.get(pk=cat_id)
-        category.cat_name = new_cat_name
-        category.save()
-        return redirect('/admin-panel/category/')
-
-    return render_to_response("edit_cat.html", {'cat_data': get_cat_data(cat_id)})
-
-
-def editDescription(request):
-    if request.method == 'POST':
-        order_id = int(request.POST['order_id'])
-        new_description = request.POST['edit_description']
-        order_object = OrderManager.OrderManager(order_id=order_id)
-        if order_object.update_description(new_description=new_description):
-            return redirect('/admin-panel/orders/')
-        else:
-            print " Failed Updating Description!"
 
 
 def deletecomment(request):
@@ -280,6 +277,19 @@ def deletecomment(request):
             return redirect('/admin-panel/comments/')
         else:
             print "Failed Deleting Product Comment!"
+
+
+# Order Section
+
+def editDescription(request):
+    if request.method == 'POST':
+        order_id = int(request.POST['order_id'])
+        new_description = request.POST['edit_description']
+        order_object = OrderManager.OrderManager(order_id=order_id)
+        if order_object.update_description(new_description=new_description):
+            return redirect('/admin-panel/orders/')
+        else:
+            print " Failed Updating Description!"
 
 
 def arrived(request):

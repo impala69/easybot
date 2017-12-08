@@ -5,7 +5,10 @@
 {% include "header.html" %}
 <div class="container">
     <div class="row">
-        <div class="col-md-12 col-sm-3 ">
+      <div class="col-md-3">
+			{% include "sidebar.html" %}
+		</div>
+        <div class="col-md-offset-0 col-md-9 ">
 
             <h2 style="float:right"> محصولات</i>
             </h2>
@@ -92,7 +95,7 @@
 
                                     </button>
                                 </a>
-                                <a href="/admin-panel/delete?p_id={{ data.0 }}">
+                                <a href="/admin-panel/delete_product?p_id={{ data.0 }}">
                                     <button type="button" class="btn btn-danger btn-sm"
                                             style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small">
 

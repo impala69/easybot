@@ -5,26 +5,13 @@
 {% include "header.html" %}
 
 
-<div class="ch-container">
+<div class="container">
     <div class="row">
 
-        <div id="content" class="col-lg-10 col-sm-10">
-            <div>
-                <ul class="breadcrumb col-md-offset-4 col-md-10 " style="text-align: right">
-                    <li>
-                        <a href="#">افزودن</a>
-
-                    </li>
-                    <li>
-                        <a href="#">صفحه اصلی</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="container">
-
-                        <div class="card col-md-offset-7 col-md-7">
+  <div class="col-md-3">
+			{% include "sidebar.html" %}
+		</div>
+                        <div class="card col-md-offset-1 col-md-8">
                             <h2 style="text-align: right"> افزودن</h2>
                             <form role="form" action="/admin-panel/add_product" id="adding" method="post"
                                   name="adding_form" enctype="multipart/form-data">
@@ -71,13 +58,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-
-    </div>
-</div>
-<hr>
 {% include "footer.html" %}
 </body>
 </html>

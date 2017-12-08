@@ -31,7 +31,7 @@ class FeedbackManager:
             cat_data.append(cat.pk)
             cat_data.append(cat.fb_name)
             all_cat.append(cat_data)
-            cat_data = {}
+            cat_data = []
 
         return all_cat
 

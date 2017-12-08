@@ -2,26 +2,28 @@
 <html lang="en">
 <body>
 {% include "header.html" %}
-<div class="row">
-    <div class="col-lg-10 col-sm-10">
-        <div class="col-md-12">
-            <div class="container">
-                <div class="card col-md-offset-7 col-md-7">
-                    <h2 style="text-align: right"> افزودن دسته بندی</h2>
-                    <form role="form" action="/admin-panel/add_cat" id="adding_cat" method="post"
-                          name="adding_cat_form">
-                        <div class="form-group" style="text-align: right">
-                            <label for="categoryname">نام دسته بندی</label>
-                            <input style="text-align: right" type="text" class="form-control"
-                                   id="categoryname" name="category_name" placeholder="">
-                        </div>
-                        <button style="margin-left: 90% ; width: 10% ; font-size: medium" type="submit"
-                                class="btn btn-primary btn-round">تایید
-                        </button>
-                    </form>
-                </div>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {% include "sidebar.html" %}
         </div>
+
+        <div class="card col-md-offset-1 col-md-8">
+            <h2 style="text-align: right"> افزودن دسته بندی</h2>
+            <form role="form" action="/admin-panel/add_cat" id="adding_cat" method="post"
+                  name="adding_cat_form">
+                <div class="form-group" style="text-align: right">
+                    <label for="categoryname">نام دسته بندی</label>
+                    <input style="text-align: right" type="text" class="form-control"
+                           id="categoryname" name="category_name" placeholder="">
+                </div>
+                <button style="margin-left: 90% ; width: 10% ; font-size: medium" type="submit"
+                        class="btn btn-primary btn-round">تایید
+                </button>
+            </form>
+        </div>
+
+
     </div>
 
     {% include "footer.html" %}
