@@ -5,7 +5,7 @@ from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
 from manager import DiscountCodeManager, AdsManager, SurveyManager, OrderManager, CategoryManager, FeedbackManager, \
-    ProductManager, CommentManager
+    ProductManager, CommentManager, TicketManager
 
 
 # Product Section
@@ -337,6 +337,12 @@ def del_order(request):
             print "failed"
     return redirect('/admin-panel/orders/')
 
+
+# Ticket Section
+
+def show_tickets(request):
+    ticket_object = TicketManager.TicketManager()
+    return render_to_response("tickets.html", {'tickets_data' : ticket_object.get_all_tickets()})
 
 
 

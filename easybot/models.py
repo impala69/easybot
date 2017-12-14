@@ -117,3 +117,13 @@ class Answers(models.Model):
     question_id = models.ForeignKey(to=Questions, on_delete=models.CASCADE)
     text = models.TextField(null=False, default=None)
 
+
+class Ticket(models.Model):
+    title = models.CharField(max_length=300, null=True)
+
+
+class AnswerQuestionTicket(models.Model):
+    ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
+    order = models.IntegerField(null=True)
+    text = models.TextField(null=True)
+
