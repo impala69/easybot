@@ -80,6 +80,9 @@ class Command(BaseCommand):
                                                                  InlineKeyboardButton(text=emoji.emojize(" :memo:",
                                                                                                          use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
                                                                                       callback_data='enterinfo_firstname')],
+                                                                [InlineKeyboardButton(text=emoji.emojize(" :phone:",
+                                                                                                         use_aliases=True) + u"تماس و پشتیبانی",
+                                                                                      callback_data='support')],
                                                              [InlineKeyboardButton(text=emoji.emojize(" :back:",
                                                                                                       use_aliases=True) + u"بازگشت به منوی اصلی",
                                                                                    callback_data='return')], ])
@@ -306,7 +309,10 @@ class Command(BaseCommand):
                 else:
                     bot.sendMessage(chat_id=chat_id, text="لطفا بر روی دکمه فرستادن شماره تلفن به ربات کلیک کنید")
 
-
+            # add ticket message
+            elif content_type == 'text' and user_state == 'add_ticket':
+                customer.unset_state()
+                ticket_obj =
 
             elif content_type == 'text' and 'naghd' in user_state:
                 naghd_cat = int(user_state.replace("naghd", ""))
@@ -509,6 +515,22 @@ class Command(BaseCommand):
                     bot.sendMessage(from_id, "نام خود را وارد نمایید.")
             # End Of Enter Info Button
 
+
+            # support section for tickets
+            if query_data == u'support':
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text= u"افزودن تیکت",callback_data="add_ticket"),InlineKeyboardButton(text= u"نمایش تیکت ها",callback_data="show_ticket")],[InlineKeyboardButton(
+                    text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
+                    callback_data='return')]])
+                bot.sendMessage(from_id,"گزینه مورد نظر را انتخاب نمایید", reply_markup=keyboard)
+
+            # add ticket query
+            if query_data == u'add_ticket':
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text= u"نمایش تیکت ها",callback_data="show_ticket")],[InlineKeyboardButton(
+                    text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
+                    callback_data='return')]])
+                if customer.set_state(state_word='add_ticket'):
+                    print(customer.return_user_state())
+                    bot.sendMessage(from_id,"تیکت خود را اضافه کنید",reply_markup=keyboard)
 
 
 

@@ -117,3 +117,5 @@ class Answers(models.Model):
     question_id = models.ForeignKey(to=Questions, on_delete=models.CASCADE)
     text = models.TextField(null=False, default=None)
 
+
+
