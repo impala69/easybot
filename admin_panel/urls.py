@@ -38,4 +38,5 @@ urlpatterns = [
     url(r'^del_code', views.del_code),
     url(r'^del_survey',views.del_survey),
     url(r'^del_question',views.del_question),
+    url(r'tickets',views.show_tickets),
     ]
