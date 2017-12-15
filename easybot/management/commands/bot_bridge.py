@@ -395,6 +395,7 @@ class Command(BaseCommand):
                             bot.sendMessage(chat_id, "مشکلی بوجود آمد")
                             admin_buffer.clear()
 
+
                             # end of ADMIN PANEL messages
 
         def on_callback_query(msg):
