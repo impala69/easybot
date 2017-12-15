@@ -1,4 +1,5 @@
 {% load static %}
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -35,7 +36,6 @@
 
     <!-- The fav icon -->
     <link rel="shortcut icon" href="{% static 'adminpanel/img/favicon.ico' %}">
-
   <style>
         @font-face {
         font-family: "Iranian Sans";
@@ -48,39 +48,12 @@
         font-family: "Iranian Sans";
         }
     </style>
-
 </head>
 
 <body>
-    <!-- topbar starts -->
-    <div class="navbar navbar-default" role="navigation">
-
-        <div class="navbar-inner">
-            <button type="button" class="navbar-toggle pull-left animated flip">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html"> <img alt="logo" src="{% static 'adminpanel/img/logo20.png' %}" class="hidden-xs"/>
-                <span>EasyBot</span></a>
-
-            <!-- user dropdown starts -->
-            <!-- navbar buttons starts -->
-            <div class="btn-group pull-right" role="group">
-                <button type="button" class="btn btn-default"> سفارشات</button>
-                <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
-                <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
-                <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
-                <button type="button" class="btn btn-default" ><a href="showing.html"> مشاهده کردن</a></button>
-                <button type="button" class="btn btn-primary"><a href="adding.html"> افزودن </a></button>
-                <button type="button" class="btn btn-default"> صفحه اصلی</button>
-            </div>
+{% include "header.html" %}
 
 
-
-        </div>
-    </div>
     <!-- topbar ends -->
 
 
@@ -130,7 +103,7 @@
                             <option value={{ cat.0 }} style="text-align: right">{{ cat.1 }}</option>
                             {% endfor %}
                         </select>
-{{ p_data }}
+
                         <div class="form-group" style="text-align: right">
                             <label for="num_form" class="col-2 col-form-label" style="margin-top: 5%;text-align: right;direction: rtl ; " >تعداد</label>
 
@@ -156,7 +129,6 @@
                         <input type="file" id="pic_form" name="product_image" value= {{ p_data.Image }}>
 
                     </div>
-
 
 
                     <button style="margin-left: 90% ; width: 10% ; font-size: medium" type="submit" class="btn btn-primary btn-round">تایید</button>

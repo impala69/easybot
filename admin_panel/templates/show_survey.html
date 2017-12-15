@@ -1,192 +1,107 @@
-{% load static %}
 <html lang="en">
-<head>
-
-    <meta charset="utf-8">
-    <title>
-        EasyBot
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-    <!-- The styles -->
-    <link id="bs-css" href="{% static 'adminpanel/css/bootstrap-cerulean.min.css' %}" rel="stylesheet">
-
-    <link href="{% static 'adminpanel/css/charisma-app.css' %}" rel="stylesheet">
-    <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.print.css' %}" rel='stylesheet'
-          media='print'>
-    <link href="{% static 'adminpanel/bower_components/chosen/chosen.min.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/bower_components/colorbox/example3/colorbox.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/bower_components/responsive-tables/responsive-tables.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' %}"
-          rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/jquery.noty.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/noty_theme_default.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/elfinder.min.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/elfinder.theme.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/jquery.iphone.toggle.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/uploadify.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/animate.min.css' %}" rel="stylesheet">
-
-    <!-- jQuery -->
-    <script src="{% static 'adminpanel/bower_components/jquery/jquery.min.js' %}"></script>
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <!-- The fav icon -->
-    <link rel="shortcut icon" href="{% static 'adminpanel/img/favicon.ico' %}">
-    <style>
-        @font-face {
-        font-family: "Iranian Sans";
-        src: url({% static 'adminpanel/fonts/iraniansans.ttf' %});
-        }
-        body{
-        font-family: "Iranian Sans";
-        }
-        h2, h5{
-        font-family: "Iranian Sans";
-        }
-    </style>
-</head>
-
 <body>
-<!-- topbar starts -->
-<div class="navbar navbar-default" role="navigation">
-
-    <div class="navbar-inner">
-        <a style="font-family: 'Iranian Sans'" class="navbar-brand" href="index.html">بات گرام</a>
-
-        <div class="btn-group pull-right" role="group">
-            <button type="button" class="btn btn-default"> سفارشات</button>
-            <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
-            <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
-            <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
-            <button type="button" class="btn btn-default"><a href="showing.html"> مشاهده کردن</a></button>
-
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-                افزودن
-            </button>
-
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="adding.html">افزودن محصول</a>
-                <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
-                <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
-
-            <a class="navbar-brand" href="index.html"> <img alt="logo" src="{% static 'adminpanel/img/logo20.png' %}" class="hidden-xs"/>
-                <span>EasyBot</span></a>
-
-            <!-- user dropdown starts -->
-            <!-- navbar buttons starts -->
-            <div class="btn-group pull-right" role="group">
-                <button type="button" class="btn btn-default"> سفارشات</button>
-                <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
-                <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
-                <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
-                <button type="button" class="btn btn-default" ><a href="showing.html"> مشاهده کردن</a></button>
-
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  افزودن
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="adding.html">افزودن محصول</a>
-                  <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
-                  <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
-
-                </div>
-                </div>
-            <div class="btn-group pull-right" style="float: right">
-            <button type="button" class="btn btn-default" style="float: right;"> صفحه اصلی</button>
-                </div>
-
-            </div>
-
-
-            </div>
-        </div>
-
-
+{% include "header.html" %}
+<div class="container">
+    <h2 style="float:right">نظرسنجی</h2>
+    <div class="col-md-3">
+        {% include "sidebar.html" %}
     </div>
-<div class="container-fluid">
-<div class="row">
-<div class="box col-md-12 col-sm-3 ">
-<div class="box-inner">
-    <div class="box-header well" data-original-title="">
-        <h2 style="float:right"><i  style="padding-right: 2%" class="glyphicon glyphicon-user">نظرسنجی</i> </h2>
-        <div class="box-icon" style="float: left">
-            <a href="#" class="btn btn-minimize btn-round btn-default"><i
-                    class="glyphicon glyphicon-chevron-up"></i></a>
-            <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
-    </div>
-    </div>
-    <div class="box-content">
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
-        <thead>
-        <tr>
-            <th style="text-align: right"> تغییرات</th>
-            <th style="text-align: right">سوالات</th>
-            <th style="text-align: right">موضوع</th>
-            <th style="text-align: right">شماره</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
+    <div class="col-md-offset-1 col-md-8">
+        <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+            <thead>
+            <tr>
+                <th style="text-align: right"> تغییرات</th>
+                <th style="text-align: right">سوالات</th>
+                <th style="text-align: right">موضوع</th>
+                <th style="text-align: right">شماره</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {% for survey in survey_data %}
+                    <td style=" width: 16%;" class="center ">
+                        <div class="modal fade " id="surveymodal{{ survey.id }}" tabindex="0" role="dialog"
+                             aria-labelledby="surveymodal{{ survey.id }}" aria-hidden="true" style="padding-top: 9% ; ">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="width: 100%">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle" style="text-align:right ;  ">
+                                            نمایش محصول</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-9">
+                                                    <table class="table table-strpied table-bordered  responsive"
+                                                           style="width: 65%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th rowspan="3" style="text-align: right"> سوالات</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for question in survey.questions %}
+                                                            <tr>
+                                                                <td>{{ question.text }}
+                                                                    <a href="/admin-panel/del_question?q_id={{ question.id }}">
+                                                                        <button type="button"
+                                                                                class="btn btn-danger btn-sm"
+                                                                                style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small">
+                                                                            <i class="glyphicon glyphicon-trash icon-white"></i>
+                                                                            حذف
+                                                                        </button>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> بستن
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <a href="/admin-panel/del_survey?s_id={{ survey.id }}">
+                                <button type="button" class="btn btn-danger btn-sm"
+                                        style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small">
 
+                                    <i class="glyphicon glyphicon-trash icon-white"></i>
+                                    حذف
+                                </button>
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <button type="button" class="btn btn-success btn-sm"
+                                    style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small"
+                                    data-toggle="modal" data-target="#surveymodal{{ survey.id }}">
 
-
-            {% for data in survey_data %}
-                <td>
-                <div class="row">
-                 <a href="/admin-panel/del_survey?s_id={{data.0}}">
-                 <button type="button" class="btn btn-danger btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small">
-
-                            <i class="glyphicon glyphicon-trash icon-white"></i>
-                            حذف
-
-                    </button></a>
-                </div>
-
-            </td>
-
-
-
-
-                <td style="text-align: right;direction: rtl">{{data.4}}</td>
-                <td style="text-align: right;direction: rtl">{{data.1}}</td>
-                <td style="text-align: right;direction: rtl">{{data.2}}</td>
-
-
-        </tr>
-
-        {% endfor %}
-
-
-        </tbody>
-
-    </table>
-
+                                <i class="glyphicon glyphicon-zoom-in icon-white"></i>نمایش
+                            </button>
+                            </a>
+                        </div>
+                    </td>
+                    <td style="text-align: right;direction: rtl">{{ survey.title }}</td>
+                    <td style="text-align: right;direction: rtl">{{ survey.id }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
-
 </div>
-</div>
-</div>
-</div>
-
-
-
-<footer class="row">
-    <p style="text-align: center" class="col-md-offset-3 col-sm-offset-3col-md-6 col-sm-6 col-xs-12 copyright">&copy; <a
-            href="#" target="_blank">طراحی شده توسط تیم بات گرام</a></p>
-</footer>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
-<script src="{% static 'adminpanel/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-
-
+{% include "footer.html" %}
 </body>
 </html>
+

@@ -15,10 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
+from django.conf import settings
+import django
+
+
 
 urlpatterns = [
     url(r'', include('mainpage.urls')),
     url(r'^admin-panel/', include('admin_panel.urls')),
     url(r'^admin/', admin.site.urls),
+    # url(r'^uploads/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
 ]
 

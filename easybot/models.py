@@ -4,9 +4,6 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-# Create your models here.
-
-
 class Category(models.Model):
     cat_name = models.CharField(max_length=20, null=True, unique=True)
 
@@ -15,7 +12,7 @@ class Product(models.Model):
     cat_id = models.ForeignKey(to=Category, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=30, null=True)
     text = models.TextField(null=True)
-    image = models.CharField(max_length=255, null=True)
+    image = models.ImageField(upload_to='uploads/products', null=True)
     price = models.IntegerField(null=True)
     numbers = models.IntegerField(null=False, default=1)
 
@@ -99,11 +96,11 @@ class Peyk_motori(models.Model):
 class Advertise(models.Model):
     title = models.CharField(max_length=300, null=True)
     text = models.TextField(null=True)
-    image = models.CharField(null=True, max_length=255)
+    image = models.ImageField(upload_to='uploads/ads', null=True)
     repeat = models.IntegerField(null=False, default=1)
 
 class Surveys(models.Model):
-    title = models.CharField(max_length=30 , unique=True)
+    title = models.CharField(max_length=30 , unique=False)
 
 
 class Questions(models.Model):
@@ -113,4 +110,20 @@ class Questions(models.Model):
 
 class DiscountCode(models.Model):
     code_char = models.CharField(max_length=30, null=False, default=None)
+    # price = models.IntegerField(null=False, default=0)
+
+
+class Answers(models.Model):
+    question_id = models.ForeignKey(to=Questions, on_delete=models.CASCADE)
+    text = models.TextField(null=False, default=None)
+
+
+class Ticket(models.Model):
+    title = models.CharField(max_length=300, null=True)
+
+
+class AnswerQuestionTicket(models.Model):
+    ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
+    order = models.IntegerField(null=True)
+    text = models.TextField(null=True)
 

@@ -7,6 +7,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+
 import os
 
 
@@ -24,7 +25,7 @@ SECRET_KEY = 'nwtiez4j(zc+r-#1p48msj@x^dsg@zvqt23k81=8ydfo)_h(7p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.2', '127.0.0.1']
+ALLOWED_HOSTS = ['192.168.1.2', '127.0.0.1', u'botgram.in']
 
 
 # Application definition
@@ -160,3 +161,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/mainpage/static',
 ]
+
+MEDIA_ROOT = BASE_DIR
+MEDIA_URL = '/uploads/'

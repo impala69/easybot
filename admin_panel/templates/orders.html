@@ -1,365 +1,308 @@
 {% load static %}
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>
-        EasyBot
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
-          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-    <!-- The styles -->
-    <link id="bs-css" href="{% static 'adminpanel/css/bootstrap-cerulean.min.css' %}" rel="stylesheet">
-
-    <link href="{% static 'adminpanel/css/charisma-app.css' %}" rel="stylesheet">
-    <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.print.css' %}" rel='stylesheet'
-          media='print'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="{% static 'adminpanel/bower_components/chosen/chosen.min.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/bower_components/colorbox/example3/colorbox.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/bower_components/responsive-tables/responsive-tables.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' %}"
-          rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/jquery.noty.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/noty_theme_default.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/elfinder.min.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/elfinder.theme.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/jquery.iphone.toggle.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/uploadify.css' %}" rel='stylesheet'>
-    <link href="{% static 'adminpanel/css/animate.min.css' %}" rel="stylesheet">
-
-    <!-- jQuery -->
-    <script src="{% static 'adminpanel/bower_components/jquery/jquery.min.js' %}"></script>
-
-    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <!-- The fav icon -->
-    <link rel="shortcut icon" href="{% static 'adminpanel/img/favicon.ico' %}">
     <style>
-        @font-face {
-        font-family: "Iranian Sans";
-        src: url({% static 'adminpanel/fonts/iraniansans.ttf' %});
-        }
-        body{
-        font-family: "Iranian Sans";
-        }
-        h2, h5{
-        font-family: "Iranian Sans";
+        tr{
+            font-size: medium;
         }
     </style>
 </head>
-
 <body>
-<!-- topbar starts -->
-<div class="navbar navbar-default" role="navigation">
+{% include "header.html" %}
 
-    <div class="navbar-inner">
-        <button type="button" class="navbar-toggle pull-left animated flip">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" class="hidden-xs"/>
-            <span>EasyBot</span></a>
 
-        <!-- user dropdown starts -->
-        <!-- navbar buttons starts -->
-        <div class="btn-group pull-right" role="group">
-            <button type="button" class="btn btn-default"> سفارشات</button>
-            <button type="button" class="btn btn-default"> نظرات</button>
-            <button type="button" class="btn btn-default"> دسته بندی ها</button>
-            <button type="button" class="btn btn-default"> انتقادات پیشنهادات</button>
-            <button type="button" class="btn btn-primary"> مشاهده کردن</button>
-            <button type="button" class="btn btn-default">افزودن</button>
-            <button type="button" class="btn btn-default"> صفحه اصلی</button>
-        </div>
-
-        <ul class="collapse navbar-collapse nav navbar-nav  top-menu">
-            <li>
-                <form class="navbar-search pull-left">
-                    <input style="text-align: right" placeholder="جستجو" class="search-query form-control col-md-10"
-                           name="query"
-                           type="text">
-                </form>
-            </li>
-        </ul>
-
-    </div>
-</div>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-        <div class="box col-md-12 col-sm-3 ">
-            <div class="box-inner">
-                <div class="box-header well" data-original-title="">
-                    <h2 style="float:right">سفارشات</h2>
-
-                    <div class="box-icon" style="float: left">
-                        <a href="#" class="btn btn-minimize btn-round btn-default"><i
-                                class="glyphicon glyphicon-chevron-up"></i></a>
-                        <a href="#" class="btn btn-close btn-round btn-default"><i
-                                class="glyphicon glyphicon-remove"></i></a>
-                    </div>
-                </div>
-                <div class="box-content">
-                    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
-                        <thead>
-                        <tr>
-                            <th style="text-align: right">حذف</th>
-                            <th style="text-align: right">چاپ فاکتور</th>
-                            <th style="text-align: right">ورود اطلاعات پیک ‌‌موتوری</th>
-                            <th style="text-align: right">تایید دریافت محصول</th>
-                            <th style="text-align: right">توضیحات سفارش</th>
-                            <th style="text-align: right">مشاهده محصولات سفارشی</th>
-                            <th style="text-align: right">مشخصات سفارش دهنده</th>
-                            <th style="text-align: right">شماره سفارش</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            {% for data in orders_data %}
-                                <td style="text-align: right;direction: rtl" class="center ">
-                                <div class="btn-group" role="group">
-                                    <a href="del_order?orderid={{ data.0 }}">
-                                        <button type="button" class="btn btn-danger btn-sm" style="float: right">
-حذف
+      <div class="col-md-3">
+			{% include "sidebar.html" %}
+		</div>
+        <div class="col-md-offset-0 col-md-9">
+            <h2 style="float:right">سفارشات</h2>
+            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                <thead>
+                <tr>
+                    <th style="text-align: right">حذف</th>
+                    <th style="text-align: right">چاپ فاکتور</th>
+                    <th style="text-align: right">ورود اطلاعات پیک ‌‌موتوری</th>
+                    <th style="text-align: right">تایید دریافت محصول</th>
+                    <th style="text-align: right">توضیحات سفارش</th>
+                    <th style="text-align: right">مشاهده محصولات سفارشی</th>
+                    <th style="text-align: right">مشخصات سفارش دهنده</th>
+                    <th style="text-align: right">شماره سفارش</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    {% for data in orders_data %}
+                        <td style="text-align: right;direction: rtl" class="center ">
+                            <div class="btn-group" role="group">
+                                <a href="orders/del_order?orderid={{ data.0 }}">
+                                    <button type="button" class="btn btn-danger btn-sm" style="float: right">
+                                        حذف
                                     </button>
+                                </a>
+
+                            </div>
+                        </td>
+
+                        <td style="text-align: right;direction: rtl" class="center ">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-success btn-sm" style="float: right">
+                                    چاپ
+                                </button>
+
+                            </div>
+                        </td>
+
+                        <td>
+                            <button data-toggle="modal" data-target="#showingmodal_enter_peyk{{ data.0 }}"
+                                    type="button" class="btn btn-success btn-sm" style="float: right">
+                                ورود اطلاعات
+                            </button>
+                            <div class="modal fade " id="showingmodal_enter_peyk{{ data.0 }}" tabindex="0"
+                                 role="dialog" aria-labelledby="showingmodal_enter_peyk{{ data.0 }}"
+                                 aria-hidden="true" style="padding-top: 9% ; ">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle"
+                                                style="text-align:right ;  ">ورود اطلاعات پیک موتوری</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                                    <form action="peyk_add" method="post">
+                                                        <div style="direction: rtl;text-align: right;"
+                                                             class="form-group">
+                                                            <p class="pull-right">ورود اطلاعات پیک موتوری</p>
+                                                            <input style="margin-bottom: 5%;"
+                                                                   class="form-control pull-right"
+                                                                   name="peyk_first_name"
+                                                                   placeholder="نام پیک موتوری">
+                                                            <input style="margin-bottom: 5%;"
+                                                                   class="form-control" name="peyk_last_name"
+                                                                   placeholder="نام خانوادگی پیک موتوری">
+                                                            <input style="margin-bottom: 5%;"
+                                                                   class="form-control" name="peyk_phone"
+                                                                   placeholder="شماره تلفن پیک موتوری">
+                                                            <input hidden="hidden" name="order_id"
+                                                                   value="{{ data.0 }}">
+                                                        </div>
+                                                        <button type="submit"
+                                                                class="btn btn-success pull-right">تایید
+                                                        </button>
+                                                    </form>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">بستن
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+
+                        <td style="text-align: right;direction: rtl" class="center ">
+                            <div class="btn-group" role="group">
+
+                                {% if data.5 == 0 %}
+                                    <a href="orders/inpeyk?o_id={{ data.0 }}">
+                                        <button type="button" class="btn btn-success btn-sm"
+                                                style="float: right">
+                                            <i class="glyphicon glyphicon-shopping-cart icon-white"></i>
+                                        </button>
                                     </a>
-
-                                </div>
-                            </td>
-
-                            <td style="text-align: right;direction: rtl" class="center ">
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-success btn-sm" style="float: right">
-چاپ
-                                    </button>
-
-                                </div>
-                            </td>
-
-                                <td>
-                                    <button data-toggle="modal" data-target="#showingmodal_enter_peyk{{ data.0  }}" type="button" class="btn btn-success btn-sm" style="float: right">
-ورود اطلاعات
-                                    </button>
-                                <div class="modal fade " id="showingmodal_enter_peyk{{ data.0 }}" tabindex="0" role="dialog" aria-labelledby="showingmodal_enter_peyk{{ data.0 }}" aria-hidden="true" style="padding-top: 9% ; ">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle" style="text-align:right ;  ">ورود اطلاعات پیک موتوری</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" >
-          <div class="container">
-              <div class="row">
-                <form action="peyk_add" method="post">
-                  <div style="direction: rtl;text-align: right;" class="form-group">
-                    <p class="pull-right">ورود اطلاعات پیک موتوری</p>
-                      <input style="margin-bottom: 5%;" class="form-control pull-right" name="peyk_first_name" placeholder="نام پیک موتوری">
-                      <input style="margin-bottom: 5%;" class="form-control" name="peyk_last_name" placeholder="نام خانوادگی پیک موتوری">
-                      <input style="margin-bottom: 5%;" class="form-control" name="peyk_phone" placeholder="شماره تلفن پیک موتوری">
-                      <input hidden="hidden" name="order_id" value="{{data.0}}">
-                  </div>
-                  <button type="submit" class="btn btn-success pull-right">تایید</button>
-                </form>
-              </div>
-      </div>
-          </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-      </div>
-    </div>
-  </div>
-</div>
-                                </td>
-
-
-                            <td style="text-align: right;direction: rtl" class="center ">
-                                <div class="btn-group" role="group">
-
-                                        {% if data.5 == 0 %}
-                                    <a href="inpeyk?o_id={{data.0}}">
-                                        <button type="button" class="btn btn-success btn-sm" style="float: right">
-                                        <i class="glyphicon glyphicon-shopping-cart icon-white"></i>
-                                    </button>
-                                        </a>
-                                        {% endif %}
+                                {% endif %}
                                 {% if data.5 == 1 %}
-                                    <a href="arrived?o_id={{data.0}}">
-                                        <button type="button" class="btn btn-success btn-sm" style="float: right">
-                                        <i class="fa fa-motorcycle" aria-hidden="true"></i>
-                                    </button>
-                                        </a>
-                                        {% endif %}
-                                        {% if data.5 == 2 %}
+                                    <a href="orders/arrived?o_id={{ data.0 }}">
+                                        <button type="button" class="btn btn-success btn-sm"
+                                                style="float: right">
+                                            <i class="fa fa-motorcycle" aria-hidden="true"></i>
+                                        </button>
+                                    </a>
+                                {% endif %}
+                                {% if data.5 == 2 %}
 
-                                        <i style="font-size: 30px;text-align: center;" class="glyphicon glyphicon-send"></i>
+                                    <i style="font-size: 30px;text-align: center;"
+                                       class="glyphicon glyphicon-send"></i>
 
-                                        {% endif %}
+                                {% endif %}
 
 
+                            </div>
+                        </td>
 
+
+                        <td style="text-align: right;direction: rtl;">{{ data.3 }}<br><br>
+                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                    data-target="#showingmodal_edit{{ data.0 }}" style="float: right">
+                                ویرایش
+                            </button>
+                            <!-- showingmodal -->
+                            <div class="modal fade " id="showingmodal_edit{{ data.0 }}" tabindex="0"
+                                 role="dialog" aria-labelledby="showingmodal_edit{{ data.0 }}"
+                                 aria-hidden="true" style="padding-top: 9% ; ">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle"
+                                                style="text-align:right ;  ">ویرایش توضیحات</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <form action="editDescription" method="post">
+                                                        <div class="form-group">
+                                                            <p for="description">توضیحات</p>
+                                                            <textarea style="width: 250%;" id="description"
+                                                                      name="edit_description">{{ data.3 }}</textarea>
+                                                            <input hidden="hidden" name="order_id"
+                                                                   value="{{ data.0 }}">
+                                                        </div>
+                                                        <button type="submit" class="btn btn-success">ویرایش
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">بستن
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </td>
+                            </div>
 
+                            <!-- /showingmodal --></td>
+                        <td>
+                            <!-- showingmodal -->
+                            <div class="modal fade " id="showingmodal_product{{ data.0 }}" tabindex="0"
+                                 role="dialog" aria-labelledby="showingmodal_product{{ data.0 }}"
+                                 aria-hidden="true" style="padding-top: 9% ; ">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle"
+                                                style="text-align:right ;  ">نمایش محصولات سفارشی</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="container">
+                                                <div style="text-align: right;" class="row">
+                                                    <table style="width: 48%;"
+                                                           class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                                                        <thead>
+                                                        <tr>
+                                                            <th style="text-align: right">قیمت</th>
+                                                            <th style="text-align: right">نام محصول</th>
+                                                            <th style="text-align: right">شماره محصول</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for product in data.2 %}
+                                                            <tr>
+                                                                <td style="text-align: right;direction: rtl">{{ product.Price }}</td>
+                                                                <td style="text-align: right;direction: rtl">{{ product.Name }}</td>
+                                                                <td style="text-align: right;direction: rtl">{{ product.product_id }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">بستن
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <td style="text-align: right;direction: rtl;">{{data.3}}<br><br><button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#showingmodal_edit{{ data.0  }}" style="float: right">
-ویرایش
-                                    </button>
-                              <!-- showingmodal -->
-  <div class="modal fade " id="showingmodal_edit{{ data.0 }}" tabindex="0" role="dialog" aria-labelledby="showingmodal_edit{{ data.0 }}" aria-hidden="true" style="padding-top: 9% ; ">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle" style="text-align:right ;  ">ویرایش توضیحات</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" >
-          <div class="container">
-              <div class="row">
-                <form action="editDescription" method="post">
-                  <div class="form-group">
-                    <p for="description">توضیحات</p>
-                    <textarea style="width: 250%;" id="description" name="edit_description">{{data.3}}</textarea>
-                      <input hidden="hidden" name="order_id" value="{{data.0}}">
-                  </div>
-                  <button type="submit" class="btn btn-success">ویرایش</button>
-                </form>
-              </div>
-      </div>
-          </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-      </div>
-    </div>
-  </div>
-</div>
+                            <!-- /showingmodal -->
+                            <button type="button" class="btn btn-info btn-sm"
+                                    style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small"
+                                    data-toggle="modal" data-target="#showingmodal_product{{ data.0 }}">
 
-<!-- /showingmodal --></td>
-                            <td>
-                          <!-- showingmodal -->
-  <div class="modal fade " id="showingmodal_product{{ data.0 }}" tabindex="0" role="dialog" aria-labelledby="showingmodal_product{{ data.0 }}" aria-hidden="true" style="padding-top: 9% ; ">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle" style="text-align:right ;  ">نمایش محصولات سفارشی</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" >
-          <div class="container">
-              <div style="text-align: right;" class="row">
-                  <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
-                        <thead>
-                        <tr>
-                            <th style="text-align: right">قیمت</th>
-                            <th style="text-align: right">نام محصول</th>
-                            <th style="text-align: right">شماره محصول</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for product in data.2 %}
-                        <tr>
-                            <td style="text-align: right;direction: rtl">{{product.Price}}</td>
-                <td style="text-align: right;direction: rtl">{{product.Name}}</td>
-                <td style="text-align: right;direction: rtl">{{product.product_id}}</td>
-                      </tr>
-                        {% endfor %}
-                      </tbody>
-                      </table>
-              </div>
-      </div>
-          </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-      </div>
-    </div>
-  </div>
-</div>
+                                <i class="glyphicon glyphicon-search icon-white"></i>
+                                نمایش
 
-<!-- /showingmodal -->
-                    <button type="button" class="btn btn-info btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small" data-toggle="modal" data-target="#showingmodal_product{{ data.0  }}">
+                            </button>
+                        </td>
+                        <td>
+                            <!-- showingmodal -->
+                            <div class="modal fade " id="showingmodal_customer{{ data.0 }}" tabindex="0"
+                                 role="dialog" aria-labelledby="showingmodal_customer{{ data.0 }}"
+                                 aria-hidden="true" style="padding-top: 9% ; ">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle"
+                                                style="text-align:right ;  ">نمایش مشخصات سفارش دهنده</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="container">
+                                                <div style="text-align: right;float: right;direction: rtl;"
+                                                     class="row">
+                                                    <p class="col-md-2">{{ data.1.f_name }}</p>
+                                                    <p class="col-md-2">{{ data.1.l_name }}</p>
+                                                    <p class="col-md-2">{{ data.1.address }}</p>
+                                                    <p class="col-md-2">{{ data.1.phone }}</p>
+                                                    <p class="col-md-2">{{ data.1.username }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">بستن
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <i class="glyphicon glyphicon-search icon-white"></i>
-نمایش
+                            <!-- /showingmodal -->
+                            <button type="button" class="btn btn-info btn-sm"
+                                    style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small"
+                                    data-toggle="modal" data-target="#showingmodal_customer{{ data.0 }}">
 
-                    </button></td>
-                             <td>
-                          <!-- showingmodal -->
-  <div class="modal fade " id="showingmodal_customer{{ data.0 }}" tabindex="0" role="dialog" aria-labelledby="showingmodal_customer{{ data.0 }}" aria-hidden="true" style="padding-top: 9% ; ">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle" style="text-align:right ;  ">نمایش مشخصات سفارش دهنده</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" >
-          <div class="container">
-              <div style="text-align: right;float: right;direction: rtl;" class="row">
-                  <p class="col-md-2">{{data.1.f_name}}</p>
-                  <p class="col-md-2">{{data.1.l_name}}</p>
-                  <p class="col-md-2">{{data.1.address}}</p>
-                  <p class="col-md-2">{{data.1.phone}}</p>
-                  <p class="col-md-2">{{data.1.username}}</p>
-              </div>
-      </div>
-          </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-      </div>
-    </div>
-  </div>
-</div>
+                                <i class="glyphicon glyphicon-search icon-white"></i>
+                                نمایش
 
-<!-- /showingmodal -->
-                    <button type="button" class="btn btn-info btn-sm" style="float: right;border-radius: 10%;margin-right: 5%;font-size: x-small" data-toggle="modal" data-target="#showingmodal_customer{{ data.0  }}">
-
-                            <i class="glyphicon glyphicon-search icon-white"></i>
-نمایش
-
-                    </button></td>
-                            <td style="text-align: right">{{data.0}}</td>
+                            </button>
+                        </td>
+                        <td style="text-align: right">{{ data.0 }}</td>
 
                         </tr>
-                        {% endfor %}
-                        </tbody>
+                    {% endfor %}
+                </tbody>
 
-                    </table>
-
-                </div>
-
-            </div>
+            </table>
         </div>
     </div>
 </div>
-
-
-<!-- Ad ends -->
 
 <hr>
-
-
-<footer class="row">
-        <p style="text-align: center" class="col-md-offset-3 col-sm-offset-3col-md-6 col-sm-6 col-xs-12 copyright">&copy; <a href="#" target="_blank">طراحی شده توسط تیم بات گرام</a></p>
-    </footer>
-
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-<!-- external javascript -->
+{% include "footer.html" %}
 </body>
 </html>

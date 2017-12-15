@@ -51,47 +51,8 @@
 </head>
 
 <body>
-    <!-- topbar starts -->
-    <div class="navbar navbar-default" role="navigation">
+{% include "header.html" %}
 
-        <div class="navbar-inner">
-            <button type="button" class="navbar-toggle pull-left animated flip">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html"> <img alt="logo" src="{% static 'adminpanel/img/logo20.png' %}" class="hidden-xs"/>
-                <span>EasyBot</span></a>
-
-            <!-- user dropdown starts -->
-            <!-- navbar buttons starts -->
-            <div class="btn-group pull-right" role="group">
-                <button type="button" class="btn btn-default"> سفارشات</button>
-                <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
-                <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
-                <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
-                <button type="button" class="btn btn-default" ><a href="showing.html"> مشاهده کردن</a></button>
-                
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  افزودن
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="adding.html">افزودن محصول</a>
-                  <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
-                  <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
-
-                </div>
-                </div>
-            <div class="btn-group pull-right" style="float: right">
-            <button type="button" class="btn btn-default" style="float: right;"> صفحه اصلی</button>
-                </div>
-
-            </div>
-
-
-
-        </div>
 
 
 
@@ -180,6 +141,16 @@
 
 
 
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<!-- external javascript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
+<script src="{% static 'adminpanel/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
 
 </body>

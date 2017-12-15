@@ -53,62 +53,7 @@
 
 <body>
 <!-- topbar starts -->
-<div class="navbar navbar-default" role="navigation">
-
-    <div class="navbar-inner">
-        <a style="font-family: 'Iranian Sans'" class="navbar-brand" href="index.html">بات گرام</a>
-
-        <div class="btn-group pull-right" role="group">
-            <button type="button" class="btn btn-default"> سفارشات</button>
-            <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
-            <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
-            <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
-            <button type="button" class="btn btn-default"><a href="showing.html"> مشاهده کردن</a></button>
-
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-                افزودن
-            </button>
-
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="adding.html">افزودن محصول</a>
-                <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
-                <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
-
-            <a class="navbar-brand" href="index.html"> <img alt="logo" src="{% static 'adminpanel/img/logo20.png' %}" class="hidden-xs"/>
-                <span>EasyBot</span></a>
-
-            <!-- user dropdown starts -->
-            <!-- navbar buttons starts -->
-            <div class="btn-group pull-right" role="group">
-                <button type="button" class="btn btn-default"> سفارشات</button>
-                <button type="button" class="btn btn-default"><a href="comments.html"> نظرات</a></button>
-                <button type="button" class="btn btn-default"><a href="category.html"> دسته بندی ها</a></button>
-                <button type="button" class="btn btn-default"><a href="enteghadat.html"> انتقادات پیشنهادات</a></button>
-                <button type="button" class="btn btn-default" ><a href="showing.html"> مشاهده کردن</a></button>
-
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  افزودن
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="adding.html">افزودن محصول</a>
-                  <a class="dropdown-item" href="adding_cat.html">افزودن دسته بندی</a>
-                  <a class="dropdown-item" href="adding_comment.html">افزودن نظر</a>
-
-                </div>
-                </div>
-            <div class="btn-group pull-right" style="float: right">
-            <button type="button" class="btn btn-default" style="float: right;"> صفحه اصلی</button>
-                </div>
-
-            </div>
-
-
-            </div>
-        </div>
-
-
-    </div>
+{% include "header.html" %}
 
 
 </div>
