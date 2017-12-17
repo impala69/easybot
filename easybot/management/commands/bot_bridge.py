@@ -69,44 +69,44 @@ class Command(BaseCommand):
                     [InlineKeyboardButton(text=emoji.emojize(":mag_right:", use_aliases=True) + u"اضافه کردن تبلیغ",
                                           callback_data="add_advertise"), InlineKeyboardButton(
                         text=emoji.emojize(":mag_right:", use_aliases=True) + u"اضافه کردن محصول",
-                        callback_data="search")],
+                        callback_data="add_product")],
                     [InlineKeyboardButton(text=emoji.emojize(" :package:",
                                                              use_aliases=True) + u"مشاهده نظرات",
-                                          callback_data='sabad'),
+                                          callback_data='0'),
                      InlineKeyboardButton(text=emoji.emojize(" :postbox:",
                                                              use_aliases=True) + u"مشاهده سفارشات",
-                                          callback_data='enteghadstart')],
+                                          callback_data='0')],
                     [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
                                                              use_aliases=True) + u"ارسال دستی تبلیغ",
-                                          callback_data='advance_search')],
+                                          callback_data='manual_advertise')],
                     [InlineKeyboardButton(text=emoji.emojize(" :memo:",
                                                              use_aliases=True) + u"مشاهده دسته بندی محصولات",
-                                          callback_data='enterinfo_firstname')],
+                                          callback_data='0')],
                     [InlineKeyboardButton(text=emoji.emojize(" :back:",
                                                              use_aliases=True) + u"بازگشت به منوی اصلی",
                                           callback_data='return')], ])
             else:
                 keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                     text=emoji.emojize(":mag_right:", use_aliases=True) + u"دسته بندی ها", callback_data="categories"),
-                                                                  InlineKeyboardButton(text=emoji.emojize(":mag_right:",
-                                                                                                          use_aliases=True) + u"جستجو",
-                                                                                       callback_data="search")], [
-                                                                     InlineKeyboardButton(
-                                                                         text=emoji.emojize(" :package:",
-                                                                                            use_aliases=True) + u"سبد خرید",
-                                                                         callback_data='sabad'), InlineKeyboardButton(
+                    InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                            use_aliases=True) + u"جستجو",
+                                         callback_data="search")], [
+                    InlineKeyboardButton(
+                        text=emoji.emojize(" :package:",
+                                           use_aliases=True) + u"سبد خرید",
+                        callback_data='sabad'), InlineKeyboardButton(
                         text=emoji.emojize(" :postbox:", use_aliases=True) + u"انتقاد و پیشنهاد",
                         callback_data='enteghadstart')], [InlineKeyboardButton(
                     text=emoji.emojize(":mag_right:", use_aliases=True) + u"جستجوی پیشرفته",
                     callback_data='advance_search')], [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
                                                                                                use_aliases=True) + u"نظرسنجی‌ها",
                                                                             callback_data='show_surveys')], [
-                                                                     InlineKeyboardButton(text=emoji.emojize(" :memo:",
-                                                                                                             use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
-                                                                                          callback_data='enterinfo_firstname')],
-                                                                 [InlineKeyboardButton(text=emoji.emojize(" :back:",
-                                                                                                          use_aliases=True) + u"بازگشت به منوی اصلی",
-                                                                                       callback_data='return')], ])
+                    InlineKeyboardButton(text=emoji.emojize(" :memo:",
+                                                            use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
+                                         callback_data='enterinfo_firstname')],
+                    [InlineKeyboardButton(text=emoji.emojize(" :back:",
+                                                             use_aliases=True) + u"بازگشت به منوی اصلی",
+                                          callback_data='return')], ])
             if command == '/start':
 
                 for i in range(1, 4):
@@ -138,10 +138,10 @@ class Command(BaseCommand):
                 if list(search_results) == []:
                     keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                         text=emoji.emojize(":mag_right:", use_aliases=True) + u"جستجو", callback_data="search")], [
-                                                                         InlineKeyboardButton(
-                                                                             text=emoji.emojize(" :back:",
-                                                                                                use_aliases=True) + ' ' + u"بازگشت به منوی اصلی",
-                                                                             callback_data='return')]])
+                        InlineKeyboardButton(
+                            text=emoji.emojize(" :back:",
+                                               use_aliases=True) + ' ' + u"بازگشت به منوی اصلی",
+                            callback_data='return')]])
                     bot.sendMessage(chat_id, "نتیجه ای یافت نشد", reply_markup=keyboard)
                     customer.unset_state()
 
@@ -150,18 +150,18 @@ class Command(BaseCommand):
                         product = PDA(p_id=str(item['id']))
                         keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                             text=str(str(product.show_product()['Price']) + " تومان") + "💵", callback_data="4"),
-                                                                            InlineKeyboardButton(
-                                                                                text=u"افزودن به سبد خرید" + emoji.emojize(
-                                                                                    " :package:", use_aliases=True),
-                                                                                callback_data='add_to_cart ' + str(
-                                                                                    item['id']))], [
-                                                                               InlineKeyboardButton(
-                                                                                   text=u"جزییات بیشتر" + emoji.emojize(
-                                                                                       " :clipboard:",
-                                                                                       use_aliases=True),
-                                                                                   callback_data=str("Product" + str(
-                                                                                       product.show_product()[
-                                                                                           "product_id"])))], ])
+                            InlineKeyboardButton(
+                                text=u"افزودن به سبد خرید" + emoji.emojize(
+                                    " :package:", use_aliases=True),
+                                callback_data='add_to_cart ' + str(
+                                    item['id']))], [
+                            InlineKeyboardButton(
+                                text=u"جزییات بیشتر" + emoji.emojize(
+                                    " :clipboard:",
+                                    use_aliases=True),
+                                callback_data=str("Product" + str(
+                                    product.show_product()[
+                                        "product_id"])))], ])
                         # bot.sendMessage(chat_id,show_product(str(item['id']))['Name'])
                         caption = u"نام محصول: " + product.show_product()['Name']
                         bot.sendPhoto(chat_id, product.show_product()['Image'], caption=caption,
@@ -175,7 +175,7 @@ class Command(BaseCommand):
                     customer.set_current(current_word='search_' + command + '_1')
                     customer.unset_state()
 
-                # When going to AdvanceSearch after entering search word
+                    # When going to AdvanceSearch after entering search word
             elif content_type == 'text' and 'advance_search' in user_state:
                 # print unicode(user_state)
                 # search_obj = ASDA(search_word=command)
@@ -191,14 +191,14 @@ class Command(BaseCommand):
                         text=emoji.emojize(":mag_right:", use_aliases=True) + u"انتخاب کلمه",
                         callback_data="advance_search")], [InlineKeyboardButton(
                         text=emoji.emojize(":mag_right:", use_aliases=True) + u"کف قیمت", callback_data="low_price")], [
-                                                                         InlineKeyboardButton(
-                                                                             text=emoji.emojize(":mag_right:",
-                                                                                                use_aliases=True) + u"سقف قیمت",
-                                                                             callback_data="high_price")], [
-                                                                         InlineKeyboardButton(
-                                                                             text=emoji.emojize(" :back:",
-                                                                                                use_aliases=True) + ' ' + u"بازگشت به منوی اصلی",
-                                                                             callback_data='return')]])
+                        InlineKeyboardButton(
+                            text=emoji.emojize(":mag_right:",
+                                               use_aliases=True) + u"سقف قیمت",
+                            callback_data="high_price")], [
+                        InlineKeyboardButton(
+                            text=emoji.emojize(" :back:",
+                                               use_aliases=True) + ' ' + u"بازگشت به منوی اصلی",
+                            callback_data='return')]])
                     message_dict = get_AdvanceSearchOptions(user_state)
                     message_dict["word"] = command
                     bot.sendMessage(chat_id, u"جستجوی: " + message_dict.get("word",
@@ -221,14 +221,14 @@ class Command(BaseCommand):
                         text=emoji.emojize(":mag_right:", use_aliases=True) + u"انتخاب کلمه",
                         callback_data="advance_search")], [InlineKeyboardButton(
                         text=emoji.emojize(":mag_right:", use_aliases=True) + u"کف قیمت", callback_data="low_price")], [
-                                                                         InlineKeyboardButton(
-                                                                             text=emoji.emojize(":mag_right:",
-                                                                                                use_aliases=True) + u"سقف قیمت",
-                                                                             callback_data="high_price")], [
-                                                                         InlineKeyboardButton(
-                                                                             text=emoji.emojize(" :back:",
-                                                                                                use_aliases=True) + ' ' + u"بازگشت به منوی اصلی",
-                                                                             callback_data='return')]])
+                        InlineKeyboardButton(
+                            text=emoji.emojize(":mag_right:",
+                                               use_aliases=True) + u"سقف قیمت",
+                            callback_data="high_price")], [
+                        InlineKeyboardButton(
+                            text=emoji.emojize(" :back:",
+                                               use_aliases=True) + ' ' + u"بازگشت به منوی اصلی",
+                            callback_data='return')]])
                     message_dict = get_AdvanceSearchOptions(user_state)
                     message_dict["low_price"] = command
                     bot.sendMessage(chat_id, u"جستجوی: " + message_dict.get("word",
@@ -255,14 +255,14 @@ class Command(BaseCommand):
                         text=emoji.emojize(":mag_right:", use_aliases=True) + u"انتخاب کلمه",
                         callback_data="advance_search")], [InlineKeyboardButton(
                         text=emoji.emojize(":mag_right:", use_aliases=True) + u"کف قیمت", callback_data="low_price")], [
-                                                                         InlineKeyboardButton(
-                                                                             text=emoji.emojize(":mag_right:",
-                                                                                                use_aliases=True) + u"سقف قیمت",
-                                                                             callback_data="high_price")], [
-                                                                         InlineKeyboardButton(
-                                                                             text=emoji.emojize(" :back:",
-                                                                                                use_aliases=True) + ' ' + u"بازگشت به منوی اصلی",
-                                                                             callback_data='return')]])
+                        InlineKeyboardButton(
+                            text=emoji.emojize(":mag_right:",
+                                               use_aliases=True) + u"سقف قیمت",
+                            callback_data="high_price")], [
+                        InlineKeyboardButton(
+                            text=emoji.emojize(" :back:",
+                                               use_aliases=True) + ' ' + u"بازگشت به منوی اصلی",
+                            callback_data='return')]])
                     message_dict = get_AdvanceSearchOptions(user_state)
                     message_dict["high_price"] = command
                     bot.sendMessage(chat_id, u"جستجوی: " + message_dict.get("word",
@@ -294,7 +294,7 @@ class Command(BaseCommand):
                     #     bot.sendMessage(chat_id,"  نتیجه جستجوی شما  ", reply_markup=keyboard_morenext)
                     #     customer.set_current(current_word='search_' + command + '_1')
                     #     customer.unset_state()
-                # End
+                    # End
             elif content_type == 'text' and user_state == 'enterinfo_firstname':
                 customer.enter_first_name(f_name=command)
                 customer.set_state(state_word='enterinfo_lastname')
@@ -354,7 +354,7 @@ class Command(BaseCommand):
                 else:
                     notification = "لططفا مجددا نظر را وارد نمایید."
                     bot.sendMessage(chat_id, text=notification)
-                # end buying by getting comment
+                    # end buying by getting comment
             elif content_type == 'text' and user_state == 'buy_comment':
                 sabad = SHC(c_id=customer_id)
                 sabad_products = sabad.sabad_from_customer()
@@ -375,7 +375,7 @@ class Command(BaseCommand):
                     bot.sendMessage(chat_id, "خرید با موفقیت انجام شد")
                 else:
                     bot.sendMessage(chat_id, "مشکلی بوجود آمده")
-                # ADMIN PANEL messages
+                    # ADMIN PANEL messages
             if (user_id == admin_id):
                 if content_type == 'text' and 'advertise' in user_state:
                     if 'title' in user_state:
@@ -435,11 +435,53 @@ class Command(BaseCommand):
             # ADMIN PANEL
             if from_id == admin_id:
 
-                # whe press on add advertise
+                # when press on manual advertise
+                if query_data == u"manual_advertise":
+                    ad = Advertise(0)
+                    advertises = ad.getAllAdvertises()
+                    for advertise in advertises:
+                        image = advertise.image
+                        print image
+                        try:
+                            keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
+                                text=u"ارسال", callback_data="send_ad " + str(advertise.id))]])
+                            bot.sendPhoto(chat_id=admin_id,
+                                          photo=str(image),
+                                          caption=advertise.title + "\n" + advertise.text, reply_markup=keyboard_1)
+                        except Exception as e:
+                            print e
+                            print "failed sending advertise"
+                # End of press on manual advertise
+
+                # When sending an advertise
+                if u'send_ad' in query_data:
+                    ad = Advertise()
+                    advertise = ad.getAdvertise(query_data.rsplit()[1])
+                    customers = ad.getAllCustomers()
+                    for customer in customers:
+                        image = advertise.image
+                        print image
+                        try:
+                            bot.sendPhoto(chat_id=customer.telegram_id,
+                                          photo=str(image),
+                                          caption=advertise.title + "\n" + advertise.text)
+                        except Exception as e:
+                            print e
+                            print "failed sending advertise"
+
+                # End of sending an advertise
+
+
+                # when press on add advertise
                 if query_data == u"add_advertise":
                     if customer.set_state("advertise_title"):
                         bot.answerCallbackQuery(query_id, text="عنوان تبلیغ را وارد کنید")
-                        # end of add advertise
+                # end of add advertise
+
+                # when press on add product
+                # if query_data == u"add_product":
+                #     if customer
+                # End of add product
 
             # End of ADMIN PANEL
             # Whene user Press on Search Button
@@ -579,13 +621,13 @@ class Command(BaseCommand):
             if query_data == u'return':
                 keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                     text=emoji.emojize(":mag_right:", use_aliases=True) + u"دسته بندی ها", callback_data="categories"),
-                                                                  InlineKeyboardButton(text=emoji.emojize(":mag_right:",
-                                                                                                          use_aliases=True) + u"جستجو",
-                                                                                       callback_data="search")], [
-                                                                     InlineKeyboardButton(
-                                                                         text=emoji.emojize(" :package:",
-                                                                                            use_aliases=True) + u"سبد خرید",
-                                                                         callback_data='sabad'), InlineKeyboardButton(
+                    InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                            use_aliases=True) + u"جستجو",
+                                         callback_data="search")], [
+                    InlineKeyboardButton(
+                        text=emoji.emojize(" :package:",
+                                           use_aliases=True) + u"سبد خرید",
+                        callback_data='sabad'), InlineKeyboardButton(
                         text=emoji.emojize(" :postbox:", use_aliases=True) + u"انتقاد و پیشنهاد",
                         callback_data='enteghadstart')], [InlineKeyboardButton(
                     text=emoji.emojize(" :memo:", use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
@@ -1038,12 +1080,12 @@ class Command(BaseCommand):
                     keyboard_3 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                         text=u"حذف از سبد خرید" + emoji.emojize(" :x:", use_aliases=True) + "\n" + u"موجود: " + str(
                             cart_object.number), callback_data="del_from_cart " + str(cart_object.p_id_id))], [
-                                                                           InlineKeyboardButton(text=u"کاستن",
-                                                                                                callback_data="remove_one_more " + str(
-                                                                                                    cart_object.p_id_id)),
-                                                                           InlineKeyboardButton(text=u"افزودن",
-                                                                                                callback_data="add_one_more " + str(
-                                                                                                    cart_object.p_id_id))]])
+                        InlineKeyboardButton(text=u"کاستن",
+                                             callback_data="remove_one_more " + str(
+                                                 cart_object.p_id_id)),
+                        InlineKeyboardButton(text=u"افزودن",
+                                             callback_data="add_one_more " + str(
+                                                 cart_object.p_id_id))]])
                     msg_identifier = telepot.message_identifier(identifier)
                     telepot.Bot.editMessageReplyMarkup(bot, msg_identifier=msg_identifier, reply_markup=keyboard_3)
                 else:
@@ -1064,12 +1106,12 @@ class Command(BaseCommand):
                     keyboard_3 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                         text=u"حذف از سبد خرید" + emoji.emojize(" :x:", use_aliases=True) + "\n" + u"موجود: " + str(
                             cart_object.number), callback_data="del_from_cart " + str(cart_object.p_id_id))], [
-                                                                           InlineKeyboardButton(text=u"کاستن",
-                                                                                                callback_data="remove_one_more " + str(
-                                                                                                    cart_object.p_id_id)),
-                                                                           InlineKeyboardButton(text=u"افزودن",
-                                                                                                callback_data="add_one_more " + str(
-                                                                                                    cart_object.p_id_id))]])
+                        InlineKeyboardButton(text=u"کاستن",
+                                             callback_data="remove_one_more " + str(
+                                                 cart_object.p_id_id)),
+                        InlineKeyboardButton(text=u"افزودن",
+                                             callback_data="add_one_more " + str(
+                                                 cart_object.p_id_id))]])
                     msg_identifier = telepot.message_identifier(identifier)
                     telepot.Bot.editMessageReplyMarkup(bot, msg_identifier=msg_identifier, reply_markup=keyboard_3)
                 else:
@@ -1097,11 +1139,11 @@ class Command(BaseCommand):
             image = product.image
             keyboard = [[InlineKeyboardButton(
                 text=str(product.price) + u" تومان" + emoji.emojize(" :dollar:", use_aliases=True), callback_data="4"),
-                         InlineKeyboardButton(
-                             text=u"افزودن به سبد خرید" + emoji.emojize(" :package:", use_aliases=True),
-                             callback_data='add_to_cart ' + str(product.id))], [
-                            InlineKeyboardButton(text=u"جزییات بیشتر" + emoji.emojize(" :clipboard:", use_aliases=True),
-                                                 callback_data=str("Product" + str(product.id)))], ]
+                InlineKeyboardButton(
+                    text=u"افزودن به سبد خرید" + emoji.emojize(" :package:", use_aliases=True),
+                    callback_data='add_to_cart ' + str(product.id))], [
+                InlineKeyboardButton(text=u"جزییات بیشتر" + emoji.emojize(" :clipboard:", use_aliases=True),
+                                     callback_data=str("Product" + str(product.id)))], ]
             try:
                 bot.sendPhoto(from_id, photo=image, caption=caption,
                               reply_markup=InlineKeyboardMarkup(inline_keyboard=keyboard))
