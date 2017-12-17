@@ -63,10 +63,8 @@ class Command(BaseCommand):
                 print "state: " + unicode(user_state)
 
             # End Of Get Data From User
-
-
-if user_id == admin_id:
-            keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:", use_aliases=True) + u"اضافه کردن تبلیغ",
+            if user_id == admin_id:
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:", use_aliases=True) + u"اضافه کردن تبلیغ",
                     callback_data="add_advertise"), InlineKeyboardButton(
                     text=emoji.emojize(":mag_right:", use_aliases=True) + u"اضافه کردن محصول", callback_data="search")],
                     [InlineKeyboardButton(text=emoji.emojize(" :package:",
@@ -85,9 +83,22 @@ if user_id == admin_id:
                                                              use_aliases=True) + u"بازگشت به منوی اصلی",
                                           callback_data='return')], ])
             else:
-                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"دسته بندی ها", callback_data="categories"),InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجو", callback_data="search")],[ InlineKeyboardButton(text=emoji.emojize(" :package:",use_aliases=True)+u"سبد خرید", callback_data='sabad'), InlineKeyboardButton(text=emoji.emojize(" :postbox:",use_aliases=True)+u"انتقاد و پیشنهاد", callback_data='enteghadstart')],[ InlineKeyboardButton(text=emoji.emojize(":mag_right:",use_aliases=True)+u"جستجوی پیشرفته", callback_data='advance_search')],[InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
+                text=emoji.emojize(":mag_right:", use_aliases=True) + u"دسته بندی ها", callback_data="categories"),
+                                                              InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                                                                      use_aliases=True) + u"جستجو",
+                                                                                   callback_data="search")], [
+                                                                 InlineKeyboardButton(text=emoji.emojize(" :package:",
+                                                                                                         use_aliases=True) + u"سبد خرید",
+                                                                                      callback_data='sabad'),
+                                                                 InlineKeyboardButton(text=emoji.emojize(" :postbox:",
+                                                                                                         use_aliases=True) + u"انتقاد و پیشنهاد",
+                                                                                      callback_data='enteghadstart')], [
+                                                                 InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                                                                         use_aliases=True) + u"جستجوی پیشرفته",
+                                                                                      callback_data='advance_search')],
+                                                             [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
                                                                                                       use_aliases=True) + u"نظرسنجی‌ها",
-<<<<<<< HEAD
                                                                                    callback_data='show_surveys')], [
                                                                  InlineKeyboardButton(text=emoji.emojize(" :memo:",
                                                                                                          use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
@@ -98,9 +109,7 @@ if user_id == admin_id:
                                                              [InlineKeyboardButton(text=emoji.emojize(" :back:",
                                                                                                       use_aliases=True) + u"بازگشت به منوی اصلی",
                                                                                    callback_data='return')], ])
-=======
-                                                                                   callback_data='show_surveys')], [ InlineKeyboardButton(text=emoji.emojize(" :memo:",use_aliases=True)+u"وارد کردن اطلاعات شخصی برای خرید", callback_data='enterinfo_firstname')],[InlineKeyboardButton(text=emoji.emojize(" :back:",use_aliases=True)+u"بازگشت به منوی اصلی", callback_data='return')],])
->>>>>>> f5619806a957d71a8a8accb567c1793471ebad8c
+
             if command == '/start':
 
                 for i in range(1, 4):
@@ -534,11 +543,22 @@ if user_id == admin_id:
             # show ticket query
             if query_data == u'show_ticket':
                 nbr = len(models.AnswerQuestionTicket.objects.all())
+                list = []
                 for i in range(nbr):
                     question = models.AnswerQuestionTicket.objects.get(order=((i+1)*2)-1)
-                    bot.sendMessage(from_id,question.text)
-                    time.sleep(2)
+                    title = models.Ticket.objects.get(pk=question.ticket_id)
+                    tk_keyboard = [InlineKeyboardButton(text=title.title,callback_data = "ticket_question" + str(question.id))]
+                    list.append(tk_keyboard)
+                keyboard = InlineKeyboardMarkup(inline_keyboard=list)
+                bot.sendMessage(from_id,"یکی از تیکت ها را انتخاب نمایید",reply_markup=keyboard)
 
+            if "ticket_question" in query_data:
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text= u"افزودن تیکت",callback_data="add_ticket"),InlineKeyboardButton(text= u"نمایش تیکت ها",callback_data="show_ticket")],[InlineKeyboardButton(
+                    text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
+                    callback_data='return')]])
+                question_id = query_data.replace("ticket_question","")
+                text = models.AnswerQuestionTicket.objects.get(pk=question_id)
+                bot.sendMessage(from_id,text.text,reply_markup=keyboard)
 
             # Return to main Menu
             if query_data == u'return':
