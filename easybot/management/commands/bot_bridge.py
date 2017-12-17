@@ -16,6 +16,7 @@ from AdvanceSearch import AdvanceSearchDataAccess as ASDA
 from Shopping_Card import ShoppingCard as SHC
 from SurveyDataAccess import SurveyDataAccess as SDA
 from AnswerHandler import AnswerHandler as AH
+from Ticket import Ticket as TK
 from Order import Order
 from Advertise import Advertise
 from ... import models
@@ -309,10 +310,28 @@ class Command(BaseCommand):
                 else:
                     bot.sendMessage(chat_id=chat_id, text="لطفا بر روی دکمه فرستادن شماره تلفن به ربات کلیک کنید")
 
-            # add ticket message
+            # add ticket Label to model
             elif content_type == 'text' and user_state == 'add_ticket':
                 customer.unset_state()
-                ticket_obj =
+                ticket_title = TK(ticket_title=command.encode('utf-8'))
+                if ticket_title.enter_ticket():
+                    customer.unset_state()
+                    customer.set_state('add_question')
+                    bot.sendMessage(chat_id,"موضوع ثبت شد . سوال خود را وارد کنید")
+
+            #add question and order to model
+            elif content_type == 'text' and user_state == 'add_question':
+                customer.unset_state()
+                nbr = len(models.Ticket.objects.all())
+                tk_key = models.Ticket.objects.all()[nbr-1].id
+                order = (2*nbr) - 1
+                print(command)#last_added ticket id
+                ticket_question = TK(ticket_id=tk_key,ticket_question=command.encode('utf-8'),ticket_order=order)
+                if ticket_question.enter_question():
+                    customer.unset_state()
+                    bot.sendMessage(chat_id,"سوال شما با موفقیت ثبت شد")
+
+
 
             elif content_type == 'text' and 'naghd' in user_state:
                 naghd_cat = int(user_state.replace("naghd", ""))
@@ -525,13 +544,17 @@ class Command(BaseCommand):
 
             # add ticket query
             if query_data == u'add_ticket':
-                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text= u"نمایش تیکت ها",callback_data="show_ticket")],[InlineKeyboardButton(
-                    text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
-                    callback_data='return')]])
+
                 if customer.set_state(state_word='add_ticket'):
                     print(customer.return_user_state())
-                    bot.sendMessage(from_id,"تیکت خود را اضافه کنید",reply_markup=keyboard)
-
+                    bot.sendMessage(from_id,"تیکت خود را اضافه کنید")
+            # show ticket query
+            if query_data == u'show_ticket':
+                nbr = len(models.AnswerQuestionTicket.objects.all())
+                for i in range(nbr):
+                    question = models.AnswerQuestionTicket.objects.get(order=((i+1)*2)-1)
+                    bot.sendMessage(from_id,question.text)
+                    time.sleep(2)
 
 
             # Return to main Menu

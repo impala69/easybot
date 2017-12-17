@@ -25,7 +25,7 @@ SECRET_KEY = 'nwtiez4j(zc+r-#1p48msj@x^dsg@zvqt23k81=8ydfo)_h(7p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.2', '127.0.0.1', u'botgram.in']
+ALLOWED_HOSTS = ['192.168.1.2', '127.0.0.1', u'botgram.in', 'localhost']
 
 
 # Application definition
@@ -153,14 +153,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/uploads/'
 
 
+print os.path.join(BASE_DIR, "uploads")
 
 STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "uploads"),
     os.path.join(BASE_DIR, "static"),
     '/mainpage/static',
+
 ]
 
-MEDIA_ROOT = BASE_DIR
-MEDIA_URL = '/uploads/'
+# MEDIA_ROOT = BASE_DIR
+# MEDIA_URL = '/uploads/'
