@@ -413,7 +413,7 @@ class Command(BaseCommand):
                     elif 'description' in user_state:
                         admin_buffer['description'] = command
                         customer.set_state('product_image')
-                        bot.sendMessage(chat_id, "لینک تصویر محصول را وارد کنید")
+                        bot.sendMessage(chat_id, "تصویر محصول را ارسال کنید")
                     # elif 'image' in user_state:
                     #     admin_buffer['image'] = command
                     #     customer.set_state("product_number")
@@ -434,7 +434,6 @@ class Command(BaseCommand):
                             bot.sendMessage(chat_id, "مشکلی بوجود آمد")
                             admin_buffer.clear()
 
-                            #end of adding product
                 #when uploading image to product images
                 if content_type == 'photo' and user_state == 'product_image':
                     bot.download_file(msg['photo'][-1]['file_id'], './uploads/products/'+msg['photo'][-1]['file_id']+'.png')
@@ -442,6 +441,8 @@ class Command(BaseCommand):
                     customer.set_state("product_number")
                     bot.sendMessage(chat_id, "تعداد موجودی محصول را وارد کنید")
                 #end of uploading image to product images
+                # end of adding product
+            #End of admin panel messages
 
             elif content_type == "text" and "answer" in user_state:
                 survey_data_from_state = user_state.split("@")
