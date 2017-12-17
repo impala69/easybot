@@ -16,6 +16,7 @@ from AdvanceSearch import AdvanceSearchDataAccess as ASDA
 from Shopping_Card import ShoppingCard as SHC
 from SurveyDataAccess import SurveyDataAccess as SDA
 from AnswerHandler import AnswerHandler as AH
+from Ticket import Ticket as TK
 from Order import Order
 from Advertise import Advertise
 from ... import models
@@ -63,7 +64,6 @@ class Command(BaseCommand):
 
             # End Of Get Data From User
 
-
             if user_id == admin_id:
                 keyboard = InlineKeyboardMarkup(inline_keyboard=[
                     [InlineKeyboardButton(text=emoji.emojize(":mag_right:", use_aliases=True) + u"اضافه کردن تبلیغ",
@@ -88,25 +88,28 @@ class Command(BaseCommand):
             else:
                 keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                     text=emoji.emojize(":mag_right:", use_aliases=True) + u"دسته بندی ها", callback_data="categories"),
-                    InlineKeyboardButton(text=emoji.emojize(":mag_right:",
-                                                            use_aliases=True) + u"جستجو",
-                                         callback_data="search")], [
-                    InlineKeyboardButton(
-                        text=emoji.emojize(" :package:",
-                                           use_aliases=True) + u"سبد خرید",
-                        callback_data='sabad'), InlineKeyboardButton(
-                        text=emoji.emojize(" :postbox:", use_aliases=True) + u"انتقاد و پیشنهاد",
-                        callback_data='enteghadstart')], [InlineKeyboardButton(
-                    text=emoji.emojize(":mag_right:", use_aliases=True) + u"جستجوی پیشرفته",
+                                                                  InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                                                                          use_aliases=True) + u"جستجو",
+                                                                                       callback_data="search")], [
+                                                                     InlineKeyboardButton(
+                                                                         text=emoji.emojize(" :package:",
+                                                                                            use_aliases=True) + u"سبد خرید",
+                                                                         callback_data='sabad'),
+                        InlineKeyboardButton(text=emoji.emojize(" :postbox:", use_aliases=True) + u"انتقاد و پیشنهاد",
+                        callback_data='enteghadstart')], [
+                    InlineKeyboardButton(text=emoji.emojize(":mag_right:", use_aliases=True) + u"جستجوی پیشرفته",
                     callback_data='advance_search')], [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
                                                                                                use_aliases=True) + u"نظرسنجی‌ها",
                                                                             callback_data='show_surveys')], [
-                    InlineKeyboardButton(text=emoji.emojize(" :memo:",
-                                                            use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
-                                         callback_data='enterinfo_firstname')],
-                    [InlineKeyboardButton(text=emoji.emojize(" :back:",
-                                                             use_aliases=True) + u"بازگشت به منوی اصلی",
-                                          callback_data='return')], ])
+                                                                     InlineKeyboardButton(text=emoji.emojize(" :memo:",
+                                                                                                             use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
+                                                                                          callback_data='enterinfo_firstname')],
+                                                                 [InlineKeyboardButton(text=emoji.emojize(" :phone:",
+                                                                                                         use_aliases=True) + u"تماس و پشتیبانی",
+                                                                                      callback_data='support')],
+                                                             [InlineKeyboardButton(text=emoji.emojize(" :back:",
+                                                                                                          use_aliases=True) + u"بازگشت به منوی اصلی",
+                                                                                       callback_data='return')], ])
             if command == '/start':
 
                 for i in range(1, 4):
@@ -330,6 +333,27 @@ class Command(BaseCommand):
                     bot.sendMessage(chat_id, "اطلاعات شما  با موفقیت ثبت شد.")
                 else:
                     bot.sendMessage(chat_id=chat_id, text="لطفا بر روی دکمه فرستادن شماره تلفن به ربات کلیک کنید")
+
+            # add ticket Label to model
+            elif content_type == 'text' and user_state == 'add_ticket':
+                customer.unset_state()
+                ticket_title = TK(ticket_title=command.encode('utf-8'))
+                if ticket_title.enter_ticket():
+                    customer.unset_state()
+                    customer.set_state('add_question')
+                    bot.sendMessage(chat_id,"موضوع ثبت شد . سوال خود را وارد کنید")
+
+            #add question and order to model
+            elif content_type == 'text' and user_state == 'add_question':
+                customer.unset_state()
+                nbr = len(models.Ticket.objects.all())
+                tk_key = models.Ticket.objects.all()[nbr-1].id
+                order = (2*nbr) - 1
+                print(command)#last_added ticket id
+                ticket_question = TK(ticket_id=tk_key,ticket_question=command.encode('utf-8'),ticket_order=order)
+                if ticket_question.enter_question():
+                    customer.unset_state()
+                    bot.sendMessage(chat_id,"سوال شما با موفقیت ثبت شد")
 
 
 
@@ -678,24 +702,62 @@ class Command(BaseCommand):
             # End Of Enter Info Button
 
 
+            # support section for tickets
+            if query_data == u'support':
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text= u"افزودن تیکت",callback_data="add_ticket"),InlineKeyboardButton(text= u"نمایش تیکت ها",callback_data="show_ticket")],[InlineKeyboardButton(
+                    text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
+                    callback_data='return')]])
+                bot.sendMessage(from_id,"گزینه مورد نظر را انتخاب نمایید", reply_markup=keyboard)
 
+            # add ticket query
+            if query_data == u'add_ticket':
+
+                if customer.set_state(state_word='add_ticket'):
+                    print(customer.return_user_state())
+                    bot.sendMessage(from_id,"تیکت خود را اضافه کنید")
+            # show ticket query
+            if query_data == u'show_ticket':
+                nbr = len(models.AnswerQuestionTicket.objects.all())
+                list = []
+                for i in range(nbr):
+                    question = models.AnswerQuestionTicket.objects.get(order=((i+1)*2)-1)
+                    title = models.Ticket.objects.get(pk=question.ticket_id)
+                    tk_keyboard = [InlineKeyboardButton(text=title.title,callback_data = "ticket_question" + str(question.id))]
+                    list.append(tk_keyboard)
+                keyboard = InlineKeyboardMarkup(inline_keyboard=list)
+                bot.sendMessage(from_id,"یکی از تیکت ها را انتخاب نمایید",reply_markup=keyboard)
+
+            if "ticket_question" in query_data:
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text= u"افزودن تیکت",callback_data="add_ticket"),InlineKeyboardButton(text= u"نمایش تیکت ها",callback_data="show_ticket")],[InlineKeyboardButton(
+                    text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
+                    callback_data='return')]])
+                question_id = query_data.replace("ticket_question","")
+                text = models.AnswerQuestionTicket.objects.get(pk=question_id)
+                bot.sendMessage(from_id,text.text,reply_markup=keyboard)
 
             # Return to main Menu
             if query_data == u'return':
                 keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                     text=emoji.emojize(":mag_right:", use_aliases=True) + u"دسته بندی ها", callback_data="categories"),
-                    InlineKeyboardButton(text=emoji.emojize(":mag_right:",
-                                                            use_aliases=True) + u"جستجو",
-                                         callback_data="search")], [
-                    InlineKeyboardButton(
-                        text=emoji.emojize(" :package:",
-                                           use_aliases=True) + u"سبد خرید",
-                        callback_data='sabad'), InlineKeyboardButton(
-                        text=emoji.emojize(" :postbox:", use_aliases=True) + u"انتقاد و پیشنهاد",
-                        callback_data='enteghadstart')], [InlineKeyboardButton(
-                    text=emoji.emojize(" :memo:", use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
-                    callback_data='enterinfo_firstname')], [InlineKeyboardButton(
-                    text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
+                                                                  InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                                                                          use_aliases=True) + u"جستجو",
+                                                                                       callback_data="search")], [
+                                                                     InlineKeyboardButton(
+                                                                         text=emoji.emojize(" :package:",
+                                                                                            use_aliases=True) + u"سبد خرید",
+                                                                         callback_data='sabad'),
+                        InlineKeyboardButton(text=emoji.emojize(" :postbox:", use_aliases=True) + u"انتقاد و پیشنهاد",
+                        callback_data='enteghadstart')], [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                    use_aliases=True) + u"جستجوی پیشرفته",
+                                                                                      callback_data='advance_search')],
+                                                             [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                                                                      use_aliases=True) + u"نظرسنجی‌ها",
+                                                                                   callback_data='show_surveys')], [
+                                                                 InlineKeyboardButton(text=emoji.emojize(" :memo:", use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
+                    callback_data='enterinfo_firstname')], [InlineKeyboardButton(text=emoji.emojize(" :phone:",
+                    use_aliases=True) + u"تماس و پشتیبانی",
+                                                                                      callback_data='support')],
+                                                             [InlineKeyboardButton(text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
                     callback_data='return')], ])
                 bot.sendPhoto(from_id, "https://www.turbogram.co/static/images/homepage/icon-6.8cebe055d143.png",
                               caption="منوی اصلی، لطفا یکی از گزینه های زیر زیر را انتخاب کنید.", reply_markup=keyboard)
