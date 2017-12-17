@@ -63,13 +63,6 @@ class Command(BaseCommand):
                 print "state: " + unicode(user_state)
 
             # End Of Get Data From User
-<<<<<<< HEAD
-            if user_id == admin_id:
-                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=emoji.emojize(":mag_right:", use_aliases=True) + u"اضافه کردن تبلیغ",
-                    callback_data="add_advertise"), InlineKeyboardButton(
-                    text=emoji.emojize(":mag_right:", use_aliases=True) + u"اضافه کردن محصول", callback_data="search")],
-=======
-
 
             if user_id == admin_id:
                 keyboard = InlineKeyboardMarkup(inline_keyboard=[
@@ -77,7 +70,6 @@ class Command(BaseCommand):
                                           callback_data="add_advertise"), InlineKeyboardButton(
                         text=emoji.emojize(":mag_right:", use_aliases=True) + u"اضافه کردن محصول",
                         callback_data="search")],
->>>>>>> 0a3f1e38b26ced10d71db62911488e2795589aea
                     [InlineKeyboardButton(text=emoji.emojize(" :package:",
                                                              use_aliases=True) + u"مشاهده نظرات",
                                           callback_data='sabad'),
@@ -95,7 +87,6 @@ class Command(BaseCommand):
                                           callback_data='return')], ])
             else:
                 keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
-<<<<<<< HEAD
                 text=emoji.emojize(":mag_right:", use_aliases=True) + u"دسته بندی ها", callback_data="categories"),
                                                               InlineKeyboardButton(text=emoji.emojize(":mag_right:",
                                                                                                       use_aliases=True) + u"جستجو",
@@ -122,28 +113,8 @@ class Command(BaseCommand):
                                                                                                       use_aliases=True) + u"بازگشت به منوی اصلی",
                                                                                    callback_data='return')], ])
 
-=======
-                    text=emoji.emojize(":mag_right:", use_aliases=True) + u"دسته بندی ها", callback_data="categories"),
-                                                                  InlineKeyboardButton(text=emoji.emojize(":mag_right:",
-                                                                                                          use_aliases=True) + u"جستجو",
-                                                                                       callback_data="search")], [
-                                                                     InlineKeyboardButton(
-                                                                         text=emoji.emojize(" :package:",
-                                                                                            use_aliases=True) + u"سبد خرید",
-                                                                         callback_data='sabad'), InlineKeyboardButton(
-                        text=emoji.emojize(" :postbox:", use_aliases=True) + u"انتقاد و پیشنهاد",
-                        callback_data='enteghadstart')], [InlineKeyboardButton(
-                    text=emoji.emojize(":mag_right:", use_aliases=True) + u"جستجوی پیشرفته",
-                    callback_data='advance_search')], [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
-                                                                                               use_aliases=True) + u"نظرسنجی‌ها",
-                                                                            callback_data='show_surveys')], [
-                                                                     InlineKeyboardButton(text=emoji.emojize(" :memo:",
-                                                                                                             use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
-                                                                                          callback_data='enterinfo_firstname')],
-                                                                 [InlineKeyboardButton(text=emoji.emojize(" :back:",
-                                                                                                          use_aliases=True) + u"بازگشت به منوی اصلی",
-                                                                                       callback_data='return')], ])
->>>>>>> 0a3f1e38b26ced10d71db62911488e2795589aea
+
+
             if command == '/start':
 
                 for i in range(1, 4):
@@ -667,20 +638,31 @@ class Command(BaseCommand):
             # Return to main Menu
             if query_data == u'return':
                 keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
-                    text=emoji.emojize(":mag_right:", use_aliases=True) + u"دسته بندی ها", callback_data="categories"),
-                                                                  InlineKeyboardButton(text=emoji.emojize(":mag_right:",
-                                                                                                          use_aliases=True) + u"جستجو",
-                                                                                       callback_data="search")], [
-                                                                     InlineKeyboardButton(
-                                                                         text=emoji.emojize(" :package:",
-                                                                                            use_aliases=True) + u"سبد خرید",
-                                                                         callback_data='sabad'), InlineKeyboardButton(
-                        text=emoji.emojize(" :postbox:", use_aliases=True) + u"انتقاد و پیشنهاد",
-                        callback_data='enteghadstart')], [InlineKeyboardButton(
-                    text=emoji.emojize(" :memo:", use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
-                    callback_data='enterinfo_firstname')], [InlineKeyboardButton(
-                    text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
-                    callback_data='return')], ])
+                text=emoji.emojize(":mag_right:", use_aliases=True) + u"دسته بندی ها", callback_data="categories"),
+                                                              InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                                                                      use_aliases=True) + u"جستجو",
+                                                                                   callback_data="search")], [
+                                                                 InlineKeyboardButton(text=emoji.emojize(" :package:",
+                                                                                                         use_aliases=True) + u"سبد خرید",
+                                                                                      callback_data='sabad'),
+                                                                 InlineKeyboardButton(text=emoji.emojize(" :postbox:",
+                                                                                                         use_aliases=True) + u"انتقاد و پیشنهاد",
+                                                                                      callback_data='enteghadstart')], [
+                                                                 InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                                                                         use_aliases=True) + u"جستجوی پیشرفته",
+                                                                                      callback_data='advance_search')],
+                                                             [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                                                                      use_aliases=True) + u"نظرسنجی‌ها",
+                                                                                   callback_data='show_surveys')], [
+                                                                 InlineKeyboardButton(text=emoji.emojize(" :memo:",
+                                                                                                         use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
+                                                                                      callback_data='enterinfo_firstname')],
+                                                                [InlineKeyboardButton(text=emoji.emojize(" :phone:",
+                                                                                                         use_aliases=True) + u"تماس و پشتیبانی",
+                                                                                      callback_data='support')],
+                                                             [InlineKeyboardButton(text=emoji.emojize(" :back:",
+                                                                                                      use_aliases=True) + u"بازگشت به منوی اصلی",
+                                                                                   callback_data='return')], ])
                 bot.sendPhoto(from_id, "https://www.turbogram.co/static/images/homepage/icon-6.8cebe055d143.png",
                               caption="منوی اصلی، لطفا یکی از گزینه های زیر زیر را انتخاب کنید.", reply_markup=keyboard)
                 # button for return
