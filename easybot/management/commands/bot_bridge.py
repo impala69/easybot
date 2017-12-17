@@ -376,12 +376,13 @@ class Command(BaseCommand):
                 else:
                     bot.sendMessage(chat_id, "مشکلی بوجود آمده")
                     # ADMIN PANEL messages
-            if (user_id == admin_id):
+            if user_id == admin_id:
+                #adding advertise
                 if content_type == 'text' and 'advertise' in user_state:
                     if 'title' in user_state:
                         admin_buffer['title'] = command
                         customer.set_state("advertise_description")
-                        bot.sendMessage(chat_id, "توضیحات محصول را وارد کنید")
+                        bot.sendMessage(chat_id, "توضیحات تبلیغ را وارد کنید")
                     elif 'description' in user_state:
                         admin_buffer['description'] = command
                         customer.set_state('advertise_image')
@@ -401,6 +402,46 @@ class Command(BaseCommand):
                             customer.unset_state()
                             bot.sendMessage(chat_id, "مشکلی بوجود آمد")
                             admin_buffer.clear()
+                #end of add advertise
+
+                #adding product
+                if content_type == 'text' and 'product' in user_state:
+                    if 'title' in user_state:
+                        admin_buffer['title'] = command
+                        customer.set_state("product_description")
+                        bot.sendMessage(chat_id, "توضیحات محصول را وارد کنید")
+                    elif 'description' in user_state:
+                        admin_buffer['description'] = command
+                        customer.set_state('product_image')
+                        bot.sendMessage(chat_id, "لینک تصویر محصول را وارد کنید")
+                    # elif 'image' in user_state:
+                    #     admin_buffer['image'] = command
+                    #     customer.set_state("product_number")
+                    #     bot.sendMessage(chat_id, "تعداد موجودی محصول را وارد کنید")
+                    elif 'number' in user_state:
+                        admin_buffer['number'] = command
+                        customer.set_state("product_price")
+                        bot.sendMessage(chat_id, "قیمت محصول را به تومان وارد کنید")
+                    elif 'price' in user_state:
+                        admin_buffer['price'] = command
+                        product = PDA()
+                        if product.add_product(admin_buffer):
+                            customer.unset_state()
+                            bot.sendMessage(chat_id, "محصول با موفقیت ذخیره شد.")
+                            admin_buffer.clear()
+                        else:
+                            customer.unset_state()
+                            bot.sendMessage(chat_id, "مشکلی بوجود آمد")
+                            admin_buffer.clear()
+
+                            #end of adding product
+                #when uploading image to product images
+                if content_type == 'photo' and user_state == 'product_image':
+                    bot.download_file(msg['photo'][-1]['file_id'], './uploads/products/'+msg['photo'][-1]['file_id']+'.png')
+                    admin_buffer['image'] = 'uploads/products/'+msg['photo'][-1]['file_id']+'.png'
+                    customer.set_state("product_number")
+                    bot.sendMessage(chat_id, "تعداد موجودی محصول را وارد کنید")
+                #end of uploading image to product images
 
             elif content_type == "text" and "answer" in user_state:
                 survey_data_from_state = user_state.split("@")
@@ -479,9 +520,30 @@ class Command(BaseCommand):
                 # end of add advertise
 
                 # when press on add product
-                # if query_data == u"add_product":
-                #     if customer
+                if query_data == u"add_product":
+                    if customer.set_state("product_cat"):
+                        allcats = CatDA()
+                        cats = allcats.get_cats()
+                        cats_keyboard = []
+                        for category in cats:
+                            cats_keyboard.append(
+                                [InlineKeyboardButton(text=category.cat_name,
+                                                      callback_data="add_product_in_cat " + str(category.id))])
+
+                        cats_keyboard.append([InlineKeyboardButton(
+                            text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
+                            callback_data='return')])
+                        bot.sendMessage(from_id, "دسته مورد نظر خود را انتخاب کنید: ",
+                                        reply_markup=InlineKeyboardMarkup(
+                                            inline_keyboard=cats_keyboard))  # End of add product
                 # End of add product
+
+                # entering title for add product
+                if u'add_product_in_cat' in query_data:
+                    admin_buffer['cat_id'] = query_data.rsplit()[1]
+                    if customer.set_state('product_title'):
+                        bot.sendMessage(from_id, u"نام محصول را وارد کنید")
+                        # end of entering title for add product
 
             # End of ADMIN PANEL
             # Whene user Press on Search Button
