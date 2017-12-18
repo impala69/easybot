@@ -20,7 +20,7 @@ from Ticket import Ticket as TK
 from Order import Order
 from Advertise import Advertise
 from ... import models
-
+# 358988746
 admin_id = 116016698
 admin_buffer = {}
 
@@ -33,9 +33,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         def on_chat_message(msg):
-
             # Get User data From User RealTime
-            print msg
             try:
                 username = msg['from']['username']
                 user_id = msg['from']['id']
@@ -49,7 +47,6 @@ class Command(BaseCommand):
 
             if content_type == "text":
                 command = msg['text']
-                print command
             elif content_type == 'contact':
                 command = msg['contact']['phone_number']
             else:
@@ -57,10 +54,8 @@ class Command(BaseCommand):
 
             if type(customer.return_user_state()) != None:
                 user_state = customer.return_user_state()
-                print "state: " + unicode(user_state)
             else:
                 user_state = "Null"
-                print "state: " + unicode(user_state)
 
             # End Of Get Data From User
 
@@ -137,7 +132,6 @@ class Command(BaseCommand):
             elif content_type == 'text' and user_state == 'search':
                 search_obj = SDA(search_word=command, page_number=1)
                 search_results = search_obj.search()
-                print list(search_results)
                 if list(search_results) == []:
                     keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                         text=emoji.emojize(":mag_right:", use_aliases=True) + u"جستجو", callback_data="search")], [
@@ -180,11 +174,6 @@ class Command(BaseCommand):
 
                     # When going to AdvanceSearch after entering search word
             elif content_type == 'text' and 'advance_search' in user_state:
-                # print unicode(user_state)
-                # search_obj = ASDA(search_word=command)
-                # search_results = search_obj.search()
-                # print list(search_results)
-                # if list(search_results) == []:
                 if (user_state.split("_")[0] == "s"):
                     keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                         text=emoji.emojize(":mag_right:", use_aliases=True) + u"جستجوی همه",
@@ -349,7 +338,6 @@ class Command(BaseCommand):
                 nbr = len(models.Ticket.objects.all())
                 tk_key = models.Ticket.objects.all()[nbr-1].id
                 order = (2*nbr) - 1
-                print(command)#last_added ticket id
                 ticket_question = TK(ticket_id=tk_key,ticket_question=command.encode('utf-8'),ticket_order=order)
                 if ticket_question.enter_question():
                     customer.unset_state()
@@ -386,9 +374,6 @@ class Command(BaseCommand):
                 process_card = order.add_card_to_order()
                 is_order_done = process_card[0]
                 order_id = process_card[1]
-                print "Ohh"
-                print sabad.sabad_from_customer_objects()
-                print order_id
                 order_to_products = Order(products=sabad.sabad_from_customer_objects(), order_id=order_id)
                 order_to_products.add_products_to_order()
                 for product in sabad_products:
@@ -472,8 +457,6 @@ class Command(BaseCommand):
                 survey_data_from_state = user_state.split("@")
                 survey_id = survey_data_from_state[1]
                 question_order = survey_data_from_state[2]
-                print "answer is: " + command + "from this q order: " + str(
-                    int(question_order) - 1) + " question_id is: " + str(survey_data_from_state[3])
                 answer_object = AH(question_id=survey_data_from_state[3], question_answer=command)
                 answer_object.add_answer()
                 survey_object = SDA(survey_id=survey_id)
@@ -507,7 +490,6 @@ class Command(BaseCommand):
                     advertises = ad.getAllAdvertises()
                     for advertise in advertises:
                         image = advertise.image
-                        print image
                         try:
                             keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                                 text=u"ارسال", callback_data="send_ad " + str(advertise.id))]])
@@ -526,7 +508,6 @@ class Command(BaseCommand):
                     customers = ad.getAllCustomers()
                     for customer in customers:
                         image = advertise.image
-                        print image
                         try:
                             bot.sendPhoto(chat_id=customer.telegram_id,
                                           photo=str(image),
@@ -581,7 +562,6 @@ class Command(BaseCommand):
             if query_data == u"advance_search":
                 customer = CDA(from_id)
                 user_state = customer.return_user_state()
-                print user_state
                 if "advance_search" in user_state:
                     bot.answerCallbackQuery(query_id, text="نام محصول را وارد کنید", show_alert=True)
                     next_str = ""
@@ -599,14 +579,11 @@ class Command(BaseCommand):
             if query_data == u"low_price":
                 customer = CDA(from_id)
                 user_state = customer.return_user_state()
-                print user_state
                 next_str = ""
                 for item in user_state.split(",")[1:]:
                     next_str += item + ","
                 next_str = next_str[:-1]
                 customer.set_state("lgh_advance_search," + next_str)
-                print customer.return_user_state()
-
                 # customer.set_state(state_word='lgh_advance_search,¢,0,999999999,0')
                 bot.answerCallbackQuery(query_id, text="کف قیمت محصول را وارد کنید", show_alert=True)
 
@@ -616,13 +593,11 @@ class Command(BaseCommand):
             if query_data == u"high_price":
                 customer = CDA(from_id)
                 user_state = customer.return_user_state()
-                print user_state
                 next_str = ""
                 for item in user_state.split(",")[1:]:
                     next_str += item + ","
                 next_str = next_str[:-1]
                 customer.set_state("hgh_advance_search," + next_str)
-                print customer.return_user_state()
 
                 # customer.set_state(state_word='lgh_advance_search,¢,0,999999999,0')
                 bot.answerCallbackQuery(query_id, text="سقف قیمت محصول را وارد کنید", show_alert=True)
@@ -630,7 +605,6 @@ class Command(BaseCommand):
 
             # When user press on search all button
             if query_data == u"search_all":
-                print "search_allllll"
                 customer = CDA(from_id)
                 user_state = customer.return_user_state()
                 advance_search_dict = get_AdvanceSearchOptions(user_state)
@@ -659,9 +633,7 @@ class Command(BaseCommand):
                     bot.sendPhoto(from_id, product.show_product()['Image'], caption=caption, reply_markup=keyboard_1)
                 if len(search_results) == 0:
                     bot.sendMessage(from_id, u"متاسفانه محصولی با این مشخصات یافت نشد")
-                print "search_allllll_done"
             if query_data == u"search_avalable":
-                print "search_allllll"
                 customer = CDA(from_id)
                 user_state = customer.return_user_state()
                 advance_search_dict = get_AdvanceSearchOptions(user_state)
@@ -690,7 +662,6 @@ class Command(BaseCommand):
                     bot.sendPhoto(from_id, product.show_product()['Image'], caption=caption, reply_markup=keyboard_1)
                 if len(search_results) == 0:
                     bot.sendMessage(from_id, u"متاسفانه محصولی با این مشخصات یافت نشد")
-                print "search_allllll_done"
 
             # End of search all button
 
@@ -713,7 +684,6 @@ class Command(BaseCommand):
             if query_data == u'add_ticket':
 
                 if customer.set_state(state_word='add_ticket'):
-                    print(customer.return_user_state())
                     bot.sendMessage(from_id,"تیکت خود را اضافه کنید")
             # show ticket query
             if query_data == u'show_ticket':
@@ -782,13 +752,11 @@ class Command(BaseCommand):
                 survey_object = SDA()
                 all_surveys_data = survey_object.get_all_survey()
                 keyboard = []
-                print all_surveys_data
                 for survey in all_surveys_data:
                     keyboard.append(
                         [InlineKeyboardButton(text=survey['title'], callback_data="survey" + str(survey['id']))])
 
                 markup_keyboard = InlineKeyboardMarkup(inline_keyboard=keyboard)
-                print markup_keyboard
                 bot.sendMessage(chat_id=from_id, text="Surveys", reply_markup=markup_keyboard)
 
             elif "survey" in query_data:
@@ -850,9 +818,7 @@ class Command(BaseCommand):
             if query_data == u'sabad':
 
                 shopping_cart = SHC(c_id=customer_id)
-                print shopping_cart
                 products = shopping_cart.sabad_from_customer()
-                print products
                 if products == []:
                     keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                         text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
@@ -963,7 +929,6 @@ class Command(BaseCommand):
 
                 if u'search' == current_state:
                     current_command = str(current_info[1])
-                    print(current_info)
                     search_obj = SDA(search_word=current_command, page_number=current_page)
                     search_results = search_obj.search()
                     for item in search_results:
@@ -1047,13 +1012,11 @@ class Command(BaseCommand):
                                     u"توضیحات: " + models.Product.objects.filter(pk=id['id']).values('text')[0]['text'],
                                     reply_markup=keyboard_1)
                 if query_data == str("User_comment" + str((id['id']))):
-                    print('222')
                     if customer.set_state(state_word=str('User_comment' + str(id['id']))):
                         notification = "نظر خود را درمورد این محضول بنویسید"
                         bot.answerCallbackQuery(query_id, text=notification)
                 if query_data == str("Show_comment" + str(id['id'])):
                     comments = models.Product_comment.objects.filter(product_id=id['id'])
-                    print(list(comments))
                     if list(comments) == []:
                         keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                             text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
@@ -1159,7 +1122,6 @@ class Command(BaseCommand):
                 query = query_data.rsplit()
                 product_id = query[-1]
                 shopping_cart = SHC(c_id=customer_id, p_id=product_id)
-                print max_cart
                 if max_cart < 5:
                     flag = shopping_cart.add_to_cart()
                     if flag:
@@ -1191,8 +1153,6 @@ class Command(BaseCommand):
 
             if "add_one_more" in query_data:
                 query = query_data.rsplit()
-                print "query is: "
-                print query
                 product_id = query[-1]
                 shopping_cart = SHC(c_id=customer_id, p_id=product_id)
                 flag = shopping_cart.add_remove(1)
@@ -1295,25 +1255,5 @@ class Command(BaseCommand):
         bot.message_loop({'chat': on_chat_message, 'callback_query': on_callback_query})
         print('Listening ...')
 
-        counter = 0
-        adCounter = 0
         while 1:
             time.sleep(10)
-            if counter % 1 == 0:
-                ad = Advertise(adCounter)
-                adCounter += 1
-                advertise = ad.getAdvertise()
-                if advertise != 0:
-                    print advertise.title
-                    customers = ad.getAllCustomers()
-                    for customer in customers:
-                        image = advertise.image
-                        print image
-                        try:
-                            bot.sendPhoto(chat_id=customer.telegram_id,
-                                          photo=open(str(image)),
-                                          caption=advertise.title + "\n" + advertise.text)
-                        except Exception as e:
-                            print e
-                            print "failed sending advertise"
-            counter += 1
