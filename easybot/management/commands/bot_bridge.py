@@ -21,7 +21,7 @@ from Order import Order
 from Advertise import Advertise
 from ... import models
 # 358988746
-admin_id = 116016698
+admin_id = 358988746
 admin_buffer = {}
 
 
