@@ -8,11 +8,12 @@ class TicketManager:
 
     def get_all_tickets(self):
         result = models.Ticket.objects.all()
-        ticket_dict = {}
         tickets = []
         for ticket in result:
+            ticket_dict = {}
             ticket_dict['id'] = ticket.pk
             ticket_dict['title'] = ticket.title
             tickets.append(ticket_dict)
+
         return tickets
 
