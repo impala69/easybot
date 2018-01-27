@@ -8,6 +8,7 @@ from manager import DiscountCodeManager, AdsManager, SurveyManager, OrderManager
     ProductManager, CommentManager, TicketManager
 
 
+
 # Product Section
 
 def add_product(request):

@@ -155,15 +155,13 @@ USE_TZ = True
 
 STATIC_URL = '/uploads/'
 
-
-print os.path.join(BASE_DIR, "uploads")
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "uploads"),
     os.path.join(BASE_DIR, "static"),
     '/mainpage/static',
-
 ]
 
 # MEDIA_ROOT = BASE_DIR
 # MEDIA_URL = '/uploads/'
+
+
