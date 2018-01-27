@@ -5,7 +5,7 @@ from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
 from manager import DiscountCodeManager, AdsManager, SurveyManager, OrderManager, CategoryManager, FeedbackManager, \
-    ProductManager, CommentManager, TicketManager
+    ProductManager, CommentManager, TicketManager, TransactionManager
 
 
 
@@ -23,6 +23,17 @@ def add_product(request):
 
 
 def show_products(request):
+    import requests, json
+    if request.method == "POST":
+        print "back from pay.ir"
+        print request.POST
+        if request.POST['status'] == '1':
+            r = requests.post("https://pay.ir/payment/verify", data={'api': 'test', 'transId': request.POST['transId']})
+            print r.text
+    else:
+        r = requests.post('https://pay.ir/payment/send', data={'api': 'test', 'amount': 10000, 'redirect': "http://127.0.0.1:8000/admin-panel/show_products", })
+        print r.text
+        return redirect("https://pay.ir/payment/gateway/" + str(json.loads(r.text)['transId']))
     category_object = CategoryManager.CategoryManager()
     product_object = ProductManager.ProductManager()
     return render_to_response("show_products.html", {'product_data': product_object.get_all_products(), },
@@ -344,6 +355,15 @@ def del_order(request):
 def show_tickets(request):
     ticket_object = TicketManager.TicketManager()
     return render_to_response("tickets.html", {'tickets_data' : ticket_object.get_all_tickets()})
+
+
+# Transaction Section
+
+def show_transactions(request):
+    transaction_object = TransactionManager.TransactionManager()
+    return render_to_response("transactons.html", {'transactions_data': transaction_object.get_all_transactions(), },)
+
+
 
 
 

@@ -129,3 +129,8 @@ class AnswerQuestionTicket(models.Model):
     text = models.TextField(null=True)
 
 
+class Transactions(models.Model):
+    transaction_id_from_payment = models.IntegerField(null=False)
+    status = models.IntegerField(null=False)
+
+
