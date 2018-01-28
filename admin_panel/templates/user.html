@@ -1,0 +1,73 @@
+{% load static %}
+
+<html lang="en">
+<body>
+{% include "header.html" %}
+
+
+<div class="container">
+    <div class="row">
+
+  <div class="col-md-3">
+			{% include "sidebar.html" %}
+		</div>
+
+
+                        <div class="card col-md-offset-1 col-md-8">
+                            <h2 style="text-align: right"> اطلاعات شخصی</h2>
+
+                            <form role="form" action="/admin-panel/user" id="add_user" method="post"
+                                  name="add_user_form">
+
+
+                                <div class="form-group" style="text-align: right">
+                                    <label for="productname">نام</label>
+                                    <input style="text-align: right" type="text" class="form-control"
+                                           id="username" name="user_first_name" placeholder={{  user_data.0.f_name }}>
+                                </div>
+                                <div class="form-group" style="text-align: right">
+                                    <label for="producttext">نام خانوادگی</label>
+                                    <input style="text-align: right" type="text" class="form-control"
+                                           id="userlast" name="user_last_name" placeholder={{  user_data.0.l_name }}>
+                                </div>
+                                <div class="form-group" style="text-align: right">
+                                    <label for="productprice">شماره همراه</label>
+                                    <input style="text-align: right" type="text" class="form-control"
+                                           id="userphone" name="user_phone" placeholder={{  user_data.0.phone_number }}>
+                                </div>
+                                <div class="form-group" style="text-align: right">
+                                    <label for="productprice">ایمیل</label>
+                                    <input style="text-align: right" type="email" class="form-control"
+                                           id="usermail" name="user_mail" placeholder={{  user_data.0.mail }}>
+                                </div>
+                                <div class="form-group" style="text-align: right">
+                                    <label for="productprice">آدرس</label>
+                                    <input style="text-align: right" type="text" class="form-control"
+                                           id="useraddress" name="user_address" placeholder={{  user_data.0.address }}>
+                                </div>
+                                <div class="form-group" style="text-align: right">
+                                    <label for="productprice">آیدی تلگرام</label>
+                                    <input style="text-align: right" type="text" class="form-control"
+                                           id="usertelegramid" name="user_telegram_id" placeholder={{  user_data.0.telegram_id }}>
+                                </div>
+                            <div class="form-group" style="text-align: right;margin-bottom: 10%">
+                                    <label for="productprice">سطح کاربری</label>
+                                    <input style="text-align: right" type="text" class="form-control" value= {{ user_data.0.user_type }}
+                                           id="usertype" name="user_type" placeholder={{ user_data.0.user_type }}  readonly>
+                                </div>
+
+
+                                <button style="margin-left: 90% ; width: 10% ; font-size: medium;margin-bottom: 20%" type="submit"
+                                        class="btn btn-primary btn-round">تایید
+                                </button>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+{% include "footer.html" %}
+</body>
+</html>
+
