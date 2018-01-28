@@ -26,11 +26,8 @@ class ShoppingCard:
             return True
 
     def add_remove(self, numbers):
-        print self.__c_id
-        print self.__p_id
         cart = models.Sabad_Kharid.objects.get(cus_id=self.__c_id, p_id=self.__p_id)
         cart.number += numbers
-        print cart.number
         if numbers > 0:
             if min(models.Product.objects.get(id=self.__p_id).numbers, 5) >= cart.number:
                 print "can add more"
@@ -63,8 +60,6 @@ class ShoppingCard:
 
 
     def number_items_in_cart(self):
-        print self.__c_id
         products = models.Sabad_Kharid.objects.filter(cus_id=self.__c_id)
-        print products
         return len(products)
 

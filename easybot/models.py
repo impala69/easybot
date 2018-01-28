@@ -71,11 +71,18 @@ class Comment(models.Model):
     comment_cat = models.IntegerField(null=True)
 
 
+class Transactions(models.Model):
+    transaction_id_from_payment = models.IntegerField(null=False)
+    amount = models.IntegerField(null=False)
+    status = models.IntegerField(null=False)
+
+
 class Order(models.Model):
     cus_id = models.ForeignKey(to=Customer, on_delete=models.CASCADE)
     additional_info = models.TextField(null=True)
     order_time = models.CharField(max_length=30, null=True)
     arrived = models.IntegerField(default=1)
+    transaction = models.ForeignKey(to=Transactions, on_delete=models.CASCADE)
 
     def __unicode__(self):
         return (unicode(self.id) + 'V' + unicode(self.cus_id))
@@ -128,9 +135,5 @@ class AnswerQuestionTicket(models.Model):
     order = models.IntegerField(null=True)
     text = models.TextField(null=True)
 
-
-class Transactions(models.Model):
-    transaction_id_from_payment = models.IntegerField(null=False)
-    status = models.IntegerField(null=False)
 
 

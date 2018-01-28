@@ -21,3 +21,13 @@ class CategoryDataAccess:
         cat_keyboard = InlineKeyboardMarkup(inline_keyboard=list1)
         return cat_keyboard
 
+    def add_category(self, category_title):
+            try:
+                new_category = models.Category(cat_name=category_title)
+                new_category.save()
+                return 1
+            except Exception as e:
+                print e
+                return 0
+
+

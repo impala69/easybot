@@ -16,6 +16,7 @@
             <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
                 <thead>
                 <tr>
+                    <th style="text-align: right">مبلغ</th>
                     <th style="text-align: right">شماره سفارش</th>
                     <th style="text-align: right">وضعیت پرداخت</th>
                     <th style="text-align: right">شماره تراکنش</th>
@@ -27,10 +28,10 @@
 
                     {% for transaction in transactions_data %}
 
-                        <td style="text-align: right;direction: rtl;font-family: 'B Yekan'"></td>
-                        <td style="text-align: right;direction: rtl"></td>
-                        <td style="text-align: right;direction: rtl"></td>
-
+                        <td style="text-align: right;direction: rtl;font-family: 'B Yekan'">{{ transaction.1 }}</td>
+                        <td style="text-align: right;direction: rtl;font-family: 'B Yekan'">{{ transaction.4 }}</td>
+                        <td style="text-align: right;direction: rtl;font-family: 'B Yekan'">{{ transaction.2 }}</td>
+                        <td style="text-align: right;direction: rtl;font-family: 'B Yekan'">{{ transaction.3 }}</td>
 
                         </tr>
 

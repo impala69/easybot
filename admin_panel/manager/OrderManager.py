@@ -1,20 +1,20 @@
 from easybot import models
 from admin_panel import FormsHandler
-
+import ProductManager
 
 class OrderManager:
-    def __init__(self, peyk_data=None, deleted_order_id=None, order_id=None, arrival_state=None):
+    def __init__(self, peyk_data=None, deleted_order_id=None, order_id=None, arrival_state=None, transaction_object=None):
         self.deleted_order_id = deleted_order_id
         self.peyk_data = peyk_data
         self.order_id = order_id
         self.arrival_state = arrival_state
+        self.transaction_object = transaction_object
 
     def get_all_orders(self):
         result = models.Order.objects.all()
         all_orders = []
         for order in result:
             one_order = []
-            customer_data = {}
             one_order.append(order.pk)
             customer_id = order.cus_id_id
             customer = models.Customer.objects.get(pk=customer_id)
@@ -24,7 +24,8 @@ class OrderManager:
             products = models.Order_to_product.objects.filter(order_id_id=order.pk)
             all_products = []
             for product in products:
-                p_data = return_product(product.product_id_id)
+                product_oject = ProductManager.ProductManager(product_id=product.product_id_id)
+                p_data = product_oject.get_product_data()
                 all_products.append(p_data)
             one_order.append(all_products)
             one_order.append(order.additional_info)
@@ -76,6 +77,14 @@ class OrderManager:
             order.additional_info = new_description
             order.save()
             return 1
+        except Exception as e:
+            print e
+            return 0
+
+    def return_order_with_transaction(self):
+        try:
+            order = models.Order.objects.get(transaction=self.transaction_object)
+            return order.pk
         except Exception as e:
             print e
             return 0

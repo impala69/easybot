@@ -18,8 +18,10 @@ from SurveyDataAccess import SurveyDataAccess as SDA
 from AnswerHandler import AnswerHandler as AH
 from Ticket import Ticket as TK
 from Order import Order
+from transactionHandler import TransactionHandler
 from Advertise import Advertise
 from ... import models
+
 # 358988746
 admin_id = 358988746
 admin_buffer = {}
@@ -70,41 +72,49 @@ class Command(BaseCommand):
                                           callback_data='0'),
                      InlineKeyboardButton(text=emoji.emojize(" :postbox:",
                                                              use_aliases=True) + u"مشاهده سفارشات",
-                                          callback_data='0')],
+                                          callback_data='show_orders_admin')],
                     [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
                                                              use_aliases=True) + u"ارسال دستی تبلیغ",
                                           callback_data='manual_advertise')],
                     [InlineKeyboardButton(text=emoji.emojize(" :memo:",
                                                              use_aliases=True) + u"مشاهده دسته بندی محصولات",
-                                          callback_data='0')],
+                                          callback_data='categories'),
+                     InlineKeyboardButton(text=emoji.emojize(" :memo:",
+                                                             use_aliases=True) + u"اضافه کردن دسته بندی محصولات",
+                                          callback_data='add_categories')],
                     [InlineKeyboardButton(text=emoji.emojize(" :back:",
                                                              use_aliases=True) + u"بازگشت به منوی اصلی",
                                           callback_data='return')], ])
             else:
                 keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                     text=emoji.emojize(":mag_right:", use_aliases=True) + u"دسته بندی ها", callback_data="categories"),
-                                                                  InlineKeyboardButton(text=emoji.emojize(":mag_right:",
-                                                                                                          use_aliases=True) + u"جستجو",
-                                                                                       callback_data="search")], [
-                                                                     InlineKeyboardButton(
-                                                                         text=emoji.emojize(" :package:",
-                                                                                            use_aliases=True) + u"سبد خرید",
-                                                                         callback_data='sabad'),
-                        InlineKeyboardButton(text=emoji.emojize(" :postbox:", use_aliases=True) + u"انتقاد و پیشنهاد",
-                        callback_data='enteghadstart')], [
+                    InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                            use_aliases=True) + u"جستجو",
+                                         callback_data="search")], [
+                    InlineKeyboardButton(
+                        text=emoji.emojize(" :package:",
+                                           use_aliases=True) + u"سبد خرید",
+                        callback_data='sabad'),
+                    InlineKeyboardButton(text=emoji.emojize(" :postbox:", use_aliases=True) + u"انتقاد و پیشنهاد",
+                                         callback_data='enteghadstart')], [
                     InlineKeyboardButton(text=emoji.emojize(":mag_right:", use_aliases=True) + u"جستجوی پیشرفته",
-                    callback_data='advance_search')], [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
-                                                                                               use_aliases=True) + u"نظرسنجی‌ها",
-                                                                            callback_data='show_surveys')], [
-                                                                     InlineKeyboardButton(text=emoji.emojize(" :memo:",
-                                                                                                             use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
-                                                                                          callback_data='enterinfo_firstname')],
-                                                                 [InlineKeyboardButton(text=emoji.emojize(" :phone:",
-                                                                                                         use_aliases=True) + u"تماس و پشتیبانی",
-                                                                                      callback_data='support')],
-                                                             [InlineKeyboardButton(text=emoji.emojize(" :back:",
-                                                                                                          use_aliases=True) + u"بازگشت به منوی اصلی",
-                                                                                       callback_data='return')], ])
+                                         callback_data='advance_search')],
+                    [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                             use_aliases=True) + u"نظرسنجی‌ها",
+                                          callback_data='show_surveys')], [
+                        InlineKeyboardButton(text=emoji.emojize(" :memo:",
+                                                                use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
+                                             callback_data='enterinfo_firstname'),
+                        InlineKeyboardButton(text=emoji.emojize(" :memo:",
+                                                                use_aliases=True) + u"تراکنش‌های من",
+                                             callback_data='all_orders')
+                    ],
+                    [InlineKeyboardButton(text=emoji.emojize(" :phone:",
+                                                             use_aliases=True) + u"تماس و پشتیبانی",
+                                          callback_data='support')],
+                    [InlineKeyboardButton(text=emoji.emojize(" :back:",
+                                                             use_aliases=True) + u"بازگشت به منوی اصلی",
+                                          callback_data='return')], ])
             if command == '/start':
 
                 for i in range(1, 4):
@@ -330,18 +340,23 @@ class Command(BaseCommand):
                 if ticket_title.enter_ticket():
                     customer.unset_state()
                     customer.set_state('add_question')
-                    bot.sendMessage(chat_id,"موضوع ثبت شد . سوال خود را وارد کنید")
+                    bot.sendMessage(chat_id, "موضوع ثبت شد . سوال خود را وارد کنید")
 
-            #add question and order to model
+            # add question and order to model
             elif content_type == 'text' and user_state == 'add_question':
                 customer.unset_state()
                 nbr = len(models.Ticket.objects.all())
-                tk_key = models.Ticket.objects.all()[nbr-1].id
-                order = (2*nbr) - 1
-                ticket_question = TK(ticket_id=tk_key,ticket_question=command.encode('utf-8'),ticket_order=order)
+                tk_key = models.Ticket.objects.all()[nbr - 1].id
+                order = (2 * nbr) - 1
+                ticket_question = TK(ticket_id=tk_key, ticket_question=command.encode('utf-8'), ticket_order=order)
                 if ticket_question.enter_question():
                     customer.unset_state()
-                    bot.sendMessage(chat_id,"سوال شما با موفقیت ثبت شد")
+                    bot.sendMessage(chat_id, "سوال شما با موفقیت ثبت شد")
+
+            elif content_type == 'text' and user_state == 'add_cat_admin':
+                cat_object = CatDA()
+                cat_object.add_category(category_title=command)
+                bot.sendMessage(chat_id, "دسته‌بندی شما با موفقیت ثبت شد")
 
 
 
@@ -367,10 +382,17 @@ class Command(BaseCommand):
                     notification = "لططفا مجددا نظر را وارد نمایید."
                     bot.sendMessage(chat_id, text=notification)
                     # end buying by getting comment
-            elif content_type == 'text' and user_state == 'buy_comment':
+            elif content_type == 'text' and 'buy_comment' in user_state:
                 sabad = SHC(c_id=customer_id)
                 sabad_products = sabad.sabad_from_customer()
-                order = Order(c_id=customer_id, order_time=time.time(), info=command)
+
+                trans_object = TransactionHandler(amount=int(user_state.replace("buy_comment", "")))
+                buy_link = trans_object.create_transid()
+                bot.sendMessage(chat_id, buy_link[0])
+                transaction = TransactionHandler(amount=int(user_state.replace("buy_comment", "")), transId=buy_link[1])
+                transaction_object = transaction.create_transaction()
+
+                order = Order(c_id=customer_id, order_time=time.time(), info=command, transaction=transaction_object)
                 process_card = order.add_card_to_order()
                 is_order_done = process_card[0]
                 order_id = process_card[1]
@@ -381,12 +403,12 @@ class Command(BaseCommand):
                     sabad_product.del_from_cart()
                 if is_order_done:
                     customer.unset_state()
-                    bot.sendMessage(chat_id, "خرید با موفقیت انجام شد")
+
                 else:
                     bot.sendMessage(chat_id, "مشکلی بوجود آمده")
                     # ADMIN PANEL messages
             if user_id == admin_id:
-                #adding advertise
+                # adding advertise
                 if content_type == 'text' and 'advertise' in user_state:
                     if 'title' in user_state:
                         admin_buffer['title'] = command
@@ -395,11 +417,7 @@ class Command(BaseCommand):
                     elif 'description' in user_state:
                         admin_buffer['description'] = command
                         customer.set_state('advertise_image')
-                        bot.sendMessage(chat_id, "لینک تصویر تبلیغ را وارد کنید")
-                    elif 'image' in user_state:
-                        admin_buffer['image'] = command
-                        customer.set_state("advertise_repeat")
-                        bot.sendMessage(chat_id, "تعداد تکرار تبلیغ را وارد کنید")
+                        bot.sendMessage(chat_id, "تصویر تبلیغ را ارسال کنید")
                     elif 'repeat' in user_state:
                         admin_buffer['repeat'] = command
                         ad = Advertise()
@@ -411,9 +429,9 @@ class Command(BaseCommand):
                             customer.unset_state()
                             bot.sendMessage(chat_id, "مشکلی بوجود آمد")
                             admin_buffer.clear()
-                #end of add advertise
+                # end of add advertise
 
-                #adding product
+                # adding product
                 if content_type == 'text' and 'product' in user_state:
                     if 'title' in user_state:
                         admin_buffer['title'] = command
@@ -443,15 +461,22 @@ class Command(BaseCommand):
                             bot.sendMessage(chat_id, "مشکلی بوجود آمد")
                             admin_buffer.clear()
 
-                #when uploading image to product images
+                # when uploading image to product images
                 if content_type == 'photo' and user_state == 'product_image':
-                    bot.download_file(msg['photo'][-1]['file_id'], './uploads/products/'+msg['photo'][-1]['file_id']+'.png')
-                    admin_buffer['image'] = 'uploads/products/'+msg['photo'][-1]['file_id']+'.png'
+                    bot.download_file(msg['photo'][-1]['file_id'],
+                                      './uploads/products/' + msg['photo'][-1]['file_id'] + '.png')
+                    admin_buffer['image'] = 'uploads/products/' + msg['photo'][-1]['file_id'] + '.png'
                     customer.set_state("product_number")
                     bot.sendMessage(chat_id, "تعداد موجودی محصول را وارد کنید")
-                #end of uploading image to product images
-                # end of adding product
-            #End of admin panel messages
+                if content_type == 'photo' and user_state == 'advertise_image':
+                    bot.download_file(msg['photo'][-1]['file_id'],
+                                      './uploads/ads/' + msg['photo'][-1]['file_id'] + '.png')
+                    admin_buffer['image'] = 'uploads/ads/' + msg['photo'][-1]['file_id'] + '.png'
+                    customer.set_state("advertise_repeat")
+                    bot.sendMessage(chat_id, "تعداد تکرار تبلیغ را وارد کنید")
+                    # end of uploading image to product images
+                    # end of adding product
+            # End of admin panel messages
 
             elif content_type == "text" and "answer" in user_state:
                 survey_data_from_state = user_state.split("@")
@@ -494,7 +519,7 @@ class Command(BaseCommand):
                             keyboard_1 = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                                 text=u"ارسال", callback_data="send_ad " + str(advertise.id))]])
                             bot.sendPhoto(chat_id=admin_id,
-                                          photo=str(image),
+                                          photo=open(str(image)),
                                           caption=advertise.title + "\n" + advertise.text, reply_markup=keyboard_1)
                         except Exception as e:
                             print e
@@ -510,7 +535,7 @@ class Command(BaseCommand):
                         image = advertise.image
                         try:
                             bot.sendPhoto(chat_id=customer.telegram_id,
-                                          photo=str(image),
+                                          photo=open(str(image)),
                                           caption=advertise.title + "\n" + advertise.text)
                         except Exception as e:
                             print e
@@ -675,60 +700,69 @@ class Command(BaseCommand):
 
             # support section for tickets
             if query_data == u'support':
-                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text= u"افزودن تیکت",callback_data="add_ticket"),InlineKeyboardButton(text= u"نمایش تیکت ها",callback_data="show_ticket")],[InlineKeyboardButton(
-                    text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
-                    callback_data='return')]])
-                bot.sendMessage(from_id,"گزینه مورد نظر را انتخاب نمایید", reply_markup=keyboard)
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[
+                    [InlineKeyboardButton(text=u"افزودن تیکت", callback_data="add_ticket"),
+                     InlineKeyboardButton(text=u"نمایش تیکت ها", callback_data="show_ticket")], [InlineKeyboardButton(
+                        text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
+                        callback_data='return')]])
+                bot.sendMessage(from_id, "گزینه مورد نظر را انتخاب نمایید", reply_markup=keyboard)
 
             # add ticket query
             if query_data == u'add_ticket':
 
                 if customer.set_state(state_word='add_ticket'):
-                    bot.sendMessage(from_id,"تیکت خود را اضافه کنید")
+                    bot.sendMessage(from_id, "تیکت خود را اضافه کنید")
             # show ticket query
             if query_data == u'show_ticket':
                 nbr = len(models.AnswerQuestionTicket.objects.all())
                 list = []
                 for i in range(nbr):
-                    question = models.AnswerQuestionTicket.objects.get(order=((i+1)*2)-1)
+                    question = models.AnswerQuestionTicket.objects.get(order=((i + 1) * 2) - 1)
                     title = models.Ticket.objects.get(pk=question.ticket_id)
-                    tk_keyboard = [InlineKeyboardButton(text=title.title,callback_data = "ticket_question" + str(question.id))]
+                    tk_keyboard = [
+                        InlineKeyboardButton(text=title.title, callback_data="ticket_question" + str(question.id))]
                     list.append(tk_keyboard)
                 keyboard = InlineKeyboardMarkup(inline_keyboard=list)
-                bot.sendMessage(from_id,"یکی از تیکت ها را انتخاب نمایید",reply_markup=keyboard)
+                bot.sendMessage(from_id, "یکی از تیکت ها را انتخاب نمایید", reply_markup=keyboard)
 
             if "ticket_question" in query_data:
-                keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text= u"افزودن تیکت",callback_data="add_ticket"),InlineKeyboardButton(text= u"نمایش تیکت ها",callback_data="show_ticket")],[InlineKeyboardButton(
-                    text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
-                    callback_data='return')]])
-                question_id = query_data.replace("ticket_question","")
+                keyboard = InlineKeyboardMarkup(inline_keyboard=[
+                    [InlineKeyboardButton(text=u"افزودن تیکت", callback_data="add_ticket"),
+                     InlineKeyboardButton(text=u"نمایش تیکت ها", callback_data="show_ticket")], [InlineKeyboardButton(
+                        text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
+                        callback_data='return')]])
+                question_id = query_data.replace("ticket_question", "")
                 text = models.AnswerQuestionTicket.objects.get(pk=question_id)
-                bot.sendMessage(from_id,text.text,reply_markup=keyboard)
+                bot.sendMessage(from_id, text.text, reply_markup=keyboard)
 
             # Return to main Menu
             if query_data == u'return':
                 keyboard = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(
                     text=emoji.emojize(":mag_right:", use_aliases=True) + u"دسته بندی ها", callback_data="categories"),
-                                                                  InlineKeyboardButton(text=emoji.emojize(":mag_right:",
-                                                                                                          use_aliases=True) + u"جستجو",
-                                                                                       callback_data="search")], [
-                                                                     InlineKeyboardButton(
-                                                                         text=emoji.emojize(" :package:",
-                                                                                            use_aliases=True) + u"سبد خرید",
-                                                                         callback_data='sabad'),
-                        InlineKeyboardButton(text=emoji.emojize(" :postbox:", use_aliases=True) + u"انتقاد و پیشنهاد",
-                        callback_data='enteghadstart')], [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
-                    use_aliases=True) + u"جستجوی پیشرفته",
-                                                                                      callback_data='advance_search')],
-                                                             [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
-                                                                                                      use_aliases=True) + u"نظرسنجی‌ها",
-                                                                                   callback_data='show_surveys')], [
-                                                                 InlineKeyboardButton(text=emoji.emojize(" :memo:", use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
-                    callback_data='enterinfo_firstname')], [InlineKeyboardButton(text=emoji.emojize(" :phone:",
-                    use_aliases=True) + u"تماس و پشتیبانی",
-                                                                                      callback_data='support')],
-                                                             [InlineKeyboardButton(text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
-                    callback_data='return')], ])
+                    InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                            use_aliases=True) + u"جستجو",
+                                         callback_data="search")], [
+                    InlineKeyboardButton(
+                        text=emoji.emojize(" :package:",
+                                           use_aliases=True) + u"سبد خرید",
+                        callback_data='sabad'),
+                    InlineKeyboardButton(text=emoji.emojize(" :postbox:", use_aliases=True) + u"انتقاد و پیشنهاد",
+                                         callback_data='enteghadstart')],
+                    [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                             use_aliases=True) + u"جستجوی پیشرفته",
+                                          callback_data='advance_search')],
+                    [InlineKeyboardButton(text=emoji.emojize(":mag_right:",
+                                                             use_aliases=True) + u"نظرسنجی‌ها",
+                                          callback_data='show_surveys')], [
+                        InlineKeyboardButton(
+                            text=emoji.emojize(" :memo:", use_aliases=True) + u"وارد کردن اطلاعات شخصی برای خرید",
+                            callback_data='enterinfo_firstname'), InlineKeyboardButton(
+                            text=emoji.emojize(" :memo:", use_aliases=True) + u"سفارش‌های من",
+                            callback_data='all_orders')], [InlineKeyboardButton(text=emoji.emojize(" :phone:",
+                                                                                                   use_aliases=True) + u"تماس و پشتیبانی",
+                                                                                callback_data='support')],
+                    [InlineKeyboardButton(text=emoji.emojize(" :back:", use_aliases=True) + u"بازگشت به منوی اصلی",
+                                          callback_data='return')], ])
                 bot.sendPhoto(from_id, "https://www.turbogram.co/static/images/homepage/icon-6.8cebe055d143.png",
                               caption="منوی اصلی، لطفا یکی از گزینه های زیر زیر را انتخاب کنید.", reply_markup=keyboard)
                 # button for return
@@ -856,7 +890,7 @@ class Command(BaseCommand):
                         # bot.sendMessage(from_id,text=caption_text)
                     keyboard_sabad_end = InlineKeyboardMarkup(inline_keyboard=[
                         [InlineKeyboardButton(text=u"بازگشت به منو", callback_data="return"),
-                         InlineKeyboardButton(text=u"خرید محصولات", callback_data='buy')]])
+                         InlineKeyboardButton(text=u"خرید محصولات", callback_data='buy' + str(total_price))]])
                     bot.sendMessage(from_id, u"اقلام موجود: " + "\n" + sabad_items + str(total_price),
                                     reply_markup=keyboard_sabad_end)
 
@@ -1204,9 +1238,9 @@ class Command(BaseCommand):
                     bot.answerCallbackQuery(query_id, text=notification)
 
             # When you click on buy
-            if query_data == 'buy':
+            if 'buy' in query_data:
                 shopping_cart = SHC(c_id=customer_id)
-                customer.set_state("buy_comment")
+                customer.set_state("buy_comment" + query_data.replace("buy", ""))
                 bot.sendMessage(from_id, "لطفا توضیحات محصول را وارد کنید.")
 
             if query_data == u"enteghadstart":
@@ -1219,23 +1253,41 @@ class Command(BaseCommand):
                 customer.set_state(state_word="naghd" + cat_id)
                 bot.sendMessage(from_id, "لطفا نظر خود را وارد کنید.")
 
-        def send_base_product_info(from_id, product):
-            caption = u"نام محصول: " + product.product_name
-            image = product.image
-            keyboard = [[InlineKeyboardButton(
-                text=str(product.price) + u" تومان" + emoji.emojize(" :dollar:", use_aliases=True), callback_data="4"),
-                InlineKeyboardButton(
-                    text=u"افزودن به سبد خرید" + emoji.emojize(" :package:", use_aliases=True),
-                    callback_data='add_to_cart ' + str(product.id))], [
-                InlineKeyboardButton(text=u"جزییات بیشتر" + emoji.emojize(" :clipboard:", use_aliases=True),
-                                     callback_data=str("Product" + str(product.id)))], ]
-            try:
-                bot.sendPhoto(from_id, photo=image, caption=caption,
-                              reply_markup=InlineKeyboardMarkup(inline_keyboard=keyboard))
-                return True
-            except  Exception:
-                print Exception
-                return False
+            if query_data == "all_orders":
+                order_object = Order(customer=customer.return_customer_object())
+                transaction_list = []
+                for order in order_object.return_transaction_with_customer():
+                    transaction_keyboard = [InlineKeyboardButton(text=order.transaction.transaction_id_from_payment,
+                                                                 callback_data='transaction' + str(
+                                                                     order.transaction.transaction_id_from_payment))]
+                    transaction_list.append(transaction_keyboard)
+                trans_keyboard = InlineKeyboardMarkup(inline_keyboard=transaction_list)
+                bot.sendMessage(chat_id=from_id, text="تراکنش‌ها", reply_markup=trans_keyboard)
+
+            if query_data == "show_orders_admin":
+                all_orders = Order()
+                order_list = []
+                for one_order in all_orders.get_all_orders():
+                    order_keyboard = [InlineKeyboardButton(text=one_order,
+                                                           callback_data='show_order_admin' + str(one_order))]
+                    order_list.append(order_keyboard)
+                ord_keyboard = InlineKeyboardMarkup(inline_keyboard=order_list)
+                bot.sendMessage(chat_id=from_id, text="سفارش‌ها", reply_markup=ord_keyboard)
+
+            if 'show_order_admin' in query_data:
+                order_id = int(query_data.replace("show_order_admin", ""))
+                my_order = Order(order_id=order_id)
+                bot.sendMessage(chat_id=from_id, text=my_order.get_order())
+
+            if 'transaction' in query_data:
+                trans_id = int(query_data.replace("transaction", ""))
+                my_transaction = TransactionHandler(transId=trans_id)
+                bot.sendMessage(chat_id=from_id, text=my_transaction.return_transaction())
+
+            if query_data == "add_categories":
+                customer.set_state("add_cat_admin")
+                bot.sendMessage(from_id, "لطفا عنوان دسته‌بندی را وارد کنید.")
+
 
         def get_AdvanceSearchOptions(user_state):
             states = user_state.rsplit(",")

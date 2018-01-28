@@ -1,0 +1,80 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>
+        EasyBot
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <!-- The styles -->
+    <link id="bs-css" href="{% static 'adminpanel/css/bootstrap-cerulean.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'adminpanel/css/charisma-app.css' %}" rel="stylesheet">
+    <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/bower_components/fullcalendar/dist/fullcalendar.print.css' %}" rel='stylesheet' media='print'>
+    <link href="{% static 'adminpanel/bower_components/chosen/chosen.min.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/bower_components/colorbox/example3/colorbox.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/bower_components/responsive-tables/responsive-tables.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/jquery.noty.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/noty_theme_default.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/elfinder.min.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/elfinder.theme.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/jquery.iphone.toggle.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/uploadify.css' %}" rel='stylesheet'>
+    <link href="{% static 'adminpanel/css/animate.min.css' %}" rel="stylesheet" >
+
+    <!-- jQuery -->
+    <script src="{% static 'adminpanel/bower_components/jquery/jquery.min.js' %}"></script>
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- The fav icon -->
+    <link rel="shortcut icon" href="{% static 'adminpanel/img/favicon.ico' %}">
+  <style>
+        @font-face {
+        font-family: "Iranian Sans";
+        src: url({% static 'adminpanel/fonts/iraniansans.ttf' %});
+        }
+        body{
+        font-family: "Iranian Sans";
+        }
+        h2, h5{
+        font-family: "Iranian Sans";
+        }
+    </style>
+</head>
+
+<body>
+{% include "header.html" %}
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-sm-6 col-sm-offset-3">
+            <br><br>
+            <img style="width: 100px;height: 100px" src="https://cdn1.iconfinder.com/data/icons/material-core/20/check-circle-outline-512.png">
+            <h3>کاربر عزیز</h3>
+            <p style="font-size:20px;color:#5C5C5C;">با تشکر از شما</p>
+            <p style="font-size:20px;color:#5C5C5C;">پرداخت شما با موفقیت انجام شد.</p>
+            <br>
+            <p style="font-size:20px;color:#5C5C5C;direction: rtl;">کد تراکنش:</p>
+            <p style="font-size:20px;color:#5C5C5C;font-weight: bold;font-family: 'B Yekan'">{{ transId }}</p>
+
+            <p style="font-size:20px;color:#5C5C5C;direction: rtl;"> مبلغ:</p>
+            <p style="font-size:20px;color:#5C5C5C;font-weight: bold;font-family: 'B Yekan';direction: rtl">{{ amount }} تومان </p>
+
+            <a href="https://telegram.me/easybotbot?start=payment{{ transId }}" class="btn btn-success">     بازگشت به ربات      </a>
+            <br><br>
+        </div>
+
+    </div>
+</div>
+
+{% include "footer.html" %}
+</body>
+</html>

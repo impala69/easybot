@@ -15,6 +15,14 @@ class CustomerDataAccess:
             customer = None
             return customer
 
+    def return_customer_object(self):
+        try:
+            customer = models.Customer.objects.get(telegram_id=self.__t_id)
+            return customer
+        except ObjectDoesNotExist:
+            customer = None
+            return customer
+
     def add_customer(self, username):
         try:
             entry = models.Customer(telegram_id=self.__t_id, username=username)

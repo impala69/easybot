@@ -20,7 +20,6 @@ class Ticket:
         try:
             ticket_data = models.AnswerQuestionTicket(ticket_id = self.__ticket_id,order = self.__ticket_order,text =self.__ticket_question)
             ticket_data.save()
-            print(self.__ticket_id)
             self.__ticket_order += 2
             return True
         except:

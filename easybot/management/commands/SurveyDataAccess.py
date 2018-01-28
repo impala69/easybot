@@ -49,12 +49,9 @@ class SurveyDataAccess:
         try:
             survey_object = models.Surveys.objects.get(pk=self.__survey_id)
             question = models.Questions.objects.filter(survey_id=survey_object)[int(question_order)-1]
-            print question_order
-            print question.text
             return question
 
         except Exception as e:
-            print "err"
             print e
             return 0
 

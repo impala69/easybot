@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <style>
-        tr{
+        tr {
             font-size: medium;
         }
     </style>
@@ -14,9 +14,9 @@
 
 <div class="container">
     <div class="row">
-      <div class="col-md-3">
-			{% include "sidebar.html" %}
-		</div>
+        <div class="col-md-3">
+            {% include "sidebar.html" %}
+        </div>
         <div class="col-md-offset-0 col-md-9">
             <h2 style="float:right">سفارشات</h2>
             <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
@@ -75,27 +75,27 @@
                                         </div>
                                         <div class="modal-body">
 
-                                                    <form action="peyk_add" method="post">
-                                                        <div style="direction: rtl;text-align: right;"
-                                                             class="form-group">
-                                                            <p class="pull-right">ورود اطلاعات پیک موتوری</p>
-                                                            <input style="margin-bottom: 5%;"
-                                                                   class="form-control pull-right"
-                                                                   name="peyk_first_name"
-                                                                   placeholder="نام پیک موتوری">
-                                                            <input style="margin-bottom: 5%;"
-                                                                   class="form-control" name="peyk_last_name"
-                                                                   placeholder="نام خانوادگی پیک موتوری">
-                                                            <input style="margin-bottom: 5%;"
-                                                                   class="form-control" name="peyk_phone"
-                                                                   placeholder="شماره تلفن پیک موتوری">
-                                                            <input hidden="hidden" name="order_id"
-                                                                   value="{{ data.0 }}">
-                                                        </div>
-                                                        <button type="submit"
-                                                                class="btn btn-success pull-right">تایید
-                                                        </button>
-                                                    </form>
+                                            <form action="peyk_add" method="post">
+                                                <div style="direction: rtl;text-align: right;"
+                                                     class="form-group">
+                                                    <p class="pull-right">ورود اطلاعات پیک موتوری</p>
+                                                    <input style="margin-bottom: 5%;"
+                                                           class="form-control pull-right"
+                                                           name="peyk_first_name"
+                                                           placeholder="نام پیک موتوری">
+                                                    <input style="margin-bottom: 5%;"
+                                                           class="form-control" name="peyk_last_name"
+                                                           placeholder="نام خانوادگی پیک موتوری">
+                                                    <input style="margin-bottom: 5%;"
+                                                           class="form-control" name="peyk_phone"
+                                                           placeholder="شماره تلفن پیک موتوری">
+                                                    <input hidden="hidden" name="order_id"
+                                                           value="{{ data.0 }}">
+                                                </div>
+                                                <button type="submit"
+                                                        class="btn btn-success pull-right">تایید
+                                                </button>
+                                            </form>
 
                                         </div>
                                         <div class="modal-footer">
@@ -250,26 +250,23 @@
                             <div class="modal fade " id="showingmodal_customer{{ data.0 }}" tabindex="0"
                                  role="dialog" aria-labelledby="showingmodal_customer{{ data.0 }}"
                                  aria-hidden="true" style="padding-top: 9% ; ">
-                                <div class="modal-dialog" role="document">
+                                <div class="modal-dialog" style="width: 900px" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLongTitle"
-                                                style="text-align:right ;  ">نمایش مشخصات سفارش دهنده</h5>
+                                                style="text-align:right ;float: left  ">نمایش مشخصات سفارش دهنده</h5>
                                             <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="container">
-                                                <div style="text-align: right;float: right;direction: rtl;"
-                                                     class="row">
-                                                    <p class="col-md-2">{{ data.1.f_name }}</p>
-                                                    <p class="col-md-2">{{ data.1.l_name }}</p>
-                                                    <p class="col-md-2">{{ data.1.address }}</p>
-                                                    <p class="col-md-2">{{ data.1.phone }}</p>
-                                                    <p class="col-md-2">{{ data.1.username }}</p>
-                                                </div>
+                                            <div class="row">
+                                                <div style="direction: rtl" class="col-md-2 pull-right">{{ data.1.f_name }}</div>
+                                                <div style="direction: rtl" class="col-md-2 pull-right">{{ data.1.l_name }}</div>
+                                                <div style="direction: rtl" class="col-md-2 pull-right">{{ data.1.address }}</div>
+                                                <div style="font-family: 'B Yekan'" class="col-md-2 pull-right">+{{ data.1.phone }}</div>
+                                                <div class="col-md-2 pull-right"><a target="_blank" href="https://t.me/{{ data.1.username }}">پیام به کاربر</a></div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">

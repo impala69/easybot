@@ -1,0 +1,29 @@
+{% load static %}
+<html lang="en">
+<body>
+{% include "header.html" %}
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-sm-6 col-sm-offset-3">
+            <br><br>
+            <img style="width: 100px;height: 100px"
+                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/X-circle.svg/240px-X-circle.svg.png">
+            <h3>کاربر عزیز</h3>
+            <p style="font-size:20px;color:#5C5C5C;direction: rtl">پرداخت شما با شکست مواجه شد.</p>
+            <br>
+            <p style="font-size:20px;color:#5C5C5C;direction: rtl;">کد تراکنش:</p>
+            <p style="font-size:20px;color:#5C5C5C;font-weight: bold;font-family: 'B Yekan'">{{ transId }}</p>
+            <p style="font-size:20px;color:#5C5C5C;font-weight: bold;direction: rtl">{{ error }} </p>
+
+            <a href="https://telegram.me/easybotbot?start=payment{{ transId }}" class="btn btn-success"> بازگشت به
+                ربات </a>
+            <br><br>
+        </div>
+
+    </div>
+</div>
+
+{% include "footer.html" %}
+</body>
+</html>

@@ -28,11 +28,8 @@ class ProductManager:
 
     def add_product(self):
         adding_form = FormsHandler.AddProductForm(self.product_data, self.image_data)
-        print adding_form
         if adding_form.is_valid():
-            print 1
             category_object = CategoryManager.CategoryManager(category_id=adding_form.cleaned_data['category_name'])
-
             product_name = adding_form.cleaned_data['product_name']
             text = adding_form.cleaned_data['product_text']
             image = adding_form.cleaned_data['product_image']
