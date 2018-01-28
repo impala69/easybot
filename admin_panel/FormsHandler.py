@@ -42,6 +42,16 @@ class AddPeykForm(forms.Form):
     peyk_phone = forms.CharField(label="phone", max_length=30)
     order_id = forms.IntegerField(label="OrderNumber")
 
+class AddUserProfile(forms.Form):
+
+    user_first_name = forms.CharField(label="FirstName" , max_length=30)
+    user_last_name = forms.CharField(label="LastName" , max_length=30)
+    user_phone = forms.IntegerField(label="Phone")
+    user_mail = forms.EmailField(label="Mail")
+    user_address = forms.CharField(widget=forms.Textarea)
+    user_type = forms.CharField(label="UserType")
+    user_telegram_id = forms.CharField(label="TelegramId",max_length=30)
+
 
 
 

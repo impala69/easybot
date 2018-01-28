@@ -134,3 +134,12 @@ class Transactions(models.Model):
     status = models.IntegerField(null=False)
 
 
+class UserProfile(models.Model):
+    f_name = models.CharField(max_length=30,null=False)
+    l_name = models.CharField(max_length=30,null=False)
+    phone_number = models.IntegerField(null=False)
+    mail = models.EmailField(max_length=50,null=True)
+    address = models.TextField(max_length=60,null=True)
+    user_type = models.CharField(max_length=30,null=False)
+    telegram_id = models.CharField(max_length=30,null=False)
+
