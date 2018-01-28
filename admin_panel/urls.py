@@ -40,4 +40,5 @@ urlpatterns = [
     url(r'^del_question', views.del_question),
     url(r'tickets', views.show_tickets),
     url(r'transactions', views.show_transactions),
+    url(r'user', views.user_profile),
 ]

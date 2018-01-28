@@ -6,7 +6,8 @@ from easybot import models
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
 from manager import DiscountCodeManager, AdsManager, SurveyManager, OrderManager, CategoryManager, FeedbackManager, \
-    ProductManager, CommentManager, TicketManager, TransactionManager
+    ProductManager, CommentManager, TicketManager, TransactionManager , UserManager
+
 
 
 # Product Section
@@ -369,3 +370,14 @@ def payment(request):
         else:
             return render_to_response("fail.html", {'transId': request.POST['transId'],
                                                     'error': request.POST['message']})
+def user_profile(request):
+    user_data = models.UserProfile.objects.all()
+    print(user_data)
+    if request.method == "POST":
+        user_object = UserManager.UserManager(user_data=request.POST)
+        if user_object.edit_user_data():
+            print('done')
+            return render_to_response('user.html',{'user_data' : user_object.get_user_data()})
+    return render_to_response("user.html",{'user_data' : user_data})
+
+

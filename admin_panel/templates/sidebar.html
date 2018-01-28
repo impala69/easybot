@@ -135,11 +135,9 @@ Licensed under MIT
     <!-- END SIDEBAR USERPIC -->
     <!-- SIDEBAR USER TITLE -->
     <div class="profile-usertitle">
-        <div class="profile-usertitle-name">
-            ایمان شفیعی
+        <div class="profile-usertitle-name">{{ user_data.0.f_name }}
         </div>
-        <div class="profile-usertitle-job">
-            کاربر عادی
+        <div class="profile-usertitle-job">{{ user_data.0.user_type }}
         </div>
     </div>
     <!-- END SIDEBAR USER TITLE -->
@@ -153,7 +151,7 @@ Licensed under MIT
     <div class="profile-usermenu">
         <ul class="nav">
             <li class="active">
-                <a href="#">
+                <a href="/admin-panel/user">
 
                     اطلاعات شخصی <i class="glyphicon glyphicon-home"></i></a>
             </li>
