@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^cm_del', views.cm_del),
     url(r'^show_feedback_categories', views.show_feedback_categories),
     url(r'^delete_feedback', views.delete_feedback),
+    url(r'^edit_feedback', views.edit_feedback),
     url(r'^ed_cat', views.ed_cat),
     url(r'^survey', views.survey),
     url(r'^show_survey', views.show_survey),

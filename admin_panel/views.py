@@ -113,15 +113,19 @@ def del_cat(request):
 def ed_cat(request):
     if request.method == 'GET':
         cat_id = request.GET['cat_id']
+        print(cat_id)
+        print("koft")
     if request.method == "POST":
         cat_id = request.POST['cat_id']
+        print(cat_id)
         new_cat_name = request.POST['new_cat']
         category = models.Category.objects.get(pk=cat_id)
         category.cat_name = new_cat_name
         category.save()
         return redirect('/admin-panel/category/')
+    cat_object = CategoryManager.CategoryManager(category_id=cat_id)
 
-    return render_to_response("edit_cat.html", {'cat_data': get_cat_data(cat_id)})
+    return render_to_response("edit_cat.html", {'cat_data': cat_object.get_category_object()})
 
 
 # Feedback Section
@@ -168,6 +172,21 @@ def show_feedback_categories(request):
 
 
 # Advertise View Handler
+def edit_feedback(request):
+    if request.method == 'GET':
+        naghd_id = request.GET['naghd_id']
+    if request.method == 'POST':
+        naghd_id = request.POST['naghd_id']
+        fb_name = request.POST['new_fb_cat']
+        naghd = models.Feedback_cat.objects.get(pk=naghd_id)
+        naghd.fb_name = fb_name
+        naghd.save()
+        return redirect('/admin-panel/show_feedback_categories')
+    feedback_object = FeedbackManager.FeedbackManager(feedback_category_id=naghd_id)
+    return render_to_response('edit_feedback',{'cat_data':feedback_object.edit_feedback_category()})
+
+
+
 
 
 def advertise(request):

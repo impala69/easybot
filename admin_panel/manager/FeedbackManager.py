@@ -4,10 +4,11 @@ import CustomerManager
 
 
 class FeedbackManager:
-    def __init__(self, feedback_category_data=None, deleted_naghd_id=None, feedback_category_id=None):
+    def __init__(self, feedback_category_data=None, deleted_naghd_id=None, feedback_category_id=None , edited_naghd_id=None):
         self.feedback_category_data = feedback_category_data
         self.deleted_naghd_id = deleted_naghd_id
         self.feedback_category_id = feedback_category_id
+        self.edited_naghd_id = edited_naghd_id
 
     def get_all_feedbacks(self):
         result = models.Comment.objects.all()
@@ -58,6 +59,13 @@ class FeedbackManager:
         except Exception as e:
             print e
             return 0
+    def edit_feedback_category(self):
+        try:
+            return models.Feedback_cat.objects.get(pk=self.edited_naghd_id)
+        except Exception as e:
+            print(e)
+            return 0
+
 
     def get_feedback_category_name(self):
         try:
