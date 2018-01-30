@@ -13,6 +13,7 @@
             <tr>
                     <th style="text-align: right">تغییرات</th>
                     <th style="text-align: right">کد تخفیف</th>
+                    <th style="text-align: right">درصد تخفیف</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -25,12 +26,13 @@
                                 <i class="glyphicon glyphicon-trash icon-white"></i>
                                 حذف
                             </a>
-                            <a class="btn btn-info">
+                            <a class="btn btn-info" href="/admin-panel/ed_code?code_id={{ code.code_id }}">
                                 <i class="glyphicon glyphicon-edit icon-white"></i>
                                 تغییر
                             </a>
 
                         </td>
+                        <td style="text-align: right"> {{ code.percentage }}
                         <td style="text-align: right"> {{ code.code_char }} </td>
                     </tr>
                 {% endfor %}

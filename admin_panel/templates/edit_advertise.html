@@ -1,0 +1,42 @@
+{% load static %}
+<html lang="en">
+<body>
+{% include "header.html" %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {% include "sidebar.html" %}
+        </div>
+        <div class="card col-md-offset-1 col-md-8">
+            <h2 style="text-align: right"> افزودن تبلیغات</h2>
+            <form role="form" action="/admin-panel/ed_ad" id="editing_ad" method="post"
+                  name="editing_cat_form" enctype="multipart/form-data">
+                <div class="form-group" style="text-align: right">
+                    <label for="ad_name">عنوان</label>
+                    <input style="text-align: right" type="text" class="form-control" id="ad_name"
+                           name="ad_name" value="{{ ad_data.title }}">
+                </div>
+                <div class="form-group" style="text-align: right">
+                    <label for="ad_text">متن</label>
+                    <textarea style="text-align: right" class="form-control" id="ad_text"
+                              name="ad_text" placeholder="" > {{ ad_data.text }}</textarea>
+                </div>
+                <div class="form-group" style="text-align: right">
+                    <label for="ad_image">تصویر</label>
+                    <input style="text-align: right" type="file" class="form-control" id="ad_image"
+                           name="ad_image" placeholder="" >
+                </div>
+                <input hidden="hidden" name="ad_id" value="{{ad_data.pk}}">
+
+                <button style="margin-left: 90% ; width: 10% ; font-size: medium" type="submit"
+                        class="btn btn-primary btn-round">تایید
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% include "footer.html" %}
+</body>
+</html>

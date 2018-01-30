@@ -258,6 +258,21 @@ def del_code(request):
             return redirect('/admin-panel/codes/')
     return redirect('/admin-panel/codes/')
 
+def ed_code(request):
+    if request.method == "GET":
+        code_id = request.GET['code_id']
+    if request.method == "POST":
+        code_id = request.POST['code_id']
+        code_char = request.POST['code_char']
+        percentage = request.POST['percentage']
+        dis_code =models.DiscountCode.objects.get(pk=code_id)
+        dis_code.code_char = code_char
+        dis_code.percentage = percentage
+        dis_code.save()
+        return redirect('/admin-panel/codes')
+    code_object = DiscountCodeManager.DiscountCodeManager(edited_code_id=code_id)
+    return render_to_response("edit_code.html",{"code_data":code_object.edit_code()})
+
 
 # End Of Discount Code Handler
 

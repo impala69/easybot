@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
@@ -117,7 +117,7 @@ class Questions(models.Model):
 
 class DiscountCode(models.Model):
     code_char = models.CharField(max_length=30, null=False, default=None)
-    # price = models.IntegerField(null=False, default=0)
+    percentage = models.IntegerField(null=False,default=0)
 
 
 class Answers(models.Model):

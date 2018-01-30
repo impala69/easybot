@@ -34,6 +34,7 @@ class AddAdvertiseForm(forms.Form):
 
 class AddCodeForm(forms.Form):
     code_char = forms.CharField(label="Code Char", max_length=30)
+    percentage = forms.IntegerField(label="Percentage" , min_value=0,max_value=100)
 
 
 class AddPeykForm(forms.Form):
