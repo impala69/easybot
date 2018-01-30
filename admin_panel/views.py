@@ -126,7 +126,7 @@ def ed_cat(request):
     cat_object = CategoryManager.CategoryManager(category_id=cat_id)
 
     return render_to_response("edit_cat.html", {'cat_data': cat_object.get_category_object()})
-
+#End of Cat Handler
 
 # Feedback Section
 
@@ -171,23 +171,22 @@ def show_feedback_categories(request):
                               {'cat_data': feedback_object.get_all_feedback_categories()})
 
 
-# Advertise View Handler
 def edit_feedback(request):
     if request.method == 'GET':
         naghd_id = request.GET['naghd_id']
     if request.method == 'POST':
-        naghd_id = request.POST['naghd_id']
+        naghd_id = request.POST['cat_id']
         fb_name = request.POST['new_fb_cat']
         naghd = models.Feedback_cat.objects.get(pk=naghd_id)
         naghd.fb_name = fb_name
         naghd.save()
-        return redirect('/admin-panel/show_feedback_categories')
+        return redirect('/admin-panel/show_feedback_categories/')
     feedback_object = FeedbackManager.FeedbackManager(feedback_category_id=naghd_id)
-    return render_to_response('edit_feedback',{'cat_data':feedback_object.edit_feedback_category()})
+    return render_to_response('edit_feedback.html',{'cat_data': feedback_object.edit_feedback_category()})
 
+# Feedback end
 
-
-
+# Advertise View Handler
 
 def advertise(request):
     ads_object = AdsManager.AdsManager()
@@ -213,9 +212,27 @@ def del_ad(request):
         else:
             print("Error in Deleting Ads")
     return redirect('/admin-panel/advertise/')
+ # edit advertisement
 
+def ed_ad(request):
+    if request.method == 'GET':
+        ad_id = request.GET['ad_id']
+    if request.method == 'POST':
+        add_id = request.POST['ad_id']
+        ad_title = request.POST['ad_name']
+        ad_text = request.POST['ad_text']
+        ad_image = request.FILES['ad_image']
+        ad = models.Advertise.objects.get(pk=add_id)
+        ad.title = ad_title
+        ad.text = ad_text
+        ad.image = ad_image
+        ad.save()
+        return redirect('/admin-panel/advertise')
 
+    ad_object = AdsManager.AdsManager(edited_ad_id=ad_id)
+    return render_to_response('edit_advertise.html', {'ad_data' : ad_object.edit_ad()})
 # End of Advertise View Handler
+
 
 # Discount Codes View Handler
 

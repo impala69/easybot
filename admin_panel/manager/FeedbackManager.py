@@ -61,7 +61,7 @@ class FeedbackManager:
             return 0
     def edit_feedback_category(self):
         try:
-            return models.Feedback_cat.objects.get(pk=self.edited_naghd_id)
+            return models.Feedback_cat.objects.get(pk=self.feedback_category_id)
         except Exception as e:
             print(e)
             return 0

@@ -3,10 +3,11 @@ from admin_panel import FormsHandler
 
 
 class AdsManager:
-    def __init__(self, ad_data=None, ad_files=None, deleted_ad_id=None):
+    def __init__(self, ad_data=None, ad_files=None, deleted_ad_id=None , edited_ad_id = None):
         self.ad_data = ad_data
         self.deleted_ad_id = deleted_ad_id
         self.ad_files = ad_files
+        self.edited_ad_id = edited_ad_id
 
     def get_all_ads(self):
         result = models.Advertise.objects.filter()
@@ -43,4 +44,10 @@ class AdsManager:
             return 1
         except Exception as e:
             print e
+            return 0
+    def edit_ad(self):
+        try:
+            return models.Advertise.objects.get(pk=self.edited_ad_id)
+        except Exception as e:
+            print(e)
             return 0

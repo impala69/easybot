@@ -1,0 +1,29 @@
+{% load static %}
+<html lang="en">
+<body>
+{% include "header.html" %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {% include "sidebar.html" %}
+        </div>
+
+        <div class="card col-md-offset-1 col-md-8">
+            <h2 style="text-align: right">تغییر دسته بندی نظرسنجی</h2>
+
+                <form role="form" action="/admin-panel/ed_feedback" id="adding_cat" method="post" name="adding_feedback_form">
+
+                    <div class="form-group" style="text-align: right">
+                        <label for="categoryname">نام دسته بندی</label>
+                        <input style="text-align: right" type="text" class="form-control" id="feedbackcategoryname" name="new_fb_cat" placeholder="" value="{{cat_data.fb_name}}">
+                        <input hidden="hidden" name="cat_id" value="{{cat_data.pk}}">
+                    </div>
+
+                    <button style="margin-left: 90% ; width: 10% ; font-size: medium" type="submit" class="btn btn-primary btn-round">تایید</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% include "footer.html" %}
+</body>
+</html>
